@@ -16,7 +16,12 @@ import {
     LayerDownloadActionButton,
     AnnotationsActionButton,
     FullScreenActionButton,
-    FilterLayerActionButton
+    FilterLayerActionButton,
+    PrintScreenActionButton,
+    RoutingActionButton,
+    NearbyActionButton,
+    BufferActionButton,
+    MergeLayerActionButton
 } from '@js/plugins/actionnavbar/buttons';
 import { getMetadataUrl,
     getMetadataDetailUrl,
@@ -427,6 +432,66 @@ export const plugins = {
     SyncPlugin: toLazyPlugin(
         'Sync',
         () => import(/* webpackChunkName: 'plugins/sync-plugin' */ '@js/plugins/Sync')
+    ),
+    PrintScreenPlugin: toLazyPlugin(
+        'PrintScreen',
+        () => import(/* webpackChunkName: 'plugins/print-screen-plugin' */ '@js/plugins/PrintScreen'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'PrintScreen',
+                    Component: PrintScreenActionButton
+                }
+            }
+        }
+    ),
+    RoutingPlugin: toLazyPlugin(
+        'Routing',
+        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/Routing'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'Routing',
+                    Component: RoutingActionButton
+                }
+            }
+        }
+    ),
+    NearbyPlugin: toLazyPlugin(
+        'Nearby',
+        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/Nearby'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'Nearby',
+                    Component: NearbyActionButton
+                }
+            }
+        }
+    ),
+    BufferPlugin: toLazyPlugin(
+        'Buffer',
+        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/Buffer'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'Buffer',
+                    Component: BufferActionButton
+                }
+            }
+        }
+    ),
+    MergeLayerPlugin: toLazyPlugin(
+        'MergeLayer',
+        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/MergeLayer'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'MergeLayer',
+                    Component: MergeLayerActionButton
+                }
+            }
+        }
     )
 };
 

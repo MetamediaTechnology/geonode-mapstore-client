@@ -292,7 +292,48 @@
             "embedgeostory": "Embed this Geostory",
             "embeddocument": "Embed this Document",
             "embeddashboard": "Embed this Dashboard",
-            "directLink": "Direct Link"
+            "directLink": "Direct Link",
+            "moreMenuItem": "More"
+        },
+        "printScreenPlugin": {
+            "title": "Print screen"
+        },
+        "routingPlugin": {
+            "title": "Direction"
+        },
+        "nearbyPlugin": {
+            "title": "Nearby"
+        },
+        "bufferPlugin": {
+            "title": "Buffer",
+            "loading": "Loading...",
+            "layerLabel": "Layer",
+            "bufferLabel": "Buffer size",
+            "button": "Buffer",
+            "resetButton": "Clear",
+            "noLayer": "Please select layer",
+            "errorLessThan1": "Buffer size should more than 0",
+            "notSameType": "All feature must be same type",
+            "turfError": "ERROR in Turf",
+            "errorHaveLayer": "ERROR in IF layer have feature",
+            "errorFetch": "ERROR in getFeature",
+            "successText": "Buffered succeed"
+        },
+        "mergeLayerPlugin": {
+            "title": "Merge Layer",
+            "layerLabel1": "Layer 1",
+            "layerLabel2": "Layer 2",
+            "loading": "Loading...",
+            "button": "Merge",
+            "resetButton": "Clear",
+            "errorFetch": "ERROR from getFeature Promise",
+            "noBothLayers": "Both layers didn't select",
+            "sameLayers": "Both layers have same layer",
+            "haveLayerAlready": "Some layer has been in Layer already.",
+            "errorGetFeature1": "ERROR in getFeature1",
+            "errorGetFeature2": "ERROR in getFeature2",
+            "errorAllGetFeature": "ERROR in Promise.all",
+            "successText": "Merged succeed"
         }
     }
 }

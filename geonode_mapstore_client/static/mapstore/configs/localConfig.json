@@ -941,6 +941,24 @@
                             "href": "{'#/map/new?gn-dataset=' + (state('gnResourceData') || {}).pk}",
                             "labelId": "gnviewer.createMap",
                             "disableIf": "{!(state('user') && state('user').perms && state('user').perms.includes('add_resource'))}"
+                        },
+                        {
+                            "labelId": "gnviewer.moreMenuItem",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Nearby"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "Routing"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "PrintScreen"
+                                }
+                            ]
                         }
                     ],
                     "rightMenuItems": [
@@ -1352,6 +1370,15 @@
             },
             {
                 "name": "Legend"
+            },
+            {
+                "name": "Nearby"
+            },
+            {
+                "name": "Routing"
+            },
+            {
+                "name": "PrintScreen"
             }
         ],
         "dataset_edit_data_viewer": [
@@ -1708,6 +1735,32 @@
                             "type": "plugin",
                             "name": "DatasetsCatalog",
                             "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !state('isNewResource')}"
+                        },
+                        {
+                            "labelId": "gnviewer.moreMenuItem",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Nearby"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "Routing"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "Buffer"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "MergeLayer"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "PrintScreen"
+                                }
+                            ]
                         }
                     ],
                     "rightMenuItems": [
@@ -2167,6 +2220,21 @@
                     "editingAllowedRoles": null,
                     "enableSetDefaultStyle": true
                 }
+            },
+            {
+                "name": "Nearby"
+            },
+            {
+                "name": "Routing"
+            },
+            {
+                "name": "Buffer"
+            },
+            {
+                "name": "MergeLayer"
+            },
+            {
+                "name": "PrintScreen"
             }
         ],
         "geostory_viewer": [

@@ -172,3 +172,98 @@ export const AnnotationsActionButton = connect(
         </Button>
     );
 });
+
+export const PrintScreenActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'prtsc', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="printScreenPlugin.title" />
+        </Button>
+    );
+});
+
+export const RoutingActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'routing', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="routingPlugin.title" />
+        </Button>
+    );
+});
+
+export const NearbyActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'nearby', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="nearbyPlugin.title" />
+        </Button>
+    );
+});
+
+export const BufferActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'buffer', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="bufferPlugin.title" />
+        </Button>
+    );
+});
+
+export const MergeLayerActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'mergelyr', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="mergeLayerPlugin.title" />
+        </Button>
+    );
+});
