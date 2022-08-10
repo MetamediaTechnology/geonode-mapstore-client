@@ -1,7 +1,6 @@
 import assign from 'object-assign';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Glyphicon } from 'react-bootstrap';
 
 import isNil from 'lodash/isNil';
 
@@ -49,7 +48,7 @@ class MapStandardPreview extends React.Component {
         Feature = mapComponents.Feature;
         require('@mapstore/framework/components/map/' + this.props.mapType + '/plugins/index').default;
         const html2canvasLib = document.createElement('script');
-        html2canvasLib.setAttribute('src','https://html2canvas.hertzen.com/dist/html2canvas.js');
+        html2canvasLib.setAttribute('src', 'https://html2canvas.hertzen.com/dist/html2canvas.js');
         document.head.appendChild(html2canvasLib);
     }
     getRatio = () => {
@@ -57,19 +56,6 @@ class MapStandardPreview extends React.Component {
             return this.props.layoutSize.width / this.props.width * this.props.printRatio;
         }
         return 1;
-    };
-
-    adjustResolution = (layer) => {
-        const ratio = this.getRatio();
-        const dpi = Math.round(96.0 / ratio);
-        return assign({}, layer, {
-            ...(!isNil(layer?.minResolution) && { minResolution: layer.minResolution * ratio }),
-            ...(!isNil(layer?.maxResolution) && { maxResolution: layer.maxResolution * ratio }),
-            params: assign({}, layer.params, {
-                "format_options": "dpi:" + dpi,
-                "MAP.RESOLUTION": dpi
-            })
-        });
     };
 
     getResolutions = () => {
@@ -102,7 +88,7 @@ class MapStandardPreview extends React.Component {
     };
 
     // onMapViewChanges = (map,zoom) => {
-       
+
     // }
 
     render() {
@@ -114,11 +100,13 @@ class MapStandardPreview extends React.Component {
         const resolutions = this.getResolutions();
         const projection = this.props.map && this.props.map.projection || 'EPSG:3857';
         const mapOptions = resolutions ? { view: { resolutions } } : {};
-        return <PreviewMap
+        const interactive = true;
+        const zoomControl = true;
+        return (<PreviewMap
             ref="mappa"
             id="print_preview"
-            interactive={true}
-            zoomControl={true}
+            interactive={interactive}
+            zoomControl={zoomControl}
             registerHooks={false}
             style={style}
             resize={this.props.height}
@@ -128,21 +116,34 @@ class MapStandardPreview extends React.Component {
             {...this.props.map}
         >
             {this.props.layers.map((layer, index) =>
-            (<Layer
-                key={layer.id || layer.name}
-                positi on={index}
-                type={layer.type}
-                options={assign({
+                (<Layer
+                    key={layer.id || layer.name}
+                    positi on={index}
+                    type={layer.type}
+                    options={assign({
                     // forceProxy: true
-                },
+                    },
                     this.adjustResolution(layer),
                     { srs: projection })}
-            >
-                {this.renderLayerContent(layer, projection)}
-            </Layer>)
+                >
+                    {this.renderLayerContent(layer, projection)}
+                </Layer>)
             )}
-        </PreviewMap>
+        </PreviewMap>);
     }
+
+    adjustResolution = (layer) => {
+        const ratio = this.getRatio();
+        const dpi = Math.round(96.0 / ratio);
+        return assign({}, layer, {
+            ...(!isNil(layer?.minResolution) && { minResolution: layer.minResolution * ratio }),
+            ...(!isNil(layer?.maxResolution) && { maxResolution: layer.maxResolution * ratio }),
+            params: assign({}, layer.params, {
+                "format_options": "dpi:" + dpi,
+                "MAP.RESOLUTION": dpi
+            })
+        });
+    };
 }
 
 export default MapStandardPreview;

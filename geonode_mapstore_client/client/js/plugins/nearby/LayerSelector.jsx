@@ -13,7 +13,7 @@ import {isEmpty} from 'lodash';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
 const SelectLocalized = localizedProps(['placeholder', 'clearValueText', 'noResultsText'])(Select);
 
-const LayerSelector = ({ responses, index,setIndex}) => {
+const LayerSelector = ({ responses, index, setIndex}) => {
 
     const selectProps = {clearable: false, isSearchable: true};
     const [options, setOptions] = useState([]);
@@ -21,7 +21,7 @@ const LayerSelector = ({ responses, index,setIndex}) => {
 
     useEffect(()=>{
         if (!isEmpty(responses)) {
-            responses.reverse()
+            responses.reverse();
             setOptions(responses.map((opt, idx)=> {
                 const value = opt?.title;
                 // Display only valid responses in the drop down
@@ -59,7 +59,7 @@ LayerSelector.defaultProps = {
 LayerSelector.propTypes = {
     responses: PropTypes.array,
     setIndex: PropTypes.func,
-    index: PropTypes.number,
+    index: PropTypes.number
 };
 
 export default LayerSelector;

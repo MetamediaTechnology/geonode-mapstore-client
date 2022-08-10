@@ -41,7 +41,7 @@ const layerNodesExtracter = (groups) => {
     const layerNode = [];
     groups.map(groupNode => {
         layerNode.push(...groupNode.nodes);
-    })
+    });
     return layerNode;
 };
 
@@ -68,7 +68,7 @@ class MergeLayerComponent extends React.Component {
         onDoMerge: PropTypes.func,
         onChangeLayer1: PropTypes.func,
         onChangeLayer2: PropTypes.func,
-        onReset: PropTypes.func,
+        onReset: PropTypes.func
     }
 
     static defaultProps = {
@@ -90,7 +90,7 @@ class MergeLayerComponent extends React.Component {
         position: 'fixed',
         top: '0px',
         left: '0px',
-        width: '500px',
+        width: '500px'
     };
 
     start = {
@@ -123,7 +123,7 @@ class MergeLayerComponent extends React.Component {
         return this.props.show ? (
             <Dialog Dialog id="measure-dialog" style={this?.dialogStyle} start={this?.start} >
                 {/* เอาไว้ debug ดู layer ทั้งหมด */}
-                {console.log('ALL_LAYERS: ', this.props.allLayers)}
+                {/* {console.log('ALL_LAYERS: ', this.props.allLayers)} */}
                 <div key="header" role="header">
                     <Glyphicon glyph="folder-open" />
                     &nbsp;<Message msgId="mergeLayerPlugin.title" />
@@ -139,7 +139,7 @@ class MergeLayerComponent extends React.Component {
                         responses={this.props.layersNode}
                         index={this.props.layerIndex1}
                         setIndex={this.onChangeLayer1}
-                    ></LayerSelector>
+                    />
                     <br />
                     <p>
                         <Message msgId="mergeLayerPlugin.layerLabel2" />
@@ -148,7 +148,7 @@ class MergeLayerComponent extends React.Component {
                         responses={this.props.layersNode}
                         index={this.props.layerIndex2}
                         setIndex={this.onChangeLayer2}
-                    ></LayerSelector>
+                    />
                     <br />
                     <div
                         style={{
@@ -180,7 +180,7 @@ class MergeLayerComponent extends React.Component {
                             className="btn btn-longdo-outline"
                             style={{
                                 minWidth: "90px",
-                                marginRight: "5px",
+                                marginRight: "5px"
                             }}
                             onClick={this.onReset}
                         >
@@ -196,7 +196,7 @@ class MergeLayerComponent extends React.Component {
 
                 </div>
             </Dialog >
-        ) : null
+        ) : null;
     }
 }
 
@@ -224,11 +224,11 @@ const mergelyr = connect(
         onClose: toggleMergeLyrTool,
         onChangeLayer1: setLayer1,
         onChangeLayer2: setLayer2,
-        onDoMerge: doMerge,
+        onDoMerge: doMerge
     },
     null,
     {
-        pure: false,
+        pure: false
     }
 )(MergeLayerComponent);
 
@@ -242,14 +242,14 @@ export default {
             tooltip: "tooltip",
             text: "Merge",
             icon: <Glyphicon glyph="plus" />,
-            action: () => setControlProperty("mergelyr", "enabled", true),
-        },
+            action: () => setControlProperty("mergelyr", "enabled", true)
+        }
     }),
     reducers: {
-        mergelyr: mergeLayerReducer,
+        mergelyr: mergeLayerReducer
     },
     epics: {
         doMergeEpic,
-        mergeAsLayerEpic,
-    },
+        mergeAsLayerEpic
+    }
 };

@@ -6,7 +6,7 @@ const instance = axios.create();
 
 import { routePointStyle } from "../styles/pointStyle";
 
-// ROUTEING ACTION
+// ROUTING ACTION
 export const addPoint = function() {
     return {
         type: "ROUTING_ADD_POINT"
@@ -71,11 +71,26 @@ export const displaySetting = function() {
     };
 };
 
+// Load data
+export const searchLoaded = function(index, result) {
+    return {
+        type: "ROUTING_SEARCH_LOADED",
+        index: index,
+        result: result
+    };
+};
+export const featureLoaded = function(features) {
+    return {
+        type: "ROUTING_FEATURE_LOADED",
+        features: features
+    };
+};
+
 // Search
 export const searchRouting = (pointList, routeMode, routeType) => {
     return (dispatch) => {
-        const routeTypeTotal = routeType.length == 0 ? null : routeType.reduce((type, a) => Number.parseInt(type) + Number.parseInt(a), 0);
-        let geoJsonData = new Promise((resolve, reject) => {
+        const routeTypeTotal = routeType.length === 0 ? null : routeType.reduce((type, a) => (Number.parseInt(type, 10) + Number.parseInt(a, 10)), 0);
+        let geoJsonData = new Promise((resolve) => {
             setTimeout(() => {
                 let getRoutePath = instance.get(
                     SERVICE_ROUTE_API_URL,
@@ -152,15 +167,17 @@ export const searchRouting = (pointList, routeMode, routeType) => {
                     }
                 });
                 for (let i = 2; i < pointList.length; i++) {
+                    let lon = lastRouteLon;
+                    let lat = lastRouteLat;
                     const getMoreGeoJsonData = new Promise(
-                        (resolve, reject) => {
+                        (resolve) => {
                             setTimeout(() => {
                                 let getRoutePath = instance.get(
                                     SERVICE_ROUTE_API_URL,
                                     {
                                         params: {
-                                            flon: lastRouteLon,
-                                            flat: lastRouteLat,
+                                            flon: lon,
+                                            flat: lat,
                                             tlon: pointList[i].lon,
                                             tlat: pointList[i].lat,
                                             locale: "th",
@@ -174,29 +191,29 @@ export const searchRouting = (pointList, routeMode, routeType) => {
                             }, 2000);
                         }
                     );
-                    getMoreGeoJsonData.then((value) => {
-                        lastRouteCoordinates =
-                            value.data.features[value.data.features.length - 1]
+                    getMoreGeoJsonData.then((v) => {
+                        let lastCoordinates =
+                            v.data.features[v.data.features.length - 1]
                                 .geometry.coordinates.length;
-                        lastRouteLon =
-                            value.data.features[value.data.features.length - 1]
+                        let lastLon =
+                            v.data.features[v.data.features.length - 1]
                                 .geometry.coordinates[
-                                    lastRouteCoordinates - 1
+                                    lastCoordinates - 1
                                 ][0];
-                        lastRouteLat =
-                            value.data.features[value.data.features.length - 1]
+                        let lastLat =
+                            v.data.features[v.data.features.length - 1]
                                 .geometry.coordinates[
-                                    lastRouteCoordinates - 1
+                                    lastCoordinates - 1
                                 ][1];
                         routeGeoJson.push({
                             type: "Feature",
                             style: [routePointStyle("START")],
                             geometry: {
                                 type: "Point",
-                                coordinates: [lastRouteLon, lastRouteLat]
+                                coordinates: [lastLon, lastLat]
                             }
                         });
-                        routeGeoJson.push(...value.data.features);
+                        routeGeoJson.push(...v.data.features);
                         if (i + 1 === pointList.length) {
                             dispatch(featureLoaded(routeGeoJson));
                             document.getElementById("find-route").innerHTML =
@@ -228,20 +245,3 @@ export const searchPointForRouting = function(index, value, center) {
             });
     };
 };
-
-// Load data
-export const searchLoaded = function(index, result) {
-    return {
-        type: "ROUTING_SEARCH_LOADED",
-        index: index,
-        result: result
-    };
-};
-export const featureLoaded = function(features) {
-    return {
-        type: "ROUTING_FEATURE_LOADED",
-        features: features
-    };
-};
-
-

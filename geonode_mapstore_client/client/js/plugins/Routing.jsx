@@ -100,13 +100,13 @@ class RoutingDialog extends React.Component {
     };
 
     componentDidMount() {
-        new Promise((resolve, reject) => {
+        new Promise((resolve) => {
             const id = 'longdo-map-js-api';
             var scriptTag = window.document.getElementById(id);
             if (scriptTag) {
                 resolve();
             } else {
-                var script = window.document.createElement('script');
+                let script = window.document.createElement('script');
                 script.setAttribute('id', id);
                 script.setAttribute('src', SERVICE_MAP_API_URL + SERVICE_MAP_API_KEY);
                 script.onload = () => {
@@ -189,7 +189,7 @@ class RoutingDialog extends React.Component {
     renderEastimateTime = (time) => {
         var hrs = ~~(time / 3600);
         var mins = ~~((time % 3600) / 60);
-        var secs = ~~time % 60;
+        // var secs = ~~time % 60;
         var ret = "";
         if (hrs > 0) {
             ret += "" + hrs + " ชั่วโมง " + (mins < 10 ? "0" : "");
@@ -269,7 +269,7 @@ class RoutingDialog extends React.Component {
     render() {
         const pointList = [];
         for (const [index, value] of this.props.pointList.entries()) {
-            const placeholderText = `${index == 0 ? "กำหนดจุดเริ่มต้น" : "เลือกจุดหมาย"
+            const placeholderText = `${index === 0 ? "กำหนดจุดเริ่มต้น" : "เลือกจุดหมาย"
             }`;
             const keyword = value.keyword;
             const results = value.searchResult.data || [];
@@ -345,8 +345,8 @@ class RoutingDialog extends React.Component {
         }
 
         const guideList = [];
-        var eastimateTime = 0.0;
-        var totalDistance = 0;
+        let eastimateTime = 0.0;
+        let totalDistance = 0;
         for (const [index, value] of this.props.features.entries()) {
             if (value.geometry.type !== "LineString") {
                 continue;

@@ -109,8 +109,6 @@ export const routingClickGuideEpic = (action$, { getState = () => { } }) =>
             return (getState().controls.routing || {}).enabled || false;
         })
         .switchMap(({ value }) => {
-            console.log(value);
-
             let locationList = value.geometry.coordinates.map((c) => {
                 return {
                     lat: c[1],
@@ -136,7 +134,7 @@ export const onSwapRoutingEpic = (action$, { getState = () => { } }) =>
             return (getState().controls.routing || {}).enabled || false;
         })
         .switchMap(({ }) => {
-            const pointList = getState().pointList;
+            // const pointList = getState().pointList;
         });
 
 export const routingChangePointInputEpic = (action$, { getState = () => { } }) =>

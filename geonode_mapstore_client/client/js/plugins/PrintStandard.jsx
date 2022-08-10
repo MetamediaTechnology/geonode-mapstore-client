@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Glyphicon, Tooltip } from 'react-bootstrap';
+import { Glyphicon } from 'react-bootstrap';
 import { createSelector } from 'reselect';
 import Rx from 'rxjs';
 
 import Dialog from '@mapstore/framework/components/misc/Dialog';
-import Legend from '@mapstore/framework/components/TOC/fragments/legend/Legend'
+import Legend from '@mapstore/framework/components/TOC/fragments/legend/Legend';
 // import Button from '@mapstore/framework/components/misc/Button';
-import MapStandardPreview from './print/MapPreview'
-import { changeMapView } from '@mapstore/framework/actions/map'
+import MapStandardPreview from './print/MapPreview';
+import { changeMapView } from '@mapstore/framework/actions/map';
 import { createControlEnabledSelector } from '@mapstore/framework/selectors/controls';
 import { setControlProperty, toggleControl } from '@mapstore/framework/actions/controls';
 import { getResolutions, getScales } from '@mapstore/framework/utils/MapUtils';
@@ -19,20 +19,21 @@ import { getResolutions, getScales } from '@mapstore/framework/utils/MapUtils';
 import compassImages from './print/assets/img/compass.jpg';
 import gistdaLogo from './print/assets/img/gistda_logo.png';
 
+import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 const proxyUrl = getConfigProp('proxyUrl');
 
 createControlEnabledSelector('prtstd');
 const toggleRoutingTool = toggleControl.bind(null, "prtstd", null);
 
 const extractMapObj = (map) => {
-    return map?.present
-}
+    return map?.present;
+};
 const layerFilter = (layer) => {
-    const layerVisibility = layer?.flat.filter((layer) => { return layer.visibility === true })
-    return layerVisibility
-}
+    const layerVisibility = layer?.flat.filter((l) => { return l.visibility === true; });
+    return layerVisibility;
+};
 
-const mapViewChanges = function (center, zoom) {
+const mapViewChanges = function(center, zoom) {
     return {
         type: 'PRTSTD:CHANGEMAP_VIEW',
         center,
@@ -44,8 +45,8 @@ const zoomControl = (zoomType) => {
     return {
         type: 'PRTSTD:ZOOM_PAPER_CONTROL',
         zoomType: zoomType
-    }
-}
+    };
+};
 
 // Redux Selector
 const selector = (state) => {
@@ -80,21 +81,21 @@ const defaultState = {
 // Redux reducer
 function printStandardReducer(state = defaultState, action) {
     switch (action.type) {
-        case 'PRTSTD:CHANGEMAP_VIEW': {
-            return assign({}, state, {
-                mapCenter: action.center,
-                mapZoom: action.zoom
-            });
-        }
-        case 'PRTSTD:ZOOM_PAPER_CONTROL': {
-            var zoom = action.zoomType === '+' ? state.paperZoom += 0.1 : state.paperZoom -= 0.1
-            return assign({}, state, {
-                paperZoom: zoom
-            });
-        }
-        default: {
-            return state;
-        }
+    case 'PRTSTD:CHANGEMAP_VIEW': {
+        return assign({}, state, {
+            mapCenter: action.center,
+            mapZoom: action.zoom
+        });
+    }
+    case 'PRTSTD:ZOOM_PAPER_CONTROL': {
+        let zoom = action.zoomType === '+' ? state.paperZoom += 0.1 : state.paperZoom -= 0.1;
+        return assign({}, state, {
+            paperZoom: zoom
+        });
+    }
+    default: {
+        return state;
+    }
     }
 }
 class PrintStandardComponent extends React.Component {
@@ -111,7 +112,7 @@ class PrintStandardComponent extends React.Component {
         mapCenter: PropTypes.object,
         onMapViewChanges: PropTypes.func,
         onZoomControl: PropTypes.func,
-        onClose: PropTypes.func,
+        onClose: PropTypes.func
     };
 
     static defaultProps = {
@@ -126,7 +127,7 @@ class PrintStandardComponent extends React.Component {
         mapCenter: {},
         onZoomControl: () => { },
         onMapViewChanges: () => { },
-        onClose: () => { },
+        onClose: () => { }
     };
 
     dialogStyle = {
@@ -140,8 +141,8 @@ class PrintStandardComponent extends React.Component {
     }
 
     onPrint = () => {
-        this.onPreparePrint()
-        html2canvas(document.getElementById("printContainer"), {
+        this.onPreparePrint();
+        window.html2canvas(document.getElementById("printContainer"), {
             useCORS: true,
             allowTaint: true,
             proxy: proxyUrl.url
@@ -150,67 +151,67 @@ class PrintStandardComponent extends React.Component {
             link.setAttribute('download', `sphere_${new Date().getTime()}.png`);
             link.setAttribute('href', canvas.toDataURL('image/png', 1.0).replace("image/png", "image/octet-stream"));
             link.click();
-            this.onAfterPrint()
+            this.onAfterPrint();
         });
     }
 
     onPreparePrint = () => {
-        const textArea = document.querySelector('#prtstd-remark > textarea')
-        const mapCoppy = document.querySelector('#print_preview > div > div.ol-overlaycontainer-stopevent > div.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible')
-        mapCoppy.setAttribute('data-html2canvas-ignore', true)
-        textArea.style.border = 'none'
+        const textArea = document.querySelector('#prtstd-remark > textarea');
+        const mapCoppy = document.querySelector('#print_preview > div > div.ol-overlaycontainer-stopevent > div.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible');
+        mapCoppy.setAttribute('data-html2canvas-ignore', true);
+        textArea.style.border = 'none';
     }
 
     onAfterPrint = () => {
-        const textArea = document.querySelector('#prtstd-remark > textarea')
-        textArea.style.border = '1px solid #d5d5d5'
+        const textArea = document.querySelector('#prtstd-remark > textarea');
+        textArea.style.border = '1px solid #d5d5d5';
     }
 
     onClose = () => {
-        return this.props.onClose()
+        return this.props.onClose();
     }
 
     isInRange = (e, n) => {
-        return e >= n.min && e <= n.max
+        return e >= n.min && e <= n.max;
     }
 
     locationToUTMZone = () => {
-        const mapCenter = this.props.mapCenter
+        const mapCenter = this.props.mapCenter;
         if (mapCenter?.y) {
             return this.isInRange(mapCenter?.y, {
                 min: -80,
                 max: 84
-            }) ? `${mapCenter?.x / 6 + 31 | 0} ${mapCenter?.y < 0 ? "S" : "N"}` : null
-        } else {
-            return null
+            }) ? `${mapCenter?.x / 6 + 31 | 0} ${mapCenter?.y < 0 ? "S" : "N"}` : null;
         }
+        return null;
+
     }
 
     getMapZoom = () => {
         const mapZoomElement = document.getElementById('footer-scalebar-container');
-        const rulerSize = document.getElementsByClassName('ol-scale-line-inner')[0].style.width
+        const rulerSize = document.getElementsByClassName('ol-scale-line-inner')[0].style.width;
         setTimeout(() => {
             var scale = mapZoomElement?.innerText;
-            var rulerUnit = `${scale.replace(/\d/g, '')}`.trim()
-            document.getElementById('ruler').style.width = rulerSize
+            var rulerUnit = `${scale.replace(/\d/g, '')}`.trim();
+            document.getElementById('ruler').style.width = rulerSize;
             document.getElementById('scale-1-4').innerText = (Number(scale[0]) / 4);
             document.getElementById('scale-1-2').innerHTMLinnerText = (Number(scale[0]) / 2);
-            document.getElementById('scale-1').innerText = Number.parseInt(scale)
-            document.getElementById('ruler-unit').innerText = rulerUnit === 'km' ? 'กม.' : 'ม'
+            document.getElementById('scale-1').innerText = Number.parseInt(scale, 10);
+            document.getElementById('ruler-unit').innerText = rulerUnit === 'km' ? 'กม.' : 'ม';
         }, 1000);
     }
 
     onMapViewChanges = (center, zoom) => {
-        return this.props.onMapViewChanges(center, zoom)
+        return this.props.onMapViewChanges(center, zoom);
     }
 
     onZoomControl = (e) => {
         const type = e.target.value;
-        return this.props.onZoomControl(type)
+        return this.props.onZoomControl(type);
     }
 
-    onChangePrintTitle = (e) => {
-        const printMapName = e.target.value;
+    onChangePrintTitle = () => {
+        // const printMapName = e.target.value;
         // return this.props.onChangePrintTitle(printMapName)
     }
 
@@ -229,7 +230,7 @@ class PrintStandardComponent extends React.Component {
             showLabels: true
         },
         ...this.props.layers
-        ]
+        ];
         return this.props.show ?
             <Dialog id="prtstd-dialog" style={this.dialogStyle} start={this.start} >
                 <div key="header" role="header">
@@ -241,9 +242,9 @@ class PrintStandardComponent extends React.Component {
                     overflow: 'scroll',
                     backgroundColor: '#E9E9E9'
                 }}>
-                    <div className='control-paper'>
-                        <input type={'button'} value="-" className='btn btn-info' onClick={this.onZoomControl} />
-                        <input type={'button'} value="+" className='btn btn-info' onClick={this.onZoomControl} />
+                    <div className="control-paper">
+                        <input type={'button'} value="-" className="btn btn-info" onClick={this.onZoomControl} />
+                        <input type={'button'} value="+" className="btn btn-info" onClick={this.onZoomControl} />
                     </div>
                     <div style={
                         {
@@ -293,9 +294,9 @@ class PrintStandardComponent extends React.Component {
                                     {
                                         this.props.layers.map((layer) => {
                                             if (layer.type === "wms") {
-                                                return <Legend
+                                                return (<Legend
                                                     layer={layer}
-                                                />
+                                                />);
                                             }
                                         })
                                     }
@@ -316,7 +317,7 @@ class PrintStandardComponent extends React.Component {
                             <div id="minimap"></div>
                         </div>
                         <div id="prtstd-footer">
-                            <div id="owner-name" className='footer-div'>สำนักงานพัฒนาเทคโนโลยีอวกาศ</div>
+                            <div id="owner-name" className="footer-div">สำนักงานพัฒนาเทคโนโลยีอวกาศ</div>
                             <div id="ruler-container">
                                 {this.getMapZoom()}
                                 <div id="ruler" style={{ width: '100px' }}>
@@ -325,29 +326,29 @@ class PrintStandardComponent extends React.Component {
                                     <div className="small black"><span id="scale-1-4">2.5</span></div>
                                     <div className="small"></div>
                                     <div className="large black"><span id="scale-1-2">5</span><span id="scale-1">10</span></div>
-                                    <span id='ruler-unit'>
+                                    <span id="ruler-unit">
                                         &nbsp; &nbsp;กม.
                                     </span>
                                 </div>
                             </div>
-                            <div id="base-map-name" className='footer-div'></div>
+                            <div id="base-map-name" className="footer-div"></div>
                         </div>
                     </div>
                     <div className="print-btn">
-                        <button className='btn btn-success' onClick={this.onPrint}>Print</button>
+                        <button className="btn btn-success" onClick={this.onPrint}>Print</button>
                     </div>
                 </div>
             </Dialog>
-            : null
+            : null;
     }
 }
 
 const prtstd = connect(createSelector(
     [
         selector,
-        (state) => { return state.layers },
-        (state) => { return get(state, 'controls.prtstd.enabled') },
-        (state) => { return state.map },
+        (state) => { return state.layers; },
+        (state) => { return get(state, 'controls.prtstd.enabled'); },
+        (state) => { return state.map; }
     ],
     (state, layers, show, mapObj) => {
         return {
@@ -355,25 +356,25 @@ const prtstd = connect(createSelector(
             layers: layerFilter(layers),
             show,
             map: extractMapObj(mapObj)
-        }
+        };
     }
 ), {
     onClose: toggleRoutingTool,
     onZoomControl: zoomControl,
     onMapViewChanges: mapViewChanges
 },
-    null,
-    { pure: false }
-)(PrintStandardComponent)
+null,
+{ pure: false }
+)(PrintStandardComponent);
 
 const changeMapViewPic = (action$, { getState = () => { } }) =>
     action$.ofType('PRTSTD:CHANGEMAP_VIEW')
         .filter(() => {
-            return (getState())
+            return (getState());
         })
         .switchMap(() => {
             const mapCenter = getState().prtstd.mapCenter;
-            const mainMapZoom = getState().map?.present.zoom;
+            // const mainMapZoom = getState().map?.present.zoom;
             const mapZoom = getState().prtstd.mapZoom;
 
             return Rx.Observable.from([
@@ -400,5 +401,5 @@ export default {
     },
     epics: {
         changeMapViewPic
-    },
+    }
 };

@@ -8,9 +8,9 @@ import Slider from 'react-nouislider';
 import circle from '@turf/circle';
 import Button from '@mapstore/framework/components/misc/Button';
 import Dock from 'react-dock';
-import BorderLayout from '@mapstore/framework/components/layout/BorderLayout'
+import BorderLayout from '@mapstore/framework/components/layout/BorderLayout';
 import ContainerDimensions from 'react-container-dimensions';
-import LayerSelector from './nearby/LayerSelector'
+import LayerSelector from './nearby/LayerSelector';
 
 import { get } from 'lodash';
 import { setControlProperty } from '@mapstore/framework/actions/controls';
@@ -39,53 +39,53 @@ const toggleNearbyTool = () => {
         layer: {},
         index: -1
     };
-}
+};
 const layerNodesExtracter = (groups) => {
-    const layerNode = []
+    const layerNode = [];
     groups.map(groupNode => {
-        layerNode.push(...groupNode.nodes)
-    })
-    return layerNode
-}
-const setRadius = function (radius) {
+        layerNode.push(...groupNode.nodes);
+    });
+    return layerNode;
+};
+const setRadius = function(radius) {
     return {
         type: 'SET_NEARBY_RADIUS',
         radius: Number(radius) || 1.0
     };
 };
-const setLayer = function (layer, idx) {
+const setLayer = function(layer, idx) {
     return {
         type: 'SET_LAYER_FILTER',
         layer: layer,
         index: idx
-    }
-}
-const setPage = function (pageNumber) {
+    };
+};
+const setPage = function(pageNumber) {
     return {
         type: 'NEARBY:CHANGE_PAGE_NUMBER',
         page: pageNumber
-    }
-}
-const lockCenter = function () {
+    };
+};
+const lockCenter = function() {
     return {
-        type: 'NEARBY:CENTER_MAP_LOCK',
-    }
-}
-const changeCenter = function (center) {
+        type: 'NEARBY:CENTER_MAP_LOCK'
+    };
+};
+const changeCenter = function(center) {
     return {
         type: 'SET_NEARBY_CENTER',
         center: center
     };
 };
-const featureLoaded = function (features) {
+const featureLoaded = function(features) {
     return {
         type: 'NEARBY_FEATURE_LOADED',
         features: features
     };
 };
-const loadFeature = function (radius, center, radiusFeature, layerSelected) {
+const loadFeature = function(radius, center, radiusFeature, layerSelected) {
     if (!layerSelected) {
-        layerSelected = {}
+        layerSelected = {};
     }
     const DEFAULT_API = '/geoserver/wfs';
     return (dispatch) => {
@@ -98,11 +98,11 @@ const loadFeature = function (radius, center, radiusFeature, layerSelected) {
                 outputFormat: 'application/json'
             }
         }).then(({ data }) => {
-            const layerInfo = data.featureTypes[0]
+            const layerInfo = data.featureTypes[0];
             try {
-                const layerType = layerInfo.properties.find((layerType) => { return layerType.localType === 'Point' })
+                const layerType = layerInfo.properties.find((lt) => { return lt.localType === 'Point'; });
                 if (layerType.name !== null || layerType.name !== 'undefined') {
-                    const positionPoint = center.y + ' ' + center.x
+                    const positionPoint = center.y + ' ' + center.x;
                     axios.get(`${layerSelected.url || DEFAULT_API}`, {
                         params: {
                             service: 'WFS',
@@ -114,33 +114,33 @@ const loadFeature = function (radius, center, radiusFeature, layerSelected) {
                             cql_filter: `DWithin(${layerType.name},POINT(${positionPoint}),${radius},meters)`
                         }
                     }).then((response) => {
-                        var featuresGeoJson = response.data.features
+                        var featuresGeoJson = response.data.features;
                         featuresGeoJson.map((geoJson) => {
                             if (geoJson.geometry.type === 'Point') {
-                                geoJson['style'] = {
+                                geoJson.style = {
                                     iconGlyph: "map-marker",
                                     iconShape: "circle",
                                     iconColor: "blue",
                                     highlight: false,
                                     id: uuidv1()
-                                }
+                                };
                             }
-                        })
-                        featuresGeoJson.push(radiusFeature)
+                        });
+                        featuresGeoJson.push(radiusFeature);
                         dispatch(featureLoaded(featuresGeoJson));
-                    })
+                    });
                 }
             } catch (error) {
-                console.log(error)
+                console.error(error);
                 dispatch(featureLoaded([]));
             }
         }).catch((e) => {
-            console.log(e);
+            console.error(e);
             dispatch(featureLoaded([]));
         });
     };
 };
-const featureRadius = function (radius, geometry) {
+const featureRadius = function(radius, geometry) {
 
     return {
         type: "Feature",
@@ -165,14 +165,14 @@ const featureRadius = function (radius, geometry) {
                 id: uuidv1
             }
         ]
-    }
+    };
 
-}
-const clearLoadFeature = function () {
+};
+const clearLoadFeature = function() {
     return (dispatch) => {
         dispatch(featureLoaded([]));
-    }
-}
+    };
+};
 const selector = (state) => {
     return {
         radius: state.nearby.radius,
@@ -203,51 +203,51 @@ const defaultState = {
 };
 function nearbyReducer(state = defaultState, action) {
     switch (action.type) {
-        case 'SET_NEARBY_RADIUS': {
-            return assign({}, state, {
-                radius: action.radius
-            });
-        }
-        case 'SET_LAYER_FILTER': {
-            return assign({}, state, {
-                layer: action.layer,
-                layerIndex: action.index
-            })
-        }
-        case 'SET_NEARBY_CENTER': {
-            return assign({}, state, {
-                center: action.center
-            });
-        }
-        case 'NEARBY_FEATURE_LOADED': {
-            return assign({}, state, {
-                nearbyLists: action.features,
-                results: action.features.length > state.pageSize ? action.features.slice(0, state.pageSize) : action.features,
-                totalPage: action.features.length > state.pageSize ? Math.floor(action.features.length / state.pageSize) : 1,
-                currentPage: 1
-            });
-        }
-        case 'NEARBY:CENTER_MAP_LOCK': {
-            return assign({}, state, {
-                centerFixed: state.center,
-                centerLocked: !state.centerLocked
-            })
-        }
-        case 'NEARBY:CHANGE_PAGE_NUMBER': {
-            return assign({}, state, {
-                results: state.nearbyLists.slice((action.page - 1) * state.pageSize, action.page * state.pageSize),
-                currentPage: action.page
-            })
-        }
-        case TOGGLE_CONTROL: {
-            return assign({}, state, {
-                layer: action.layer,
-                layerIndex: action.index
-            });
-        }
-        default: {
-            return state;
-        }
+    case 'SET_NEARBY_RADIUS': {
+        return assign({}, state, {
+            radius: action.radius
+        });
+    }
+    case 'SET_LAYER_FILTER': {
+        return assign({}, state, {
+            layer: action.layer,
+            layerIndex: action.index
+        });
+    }
+    case 'SET_NEARBY_CENTER': {
+        return assign({}, state, {
+            center: action.center
+        });
+    }
+    case 'NEARBY_FEATURE_LOADED': {
+        return assign({}, state, {
+            nearbyLists: action.features,
+            results: action.features.length > state.pageSize ? action.features.slice(0, state.pageSize) : action.features,
+            totalPage: action.features.length > state.pageSize ? Math.floor(action.features.length / state.pageSize) : 1,
+            currentPage: 1
+        });
+    }
+    case 'NEARBY:CENTER_MAP_LOCK': {
+        return assign({}, state, {
+            centerFixed: state.center,
+            centerLocked: !state.centerLocked
+        });
+    }
+    case 'NEARBY:CHANGE_PAGE_NUMBER': {
+        return assign({}, state, {
+            results: state.nearbyLists.slice((action.page - 1) * state.pageSize, action.page * state.pageSize),
+            currentPage: action.page
+        });
+    }
+    case TOGGLE_CONTROL: {
+        return assign({}, state, {
+            layer: action.layer,
+            layerIndex: action.index
+        });
+    }
+    default: {
+        return state;
+    }
     }
 }
 
@@ -306,16 +306,16 @@ class NearbyDialog extends React.Component {
     };
 
     onLayerChange = (idx) => {
-        const getLayer = this.props.layersNode[idx]
-        this.props.onChangeLayer(getLayer, idx)
+        const getLayer = this.props.layersNode[idx];
+        this.props.onChangeLayer(getLayer, idx);
     };
 
     onLockCenter = () => {
-        this.props.onLockCenter()
+        this.props.onLockCenter();
     };
 
     changePage = (pageNo) => {
-        this.props.onChangePage(pageNo)
+        this.props.onChangePage(pageNo);
     }
 
     start = {
@@ -383,7 +383,7 @@ class NearbyDialog extends React.Component {
                                                     <label>Radius (km)</label>
                                                 </div>
                                                 <div className="col-md-6 text-right">
-                                                    <button onClick={this.onLockCenter} style={{ float: 'right' }} className={this.props.centerLocked ? 'btn btn-xs active' : 'btn btn-xs'}>
+                                                    <button onClick={this.onLockCenter} style={{ "float": 'right' }} className={this.props.centerLocked ? 'btn btn-xs active' : 'btn btn-xs'}>
                                                         <Glyphicon glyph="lock" />
                                                     </button>
                                                 </div>
@@ -437,7 +437,7 @@ const nearby = connect(
             (state) => {
                 return nearbySelector(state);
             },
-            groupsSelector,
+            groupsSelector
         ],
         (nearbyState, show, layersGroups) => {
             return {
@@ -453,7 +453,7 @@ const nearby = connect(
         onChangeRadius: setRadius,
         onChangeLayer: setLayer,
         onLockCenter: lockCenter,
-        onChangePage: setPage,
+        onChangePage: setPage
     },
     null,
     {
@@ -469,8 +469,8 @@ const changeCenterEpic = (action$, { getState = () => { } }) =>
         .switchMap(({ center }) => {
             const radius = getState().nearby.radius;
             const layer = getState().nearby.layer;
-            const centerFixed = getState().nearby.centerFixed
-            const centerLocked = getState().nearby.centerLocked
+            const centerFixed = getState().nearby.centerFixed;
+            const centerLocked = getState().nearby.centerLocked;
             const geometry = circle(
                 [
                     centerLocked ? centerFixed.x : center.x,
@@ -483,15 +483,14 @@ const changeCenterEpic = (action$, { getState = () => { } }) =>
                 }
             ).geometry;
 
-            const feature = featureRadius(radius, geometry)
+            const feature = featureRadius(radius, geometry);
             if (centerLocked) {
-                return Rx.Observable.empty()
-            } else {
-                return Rx.Observable.from([
-                    changeCenter(center),
-                    loadFeature(radius * 1000, center, feature, layer)
-                ]);
+                return Rx.Observable.empty();
             }
+            return Rx.Observable.from([
+                changeCenter(center),
+                loadFeature(radius * 1000, center, feature, layer)
+            ]);
 
 
         });
@@ -502,8 +501,8 @@ const changeRadiusEpic = (action$, { getState = () => { } }) =>
         })
         .switchMap(({ radius }) => {
             const center = getState().map.present.center;
-            const centerFixed = getState().nearby.centerFixed
-            const centerLocked = getState().nearby.centerLocked
+            const centerFixed = getState().nearby.centerFixed;
+            const centerLocked = getState().nearby.centerLocked;
             const layer = getState().nearby.layer;
             const geometry = circle(
                 [
@@ -516,7 +515,7 @@ const changeRadiusEpic = (action$, { getState = () => { } }) =>
                     units: 'kilometers'
                 }
             ).geometry;
-            const feature = featureRadius(radius, geometry)
+            const feature = featureRadius(radius, geometry);
             return Rx.Observable.from([
                 loadFeature(radius * 1000, center, feature, layer)
             ]);
@@ -528,7 +527,7 @@ const changeLayerEpic = (action$, { getState = () => { } }) =>
         })
         .switchMap(({ layer }) => {
             const center = getState().map.present.center;
-            const radius = getState().nearby.radius
+            const radius = getState().nearby.radius;
             const geometry = circle(
                 [center.x, center.y],
                 radius,
@@ -537,7 +536,7 @@ const changeLayerEpic = (action$, { getState = () => { } }) =>
                     units: 'kilometers'
                 }
             ).geometry;
-            const feature = featureRadius(radius, geometry)
+            const feature = featureRadius(radius, geometry);
             return Rx.Observable.from([
                 loadFeature(radius * 1000, center, feature, layer)
             ]);
@@ -547,10 +546,10 @@ const closeNearbyDock = (action$, { getState = () => { } }) =>
         .filter(() => {
             return (getState().controls.nearby || {}) || false;
         })
-        .switchMap(({ nearbyState }) => {
+        .switchMap(({}) => {
             return Rx.Observable.from([
                 clearLoadFeature(),
-                changeDrawingStatus("clean", "", "nearbyResult", [], {}),
+                changeDrawingStatus("clean", "", "nearbyResult", [], {})
             ]);
         });
 const nearbyResultLoadedEpic = (action$, { getState = () => { } }) =>
@@ -568,7 +567,7 @@ const nearbyResultLoadedEpic = (action$, { getState = () => { } }) =>
                 drawEnabled: false
             };
             const center = getState().map.present.center;
-            const radius = getState().nearby.radius
+            const radius = getState().nearby.radius;
             const geometry = circle(
                 [center.x, center.y],
                 radius,
@@ -577,8 +576,8 @@ const nearbyResultLoadedEpic = (action$, { getState = () => { } }) =>
                     units: 'kilometers'
                 }
             ).geometry;
-            const radiusFeature = featureRadius(radius, geometry)
-            const features = getState().nearby.results
+            const radiusFeature = featureRadius(radius, geometry);
+            const features = getState().nearby.results;
             const featureCollection = [
                 {
                     type: "FeatureCollection",
@@ -586,8 +585,8 @@ const nearbyResultLoadedEpic = (action$, { getState = () => { } }) =>
                     id: uuidv1(),
                     geometry: null,
                     properties: uuidv1(),
-                    features: [...features, radiusFeature],
-                },
+                    features: [...features, radiusFeature]
+                }
             ];
             return Rx.Observable.from([
                 changeDrawingStatus('drawOrEdit', 'Point', 'nearbyResult', featureCollection, drawOptions)
@@ -608,9 +607,9 @@ const changePageEpic = (action$, { getState = () => { } }) =>
                 drawEnabled: false
             };
             const center = getState().map.present.center;
-            const radius = getState().nearby.radius
-            const centerFixed = getState().nearby.centerFixed
-            const centerLocked = getState().nearby.centerLocked
+            const radius = getState().nearby.radius;
+            const centerFixed = getState().nearby.centerFixed;
+            const centerLocked = getState().nearby.centerLocked;
             const geometry = circle(
                 [
                     centerLocked ? centerFixed.x : center.x,
@@ -622,8 +621,8 @@ const changePageEpic = (action$, { getState = () => { } }) =>
                     units: 'kilometers'
                 }
             ).geometry;
-            const radiusFeature = featureRadius(radius, geometry)
-            const features = getState().nearby.results
+            const radiusFeature = featureRadius(radius, geometry);
+            const features = getState().nearby.results;
             const featureCollection = [
                 {
                     type: "FeatureCollection",
@@ -631,8 +630,8 @@ const changePageEpic = (action$, { getState = () => { } }) =>
                     id: uuidv1(),
                     geometry: null,
                     properties: uuidv1(),
-                    features: [...features, radiusFeature],
-                },
+                    features: [...features, radiusFeature]
+                }
             ];
             return Rx.Observable.from([
                 changeDrawingStatus('drawOrEdit', 'Point', 'nearbyResult', featureCollection, drawOptions)

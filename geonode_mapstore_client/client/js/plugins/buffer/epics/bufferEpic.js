@@ -16,7 +16,7 @@ import {
     fetchGeoJsonFailure,
     setLayer,
     setRadius
-} from '../actions/buffer'
+} from '../actions/buffer';
 
 // เพื่อกระจาย features ออกจาก features array ถ้าเป็น Annotation features <- อาจมีอย่างอื่นด้วย เช่น Measurement
 const spreadFeatures = (layerSelected) => {
@@ -26,12 +26,11 @@ const spreadFeatures = (layerSelected) => {
             featuresArray.push(layerSelected.features[i].features[j]);
         }
     }
-    console.log("spreadFeatures: ", featuresArray);
     return featuresArray;
 };
 
 let layerTitle = ""; // เพื่อเอาไปใช้ต่อกับ addAsBufferedLayerEpic
-const loadFeature = function (layerSelected) {
+const loadFeature = function(layerSelected) {
     if (!layerSelected) {
         return (dispatch) => {
             dispatch(fetchGeoJsonFailure(<Message msgId="bufferPlugin.noLayer" />));
@@ -39,26 +38,28 @@ const loadFeature = function (layerSelected) {
     }
     return (dispatch, getState) => {
         const handleUnit = (radius, unit) => {
-            if (radius <= 0) {
+            let r = radius;
+            let u = unit;
+            if (resizeBy <= 0) {
                 dispatch(fetchGeoJsonFailure(<Message msgId="bufferPlugin.errorLessThan1" />));
                 dispatch(loading(false));
                 return;
             }
             // Check Unit | โดยปกติ turf จะสามารถใช้หน่วย kilometers / miles / degrees
-            switch (unit) {
-                case "meters":
-                    radius /= 1000;
-                    unit = "kilometers";
-                    break;
-                case "วา":
-                    radius /= 500;
-                    unit = "kilometers";
-                    break;
-                default:
-                    radius;
-                    unit;
+            switch (u) {
+            case "meters":
+                r /= 1000;
+                u = "kilometers";
+                break;
+            case "วา":
+                r /= 500;
+                u = "kilometers";
+                break;
+            default:
+                removeEventListener;
+                u;
             }
-            return [radius, unit];
+            return [r, u];
         };
 
         const bufferWithTurf = (featuresCollectionGeoJson) => {
@@ -66,15 +67,15 @@ const loadFeature = function (layerSelected) {
                 getState().buffer.radius,
                 getState().buffer.unitValue
             );
-            console.log('radiusAndUnit', radiusAndUnit);
             if (radiusAndUnit === undefined) return;
             // เก็บ id เอาไว้ใน array เพราะถ้า Turf แล้ว id จะหาย
             let featuresIdTemp = [];
             featuresCollectionGeoJson.features.forEach((feature) => {
-                if (feature.id)
+                if (feature.id) {
                     featuresIdTemp.push(feature.id);
-                else if (feature.properties.id) // For Annotation or etc.
+                } else if (feature.properties.id) { // For Annotation or etc.
                     featuresIdTemp.push(feature.properties.id);
+                }
             });
             let result = turfBuffer(
                 featuresCollectionGeoJson,
@@ -84,27 +85,23 @@ const loadFeature = function (layerSelected) {
             // ใส่ id ที่อยู่ใน array กลับเข้าไป
             result.features.forEach((feature, i) => {
                 feature.id = "buffered_" + featuresIdTemp[i];
-                if (feature.properties.id) // For Annotation or etc.
+                if (feature.properties.id) { // For Annotation or etc.
                     feature.properties.id = "buffered_" + featuresIdTemp[i];
+                }
             });
             return result;
-        }
+        };
 
         dispatch(loading(true));
         layerTitle = layerSelected.title || layerSelected.name;
 
         // ถ้า layer นี้มี features ใน Client Side
         if (layerSelected.features) {
-            console.log("layerTitle", layerTitle);
             let featuresGeoJson;
-            if (layerTitle === "Annotations")
-                featuresGeoJson = spreadFeatures(layerSelected);
-            else
-                featuresGeoJson = layerSelected.features;
+            if (layerTitle === "Annotations") {featuresGeoJson = spreadFeatures(layerSelected);} else {featuresGeoJson = layerSelected.features;}
 
             let featuresCollectionGeoJson = featureCollection(featuresGeoJson);
             let result = bufferWithTurf(featuresCollectionGeoJson);
-            console.log('result of turf', result)
             if (result === undefined) return;
 
             dispatch(addAsLayer(result));
@@ -113,29 +110,26 @@ const loadFeature = function (layerSelected) {
 
         } else { // ถ้าไม่มี features layer อยู่ใน client จะทำการ get
             const DEFAULT_API = "/geoserver/wfs";
-            new Promise((resolve, reject) => {
+            new Promise((resolve) => {
                 let params = {
                     service: "WFS",
                     version: layerSelected.version,
                     request: "GetFeature",
                     typeName: layerSelected.name,
-                    outputFormat: "application/json",
+                    outputFormat: "application/json"
                 };
                 // สำหรับ layer ที่มีการ filter จะมี layerFilter อยู่ใน obj
                 if (layerSelected.layerFilter) {
-                    const cql_filter = toCQLFilter(layerSelected?.layerFilter);
-                    console.log("cql_filter", cql_filter);
-                    params.cql_filter = cql_filter;
+                    const cqlFilter = toCQLFilter(layerSelected?.layerFilter);
+                    params.cql_filter = cqlFilter;
                 }
                 let getFromAPI = axios.get(`${layerSelected.url || DEFAULT_API}`, { params });
                 resolve(getFromAPI);
             })
                 .then((featuresCollectionGeoJson) => {
                     let featuresCollectionData = featuresCollectionGeoJson.data;
-                    console.log("featuresCollectionData", featuresCollectionData);
 
-                    let result = bufferWithTurf(featuresCollectionData)
-                    console.log('result', result)
+                    let result = bufferWithTurf(featuresCollectionData);
                     if (result === undefined) return;
 
                     dispatch(addAsLayer(result));
@@ -143,7 +137,7 @@ const loadFeature = function (layerSelected) {
                     dispatch(setLayer(-1)); dispatch(loading(false)); dispatch(setRadius(1));
                 })
                 .catch((e) => {
-                    console.log(e);
+                    console.error(e);
                     dispatch(loading(false));
                     dispatch(fetchGeoJsonFailure(<Message msgId="bufferPlugin.errorFetch" />));
                 });
@@ -165,8 +159,6 @@ export const doBufferEpic = (action$, { getState = () => { } }) =>
 export const addAsBufferedLayerEpic = (action$) =>
     action$.ofType(BUFFER_ADD_AS_LAYER)
         .switchMap(({ bufferedFtCollection }) => {
-            console.log("==> addAsLayerEpic");
-            console.log("bufferedLayer in epic:", bufferedFtCollection);
             return Rx.Observable.of(
                 addLayer({
                     type: "vector",
@@ -175,7 +167,7 @@ export const addAsBufferedLayerEpic = (action$) =>
                     hideLoading: true,
                     features: [...bufferedFtCollection.features],
                     visibility: true,
-                    title: "Buffered_" + layerTitle,
+                    title: "Buffered_" + layerTitle
                 })
             );
         });

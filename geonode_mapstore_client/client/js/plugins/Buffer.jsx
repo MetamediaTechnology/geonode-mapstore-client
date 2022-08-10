@@ -13,19 +13,19 @@ import {
     setRadius,
     setUnit,
     doBuffer,
-    toggleBufferTool,
-} from './buffer/actions/buffer'
+    toggleBufferTool
+} from './buffer/actions/buffer';
 
 // Epics
 import {
     doBufferEpic,
     addAsBufferedLayerEpic
-} from './buffer/epics/bufferEpic'
+} from './buffer/epics/bufferEpic';
 
 // Reducer
 import {
     bufferReducer
-} from './buffer/reducers/bufferReducer'
+} from './buffer/reducers/bufferReducer';
 
 import Dialog from "@mapstore/framework/components/misc/Dialog";
 import { DropdownList } from "react-widgets";
@@ -54,7 +54,7 @@ const selector = (state) => {
         featuresSelected: state.buffer.featuresSelected,
         bufferedFeatures: state.buffer.bufferedFeatures,
         loading: state.buffer.loading,
-        error: state.buffer.error,
+        error: state.buffer.error
     };
 };
 
@@ -73,7 +73,7 @@ class BufferDialog extends React.Component {
         onClose: PropTypes.func,
         onChangeLayer: PropTypes.func,
         onChangeUnit: PropTypes.func,
-        onDoBuffer: PropTypes.func,
+        onDoBuffer: PropTypes.func
     };
 
     static defaultProps = {
@@ -83,7 +83,7 @@ class BufferDialog extends React.Component {
             { value: "meters", label: "m" },
             { value: "วา", label: "วา" },
             { value: "miles", label: "miles" },
-            { value: "degrees", label: "degrees" },
+            { value: "degrees", label: "degrees" }
         ],
         radius: 1,
         layersNode: [],
@@ -95,14 +95,14 @@ class BufferDialog extends React.Component {
         onClose: () => { },
         onChangeLayer: () => { },
         onChangeUnit: () => { },
-        onDoBuffer: () => { },
+        onDoBuffer: () => { }
     };
 
     dialogStyle = {
         position: 'fixed',
         top: '0px',
         left: '0px',
-        width: '500px',
+        width: '500px'
     };
 
     start = {
@@ -127,9 +127,8 @@ class BufferDialog extends React.Component {
     };
 
     onChangeRadius = (radius) => {
-        if (radius <= 0)
-            radius = 0;
-        this.props.onChangeRadius(Number(radius));
+        const r = radius < 0 ? 0 : radius;
+        this.props.onChangeRadius(Number(r));
     };
 
     onReset = () => {
@@ -164,7 +163,7 @@ class BufferDialog extends React.Component {
                         responses={this.props.layersNode}
                         index={this.props.layerIndex}
                         setIndex={this.onLayerChange}
-                    ></LayerSelector>
+                    />
                     <br />
                     <p>
                         <Message msgId="bufferPlugin.bufferLabel" />
@@ -177,7 +176,7 @@ class BufferDialog extends React.Component {
                                 }}
                                 required
                                 type="text"
-                                onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"
+                                onKeyPress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"
                                 className="form-control"
                                 id="buffer-size"
                                 onChange={(e) => this.onChangeRadius(e.nativeEvent.target.value)}
@@ -199,7 +198,7 @@ class BufferDialog extends React.Component {
                     <br />
                     <div
                         style={{
-                            display: "flex",
+                            display: "flex"
                         }}
                     >
                         <br />
@@ -229,7 +228,7 @@ class BufferDialog extends React.Component {
                             className="btn btn-longdo-outline"
                             style={{
                                 minWidth: "90px",
-                                marginRight: "5px",
+                                marginRight: "5px"
                             }}
                         >
                             <Message msgId="bufferPlugin.resetButton" />
@@ -254,14 +253,14 @@ const buffer = connect(
             (state) => {
                 return bufferSelector(state);
             },
-            groupsSelector,
+            groupsSelector
         ],
         (bufferState, show, layersGroups) => {
             return {
                 ...bufferState,
                 show,
                 layersGroups,
-                layersNode: layerNodesExtracter(layersGroups),
+                layersNode: layerNodesExtracter(layersGroups)
             };
         }
     ),
@@ -270,11 +269,11 @@ const buffer = connect(
         onChangeLayer: setLayer,
         onChangeUnit: setUnit,
         onChangeRadius: setRadius,
-        onDoBuffer: doBuffer,
+        onDoBuffer: doBuffer
     },
     null,
     {
-        pure: false,
+        pure: false
     }
 )(BufferDialog);
 
@@ -288,14 +287,14 @@ export default {
             tooltip: "tooltip",
             text: "Buffer",
             icon: <Glyphicon glyph="resize-full" />,
-            action: () => setControlProperty("buffer", "enabled", true),
-        },
+            action: () => setControlProperty("buffer", "enabled", true)
+        }
     }),
     reducers: {
-        buffer: bufferReducer,
+        buffer: bufferReducer
     },
     epics: {
         doBufferEpic,
-        addAsBufferedLayerEpic,
-    },
+        addAsBufferedLayerEpic
+    }
 };

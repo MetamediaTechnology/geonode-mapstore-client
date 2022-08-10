@@ -26,7 +26,7 @@ export function routingReducer(state = defaultState, action) {
     }
     case "ROUTING_REMOVE_POINT": {
         if (state.pointList.length === 2) {
-            return;
+            return state;
         }
         state.pointList.splice(action.index, 1);
         if (state.pointList.length <= 2) {
@@ -71,13 +71,13 @@ export function routingReducer(state = defaultState, action) {
     }
     case "ROUTING_CHANGE_TYPE": {
         const indexOfRouteType = state.routeType.indexOf(action.value);
-        if (indexOfRouteType == -1) {
+        if (indexOfRouteType === -1) {
             return assign({}, state, {
                 routeType: state.routeType.concat(action.value)
             });
         }
         return assign({}, state, {
-            routeType: indexOfRouteType == 0 ? [] : state.routeType.splice(action.value, 1)
+            routeType: indexOfRouteType === 0 ? [] : state.routeType.splice(action.value, 1)
         });
 
     }

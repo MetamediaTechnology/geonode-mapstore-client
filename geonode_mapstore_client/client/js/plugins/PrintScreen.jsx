@@ -137,7 +137,7 @@ class PrintScreenComponent extends React.Component {
 
     onCapture = () => {
         this.setAttributeIgnoreElement('SET');
-        html2canvas(document.getElementById("map"), {
+        window.html2canvas(document.getElementById("map"), {
             // useCORS: true,
             allowTaint: true,
             foreignObjectRendering: true,
@@ -149,7 +149,7 @@ class PrintScreenComponent extends React.Component {
     }
     onReCapture = () => {
         this.setAttributeIgnoreElement('SET');
-        html2canvas(document.getElementById("map"), {
+        window.html2canvas(document.getElementById("map"), {
             // useCORS: true,
             allowTaint: true,
             foreignObjectRendering: true,
@@ -207,10 +207,10 @@ class PrintScreenComponent extends React.Component {
                                 <button key="close" onClick={this.onClose} className="close"><Glyphicon glyph="1-close" /></button>
                             </div>
                             <div key="body" role="body" style={{height: '300px', overflow: 'scroll'}}>
-                                <img id='prtsc-img' src={this.props.captureImg} width={'100%'} />
-                                <div className='prtsc-control mt-2'>
-                                    <button className='btn btn-info' onClick={this.onDownload}>Download</button>
-                                    <button className='btn btn-warning' onClick={this.onReCapture}>Re-capture</button>
+                                <img id="prtsc-img" src={this.props.captureImg} width={'100%'} />
+                                <div className="prtsc-control mt-2">
+                                    <button className="btn btn-info" onClick={this.onDownload}>Download</button>
+                                    <button className="btn btn-warning" onClick={this.onReCapture}>Re-capture</button>
                                 </div>
                             </div>
                         </Dialog>
