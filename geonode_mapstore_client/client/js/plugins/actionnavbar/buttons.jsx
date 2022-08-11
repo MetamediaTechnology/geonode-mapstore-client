@@ -267,3 +267,22 @@ export const MergeLayerActionButton = connect(
         </Button>
     );
 });
+
+export const PrintStandardActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'prtstd', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="printStandardPlugin.title" />
+        </Button>
+    );
+});

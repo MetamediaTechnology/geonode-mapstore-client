@@ -137,7 +137,7 @@ class PrintScreenComponent extends React.Component {
 
     onCapture = () => {
         this.setAttributeIgnoreElement('SET');
-        window.html2canvas(document.getElementById("map"), {
+        window.html2canvas(document.querySelector(".gn-viewer-layout-body"), {
             // useCORS: true,
             allowTaint: true,
             foreignObjectRendering: true,
@@ -149,7 +149,7 @@ class PrintScreenComponent extends React.Component {
     }
     onReCapture = () => {
         this.setAttributeIgnoreElement('SET');
-        window.html2canvas(document.getElementById("map"), {
+        window.html2canvas(document.querySelector(".gn-viewer-layout-body"), {
             // useCORS: true,
             allowTaint: true,
             foreignObjectRendering: true,

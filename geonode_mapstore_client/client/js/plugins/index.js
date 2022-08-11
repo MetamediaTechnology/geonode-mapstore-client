@@ -21,7 +21,8 @@ import {
     RoutingActionButton,
     NearbyActionButton,
     BufferActionButton,
-    MergeLayerActionButton
+    MergeLayerActionButton,
+    PrintStandardActionButton
 } from '@js/plugins/actionnavbar/buttons';
 import { getMetadataUrl,
     getMetadataDetailUrl,
@@ -492,7 +493,23 @@ export const plugins = {
                 }
             }
         }
-    )
+    ),
+    PrintStandardPlugin: toLazyPlugin(
+        'MergeLayer',
+        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/PrintStandard'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'PrintStandard',
+                    Component: PrintStandardActionButton
+                }
+            }
+        }
+    ),
+    ExportGeoJsonPlugin: toLazyPlugin(
+        'ExportGeoJson',
+        () => import(/* webpackChunkName: 'plugins/filter-layer-plugin' */ '@js/plugins/ExportGeoJson')
+    ),
 };
 
 const pluginsDefinition = {

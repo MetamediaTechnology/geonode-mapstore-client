@@ -957,6 +957,10 @@
                                 {
                                     "type": "plugin",
                                     "name": "PrintScreen"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "PrintStandard"
                                 }
                             ]
                         }
@@ -1379,6 +1383,9 @@
             },
             {
                 "name": "PrintScreen"
+            },
+            {
+                "name": "PrintStandard"
             }
         ],
         "dataset_edit_data_viewer": [
@@ -1759,6 +1766,10 @@
                                 {
                                     "type": "plugin",
                                     "name": "PrintScreen"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "PrintStandard"
                                 }
                             ]
                         }
@@ -2235,6 +2246,12 @@
             },
             {
                 "name": "PrintScreen"
+            },
+            {
+                "name": "PrintStandard"
+            },
+            {
+                "name": "ExportGeoJson"
             }
         ],
         "geostory_viewer": [

@@ -334,6 +334,12 @@
             "errorGetFeature2": "ERROR in getFeature2",
             "errorAllGetFeature": "ERROR in Promise.all",
             "successText": "Merged succeed"
+        },
+        "printStandardPlugin": {
+            "title": "Print"
+        },
+        "exportGeoJsonPlugin": {
+            "tooltip": "Download GeoJson"
         }
     }
 }
