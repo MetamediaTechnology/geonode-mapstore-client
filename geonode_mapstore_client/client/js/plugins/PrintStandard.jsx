@@ -189,7 +189,7 @@ class PrintStandardComponent extends React.Component {
 
     getMapZoom = () => {
         const mapZoomElement = document.getElementById('footer-scalebar-container');
-        const rulerSize = document.getElementsByClassName('ol-scale-line-inner')[0].style.width;
+        const rulerSize = document.getElementsByClassName('ol-scale-line-inner')[0]?.style.width;
         setTimeout(() => {
             var scale = mapZoomElement?.innerText;
             var rulerUnit = `${scale.replace(/\d/g, '')}`.trim();

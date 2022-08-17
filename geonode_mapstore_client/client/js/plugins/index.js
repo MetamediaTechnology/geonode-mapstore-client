@@ -495,7 +495,7 @@ export const plugins = {
         }
     ),
     PrintStandardPlugin: toLazyPlugin(
-        'MergeLayer',
+        'PrintStandard',
         () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/PrintStandard'),
         {
             containers: {
