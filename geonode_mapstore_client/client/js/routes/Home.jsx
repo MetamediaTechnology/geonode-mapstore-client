@@ -184,16 +184,16 @@ function Home({
               <div style={{ display: "flex", justifyContent: "center" ,padding:'10px'}}>
                 <div className="btn-group">
                   <a href="/catalogue/#/upload/dataset" className="btn btn btn-lg" style={{ border: '1px solid currentColor'}}>
-                    อัปโหลดชุดข้อมูล
+                    Upload dataset
                   </a>
                   <a href="/catalogue/#/upload/document" className="btn btn btn-lg" style={{ border: '1px solid currentColor',marginLeft:'5px'}}>
-                    อัปโหลดเอกสาร
+                    Upload document
                   </a>
                   <a href="/catalogue/#/map/new" className="btn btn btn-lg" style={{ border: '1px solid currentColor',marginLeft:'5px'}}>
-                    สร้างแผนที่
+                    Create map
                   </a>
                   <a href="/catalogue/#/" className="btn btn btn-lg" style={{ border: '1px solid currentColor',marginLeft:'5px'}}>
-                    อื่นๆ
+                    Other
                   </a>
                 </div>
               </div>
