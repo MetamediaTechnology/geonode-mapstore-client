@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {% load get_menu_json %}
 {% load catalogue_urls %}
 {% get_user_menu as USER_MENU %}
@@ -10,6 +11,26 @@
     #{{ id|default:'' }}-bottom {
         display: none;
         margin-bottom: 0;
+    }
+    #gn-brand-navbar{
+        background-color: #61A4BC;
+        color: #FFF;
+    }
+    .btn-md{
+        padding: 10px 16px !important;
+        line-height: 1.3333333 !important;
+        border-radius: 2px !important;
+    }
+    .btn-success{
+        border-radius: 5px !important;
+        border: 1px solid #72BC79 !important;
+        background-color: #72BC79 !important;
+    }
+    .btn-outline{
+        border-radius: 5px !important;
+        color: #FFF !important;
+        border: 1px solid #FFF !important;
+        background-color: transparent !important;
     }
     @media (max-width: 748px) {
         #{{ id|default:'' }} .gn-menu-content-center > * {
@@ -34,23 +55,57 @@
                             {% if custom_theme.logo and custom_theme.logo.url %}
                                 <img src="{{ custom_theme.logo.url }}">
                             {% else %}
-                                <img src="{% block logo_src %}/static/mapstore/img/geonode-logo.svg{% endblock %}">
+                                <img style="height:3.5rem" src="{% block logo_src %}/static/mapstore/img/marine-logo.png{% endblock %}">
                             {% endif %}
                         </a>
+                    </li>
+                    <li>
+                      <h2 style="color:#FFF;font-size:1.5rem">marine GI portal</h2>   
                     </li>
                 </ul>
                 {% endblock %}
             </div>
             <div class="gn-menu-content-center">
-                {% block center_menu %}
-                    {% include './search_bar.html' with search_bar_id='gn-search-bar' %}
-                {% endblock %}
             </div>
             <div class="gn-menu-content-right">
                 {% block right_menu %}
                 <ul class="gn-menu-list">
                     {% for menu_item in USER_MENU %}
-                        {% include './menu_item.html' with menu_item=menu_item align_right=True %}
+                        {% if menu_item.type == 'link' %}
+                           <li>
+                            <a href="{{ menu_item.href }}" 
+                            class="btn btn-md btn-{% if menu_item.label == 'Register'%}outline{% endif %}{% if menu_item.label == 'Sign in'%}success{% endif %}">
+                                {{ menu_item.label }}
+                            </a>
+                           </li>
+                        {% endif %}
+                        {% if menu_item.type == 'dropdown' %}
+                            <li style="list-style: none">
+                                <div id="{{menu_item.id}}" role="button" aria-haspopup="true" aria-expanded="false" type="button"
+                                    class="" data-toggle="dropdown">
+                                            {% if menu_item.image %}
+                                            <img class="img-circle" src="{{ menu_item.image }}">
+                                        {% endif %}
+                                         {% if menu_item.name %}
+                                            {% trans menu_item.name %}
+                                        {% endif %}
+                                </div>
+                                  <ul style="margin-right:10px;" class="dropdown-menu dropdown-menu-right" aria-labelledby="{{menu_item.id}}">
+                                    {% for child_item in menu_item.items %}
+                                        {% if child_item.type == 'link' %}
+                                         <li>
+                                            <a href="{{ child_item.href }}" target="{{ child_item.target }}">
+                                                {% trans child_item.label %}
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                  </ul>
+                            </li>
+                        {% endif %}
+                           {% if child_item.type == 'divider' %}
+                            <li role="separator" class="divider"></li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
                 {% endblock %}

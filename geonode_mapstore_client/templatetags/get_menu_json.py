@@ -134,15 +134,15 @@ def get_user_menu(context):
     if not user.is_authenticated:
         return [
             {
-                "label": "Register",
-                "type": "link",
-                "href": "/account/signup/?next=/"
-            } if settings.ACCOUNT_OPEN_SIGNUP and not Configuration.load().read_only else None,
-            {
                 "label": "Sign in",
                 "type": "link",
                 "href": "/account/login/?next=/"
             },
+            {
+                "label": "Register",
+                "type": "link",
+                "href": "/account/signup/?next=/"
+            } if settings.ACCOUNT_OPEN_SIGNUP and not Configuration.load().read_only else None,
         ]
 
     devider = {
@@ -166,6 +166,7 @@ def get_user_menu(context):
         return [
             {
                 # get src of user avatar
+                "name": user.username,
                 "image": avatar_url(user),
                 "type": "dropdown",
                 "className": "gn-user-menu-dropdown",
@@ -179,6 +180,7 @@ def get_user_menu(context):
 
     profile = {
         # get src of user avatar
+        "name": user.username,
         "image": avatar_url(user),
         "type": "dropdown",
         "className": "gn-user-menu-dropdown",
