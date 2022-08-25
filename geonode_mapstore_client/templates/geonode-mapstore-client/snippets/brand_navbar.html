@@ -60,7 +60,7 @@
                         </a>
                     </li>
                     <li>
-                      <h2 style="color:#FFF;font-size:1.5rem">marine GI portal</h2>   
+                      <h2 class="brand-marine-text">marine GI portal</h2>   
                     </li>
                 </ul>
                 {% endblock %}
@@ -113,11 +113,11 @@
         </div>
     </div>
 </nav>
-<div id="{{ id|default:'' }}-bottom">
+{% comment %} <div id="{{ id|default:'' }}-bottom">
     {% block bottom_menu %}
         {% include './search_bar.html' with search_bar_id='gn-search-bar-bottom' %}
     {% endblock %}
-</div>
+</div> {% endcomment %}
 {% block extra_script %}
     <script type="text/javascript">
         (function() {

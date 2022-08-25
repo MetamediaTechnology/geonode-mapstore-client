@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from "react";
+import React, { useRef, useEffect, useState} from 'react';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import url from "url";
@@ -19,8 +19,6 @@ import FeaturedList from "@js/components/FeaturedList";
 
 import {
   hashLocationToHref,
-  clearQueryParams,
-  getQueryFilters,
 } from "@js/utils/SearchUtils";
 import { withResizeDetector } from "react-resize-detector";
 
@@ -35,6 +33,16 @@ import Notifications from "@mapstore/framework/plugins/Notifications";
 import { processResources, downloadResource } from "@js/actions/gnresource";
 import { setControlProperty } from "@mapstore/framework/actions/controls";
 import { featuredResourceDownload } from "@js/selectors/resourceservice";
+
+import { getCategories } from '@js/api/geonode/v2';
+
+
+function loadCategories() {
+  console.log('Func call')
+  return {
+      type: 'FETCH_CATEGORIES_DATA'
+  };
+}
 
 const { DeleteResourcePlugin } = DeleteResource;
 const { SaveAsPlugin } = SaveAs;
@@ -79,6 +87,8 @@ const ConnectedFeatureList = connect(
   }
 )(FeaturedList);
 
+
+
 function Home({
   location,
   params,
@@ -87,26 +97,18 @@ function Home({
   user,
   width,
   fetchFeaturedResources = () => {},
-  enabled
+  enabled,
 }) {
+
   const cataloguePage = "/catalogue/";
 
   const { cardOptionsItemsAllowed } = config;
 
   const pageSize = getThemeLayoutSize(width);
 
-  // const handleShowFilterForm = () => {
-  //   window.location = `${cataloguePage}#/search/filter/${location.search}`;
-  // };
-
   function handleUpdate(newParams, pathname) {
     const { query } = url.parse(location.search, true);
-    onSearch(
-      {
-        ...query,
-        ...newParams,
-      },
-      pathname
+    onSearch({...query,...newParams},pathname
     );
   }
 
@@ -121,22 +123,9 @@ function Home({
     };
     const newParams = "";
     const pathname = "";
-    onSearch(
-      {
-        ...query,
-        ...newParams,
-      },
-      pathname
-    );
-    // Active tab
+    onSearch({...query,...newParams,},pathname);
     e.target.parentNode.classList.add("active");
   }
-
-  // function handleClear() {
-  //   const newParams = clearQueryParams(location);
-  //   handleUpdate(newParams);
-  // }
-
   function handleFormatHref(options) {
     return (
       cataloguePage +
@@ -147,7 +136,46 @@ function Home({
     );
   }
 
+
+  const [categories,setCategories] = useState([]);
+
   const { query } = url.parse(location.search, true);
+
+  useEffect(() => {
+   getCategories({
+    with_response: 'False'
+   }, 'filter{category.identifier.in}').then((categories) => {
+        setCategories(categories.results)
+    })
+
+  }, [])
+
+   function convertStringtoColor(str) {
+      var hash = 0;
+      if(!str) return null
+        for (var i = 0; i < str.length; i++) {
+          hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+      var colour = '#';
+      for (var i = 0; i < 3; i++) {
+          var value = (hash >> (i * 8)) & 0xFF;
+          colour += ('00' + value.toString(16)).substr(-2);
+      }
+      return colour;
+  }
+
+  const categoriesStyle = (str) => {
+    return {
+      width: '100px',
+      height: '100px',
+      textAlign: 'center',
+      padding: '15px 0',
+      lineHeight: 1.42,
+      borderRadius: '50%',
+      backgroundColor: "#FFFF",
+      fontSize: 'xxx-large'
+  }
+  }
 
   return (
     <div className="gn-container">
@@ -165,7 +193,7 @@ function Home({
         </div>
       </div>
       <div className="gn-row">
-        <div className="gn-grid-container">
+        <div className="gn-grid-container marine-list">
           <ConnectedCardGrid
             user={user}
             query={query}
@@ -201,7 +229,7 @@ function Home({
               <div></div>
             )}
             <div>
-              <h3>
+              <h3 style={{ fontSize:'1.5rem'}}>
                 <span>Resources</span>
               </h3>
               <ul
@@ -233,10 +261,41 @@ function Home({
             </div>
           </ConnectedCardGrid>
         </div>
+        <div className="gn-card-grid marine-list">
+              <div style={{display:'flex',width: '100%'}}>
+                <div style={{flex: '1 1 0%',width: '100%'}}>
+                  <div className="gn-card-grid-container">
+                    <h3 style={{ fontSize:'1.5rem'}}><span>Layer by categories</span></h3>
+                    <div id='layer-categories' style={{ margin: '10px'}}>
+                      <div class="row">
+                        {
+                          categories.length > 0 ? categories.map((categorie,index) => {
+                              return (
+                                <div class="col-xs-6 col-md-3"><div style={{display:'block',width:'100%',textAlign:'center',marginTop:'15px',marginBottom:'15px'}}>
+                                  <a href={'/catalogue/#/?filter%7Bcategory.identifier.in%7D='+categorie.identifier} style={categoriesStyle()} class="btn btn-lg">
+                                    <i className={'fa '+categorie.fa_class}></i>
+                                  </a>
+                                  <div style={{color:'grey',marginTop:'5px'}}>
+                                    {
+                                      categorie.gn_description?.length > 30 ? categorie.gn_description.substring(0,20) : categorie.gn_description
+                                    }
+                                  </div>
+                                  </div>
+                                </div>
+                              )
+                            }) : ''
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
       </div>
       <DeleteResourcePlugin redirectTo={false} />
       <SaveAsPlugin closeOnSave labelId="gnviewer.clone" />
       <NotificationsPlugin />
+      
     </div>
   );
 }
@@ -251,11 +310,13 @@ Home.propTypes = {
   totalResources: PropTypes.object,
   fetchFeaturedResources: PropTypes.func,
   enabled: PropTypes.bool,
+  categories: PropTypes.object
 };
 
 Home.defaultProps = {
   onSearch: () => {},
   fetchFeaturedResources: () => {},
+  categories: {}
 };
 
 const DEFAULT_PARAMS = {};
@@ -276,12 +337,12 @@ const ConnectedHome = connect(
       config,
       totalResources,
       loading,
-      enabled: canAddResource,
+      enabled: canAddResource
     })
   ),
   {
     onSearch: searchResources,
-    fetchFeaturedResources: loadFeaturedResources,
+    fetchFeaturedResources: loadFeaturedResources
   }
 )(withResizeDetector(Home));
 
