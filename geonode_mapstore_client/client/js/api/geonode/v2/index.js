@@ -606,7 +606,7 @@ export const getCategories = ({ q, includes, page, pageSize, config, ...params }
             ...params,
             ...(includes && {'filter{identifier.in}': includes}),
             ...(q && { 'filter{identifier.icontains}': q }),
-            with_resources: "True"
+            with_resources: params.with_response || 'True'
         }
     })
         .then(({ data }) => {
