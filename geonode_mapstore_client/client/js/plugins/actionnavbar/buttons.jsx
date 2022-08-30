@@ -286,3 +286,23 @@ export const PrintStandardActionButton = connect(
         </Button>
     );
 });
+
+export const MapImportActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'mapimport', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+            tooltip={"mapImport.tooltip"}
+        >
+            <Message msgId="mapImport.title" />
+        </Button>
+    );
+});

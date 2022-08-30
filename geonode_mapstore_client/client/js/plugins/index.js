@@ -22,7 +22,8 @@ import {
     NearbyActionButton,
     BufferActionButton,
     MergeLayerActionButton,
-    PrintStandardActionButton
+    PrintStandardActionButton,
+    MapImportActionButton
 } from '@js/plugins/actionnavbar/buttons';
 import { getMetadataUrl,
     getMetadataDetailUrl,
@@ -436,7 +437,7 @@ export const plugins = {
     ),
     PrintScreenPlugin: toLazyPlugin(
         'PrintScreen',
-        () => import(/* webpackChunkName: 'plugins/print-screen-plugin' */ '@js/plugins/PrintScreen'),
+        () => import('@js/plugins/PrintScreen'),
         {
             containers: {
                 ActionNavbar: {
@@ -448,7 +449,7 @@ export const plugins = {
     ),
     RoutingPlugin: toLazyPlugin(
         'Routing',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/Routing'),
+        () => import('@js/plugins/Routing'),
         {
             containers: {
                 ActionNavbar: {
@@ -460,7 +461,7 @@ export const plugins = {
     ),
     NearbyPlugin: toLazyPlugin(
         'Nearby',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/Nearby'),
+        () => import('@js/plugins/Nearby'),
         {
             containers: {
                 ActionNavbar: {
@@ -472,7 +473,7 @@ export const plugins = {
     ),
     BufferPlugin: toLazyPlugin(
         'Buffer',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/Buffer'),
+        () => import('@js/plugins/Buffer'),
         {
             containers: {
                 ActionNavbar: {
@@ -484,7 +485,7 @@ export const plugins = {
     ),
     MergeLayerPlugin: toLazyPlugin(
         'MergeLayer',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/MergeLayer'),
+        () => import('@js/plugins/MergeLayer'),
         {
             containers: {
                 ActionNavbar: {
@@ -496,7 +497,7 @@ export const plugins = {
     ),
     PrintStandardPlugin: toLazyPlugin(
         'PrintStandard',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/PrintStandard'),
+        () => import('@js/plugins/PrintStandard'),
         {
             containers: {
                 ActionNavbar: {
@@ -508,7 +509,19 @@ export const plugins = {
     ),
     ExportGeoJsonPlugin: toLazyPlugin(
         'ExportGeoJson',
-        () => import(/* webpackChunkName: 'plugins/filter-layer-plugin' */ '@js/plugins/ExportGeoJson')
+        () => import('@js/plugins/ExportGeoJson')
+    ),
+    MapImportPlugin: toLazyPlugin(
+        'MapImport',
+        () => import('@mapstore/framework/plugins/MapImport'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'MapImport',
+                    Component: MapImportActionButton
+                }
+            }
+        }
     ),
 };
 

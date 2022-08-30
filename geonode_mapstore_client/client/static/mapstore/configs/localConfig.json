@@ -1761,6 +1761,10 @@
                             "items": [
                                 {
                                     "type": "plugin",
+                                    "name": "MapImport"
+                                },
+                                {
+                                    "type": "plugin",
                                     "name": "Nearby"
                                 },
                                 {
@@ -2264,6 +2268,9 @@
             },
             {
                 "name": "ExportGeoJson"
+            },
+            {
+                "name": "MapImport"
             }
         ],
         "geostory_viewer": [
