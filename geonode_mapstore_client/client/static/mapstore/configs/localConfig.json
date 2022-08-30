@@ -1362,6 +1362,12 @@
                 }
             },
             {
+                "name": "SearchServicesConfig"
+            },
+            {
+                "name": "SearchByBookmark"
+            },
+            {
                 "name": "FullScreen",
                 "override": {
                     "Toolbar": {
@@ -2158,6 +2164,12 @@
                 }
             },
             {
+                "name": "SearchServicesConfig"
+            },
+            {
+                "name": "SearchByBookmark"
+            },
+            {
                 "name": "FullScreen",
                 "override": {
                     "Toolbar": {
@@ -2738,6 +2750,12 @@
                 }
             },
             {
+                "name": "SearchServicesConfig"
+            },
+            {
+                "name": "SearchByBookmark"
+            },
+            {
                 "name": "OmniBar"
             },
             {
@@ -2868,6 +2886,12 @@
                         "min-width: 768px"
                     ]
                 }
+            },
+            {
+                "name": "SearchServicesConfig"
+            },
+            {
+                "name": "SearchByBookmark"
             },
             {
                 "name": "OmniBar"
