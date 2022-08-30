@@ -1012,7 +1012,8 @@
                     "tools": [
                         "measurement",
                         "draw",
-                        "box"
+                        "box",
+                        "scalebar"
                     ],
                     "mapOptions": {
                         "openlayers": {
@@ -1023,6 +1024,11 @@
                                 "pinchRotate": false,
                                 "altShiftDragRotate": false
                             }
+                        }
+                    },
+                    "toolsOptions": {
+                        "scalebar": {
+                            "container": "#footer-scalebar-container"
                         }
                     }
                 }
@@ -1639,7 +1645,8 @@
                     "tools": [
                         "measurement",
                         "draw",
-                        "box"
+                        "box",
+                        "scalebar"
                     ],
                     "mapOptions": {
                         "openlayers": {
@@ -1650,6 +1657,11 @@
                                 "pinchRotate": false,
                                 "altShiftDragRotate": false
                             }
+                        }
+                    },
+                    "toolsOptions": {
+                        "scalebar": {
+                            "container": "#footer-scalebar-container"
                         }
                     }
                 }
