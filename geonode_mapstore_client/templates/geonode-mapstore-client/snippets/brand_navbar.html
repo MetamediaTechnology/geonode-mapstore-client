@@ -13,7 +13,7 @@
         margin-bottom: 0;
     }
     #gn-brand-navbar{
-        background-color: #61A4BC;
+        background-color: #185787;
         color: #FFF;
     }
     .btn-md{
@@ -51,16 +51,13 @@
                 {% block left_menu %}
                 <ul class="gn-menu-list">
                     <li>
-                        <a href="{% block logo_href %}{% catalogue_home %}{% endblock %}">
+                        <a href="/">
                             {% if custom_theme.logo and custom_theme.logo.url %}
                                 <img src="{{ custom_theme.logo.url }}">
                             {% else %}
-                                <img style="height:3.5rem" src="{% block logo_src %}/static/mapstore/img/marine-logo.png{% endblock %}">
+                                <img style="height:4rem" src="{% block logo_src %}/static/mapstore/img/gistda_marine_white.png{% endblock %}">
                             {% endif %}
                         </a>
-                    </li>
-                    <li>
-                      <h2 class="brand-marine-text">marine GI portal</h2>   
                     </li>
                 </ul>
                 {% endblock %}

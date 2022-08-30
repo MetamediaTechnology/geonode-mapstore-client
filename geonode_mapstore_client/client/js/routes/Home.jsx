@@ -143,7 +143,7 @@ function Home({
 
   useEffect(() => {
    getCategories({
-    with_response: 'False'
+    with_response: 'all'
    }, 'filter{category.identifier.in}').then((categories) => {
         setCategories(categories.results)
     })
