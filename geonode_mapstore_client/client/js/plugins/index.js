@@ -129,7 +129,7 @@ export const plugins = {
     ),
     SearchServicesConfigPlugin: toLazyPlugin(
         'SearchServicesConfig',
-        () => import(/* webpackChunkName: 'plugins/search-service-config' */ '@mapstore/framework/plugins/SearchServicesConfig')
+        () => import(/* webpackChunkName: 'plugins/search-service-config' */ '@js/plugins/SearchServicesConfig')
     ),
     MousePositionPlugin: toLazyPlugin(
         'MousePosition',
@@ -269,7 +269,7 @@ export const plugins = {
     ),
     SearchPlugin: toLazyPlugin(
         'Search',
-        () => import(/* webpackChunkName: 'plugins/search-plugin' */ '@mapstore/framework/plugins/Search')
+        () => import(/* webpackChunkName: 'plugins/search-plugin' */ '@js/plugins/Search')
     ),
     SharePlugin: toLazyPlugin(
         'Share',
