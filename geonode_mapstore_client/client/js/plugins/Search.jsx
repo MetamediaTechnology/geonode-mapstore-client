@@ -64,7 +64,7 @@ import uuidv1 from "uuid/v1";
 const axios = require('axios')
 const instance = axios.create();
 
-const LONGDO_API_KEY = "98034a5f21623ae53d3802af7b86fddf";
+const LONGDO_API_KEY = "6605d49756a8e87937d07a0366bd7b13";
 
 const searchSelector = createSelector([
     state => state.search || null,

@@ -1,6 +1,6 @@
 const SERVICE_ROUTE_API_URL = "https://api.longdo.com/RouteService/geojson/route";
 const SERVICE_SEARCH_API_URL = "https://search.longdo.com/mapsearch/json/search";
-const SERVICE_MAP_API_KEY = "98034a5f21623ae53d3802af7b86fddf";
+const SERVICE_MAP_API_KEY = "6605d49756a8e87937d07a0366bd7b13";
 const axios = require("axios");
 const instance = axios.create();
 
