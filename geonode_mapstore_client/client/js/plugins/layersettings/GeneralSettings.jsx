@@ -90,9 +90,9 @@ function GeneralSettings({
         onChange({ title });
     }
 
-    function setLayerInterval(key, event) {
-        return isObject(key) ? onChange(key) : onChange(key, event.target.value);
-    }
+    // function setLayerInterval(key, event) {
+    //     return isObject(key) ? onChange(key) : onChange(key, event.target.value);
+    // }
 
     const refreshIntervalItems = [
         { value: 'Naver', label: 'Naver'},
@@ -159,7 +159,8 @@ function GeneralSettings({
                             key="refresh-interval-layer-dropdown"
                             options={refreshIntervalItems}
                             value={refreshIntervalItems.find(({ value }) => value === timeInterval)}
-                            onChange={(item) => { setLayerInterval("timeInterval", { target: { value: item.value || "Naver" } }); }}
+                            // onChange={(item) => { setLayerInterval("timeInterval", { target: { value: item.value || "Naver" } }); }}
+                            onChange={({ value }) => onChange({ timeInterval: value || 'Naver' })}
                         />
                     </FormGroup>
                 </>
