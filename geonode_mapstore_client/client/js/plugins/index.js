@@ -525,7 +525,7 @@ export const plugins = {
     ),
     FetchLayersPlugin: toLazyPlugin(
         'FetchLayers',
-        () => import('@mapstore/framework/plugins/FetchLayers')
+        () => import('@js/plugins/FetchLayers')
     ),
 };
 

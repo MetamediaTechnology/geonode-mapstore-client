@@ -90,7 +90,11 @@ function GeneralSettings({
         onChange({ title });
     }
 
-    const refrashIntervalItems = [
+    function setLayerInterval(key, event) {
+        return isObject(key) ? this.props.onChange(key) : this.props.onChange(key, event.target.value);
+    }
+
+    const refreshIntervalItems = [
         { value: null, label: 'Naver'},
         { value: '5',label: '5'},
         { value: '10',label: '10'},
@@ -153,9 +157,9 @@ function GeneralSettings({
                         <Select
                             clearable={false}
                             key="refresh-interval-layer-dropdown"
-                            options={refrashIntervalItems}
-                            value={find(refrashIntervalItems, o => o.value === (this.props.element.timeInterval || "Naver"))}
-                            onChange={(item) => { this.setLayerInterval("timeInterval", { target: { value: item.value || "Naver" } }); }}
+                            options={refreshIntervalItems}
+                            value={find(refreshIntervalItems, o => o.value === (this.props.element.timeInterval || "Naver"))}
+                            onChange={(item) => { setLayerInterval("timeInterval", { target: { value: item.value || "Naver" } }); }}
                         />
                     </FormGroup>
                 </>
