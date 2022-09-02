@@ -340,6 +340,9 @@
         },
         "exportGeoJsonPlugin": {
             "tooltip": "Download GeoJson"
+        },
+        "layerProperties": {
+            "refreshIntervalLayer": "Refrash Interval (second)"
         }
     }
 }

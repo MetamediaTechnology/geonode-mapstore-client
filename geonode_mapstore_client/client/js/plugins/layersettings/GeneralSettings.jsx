@@ -90,6 +90,14 @@ function GeneralSettings({
         onChange({ title });
     }
 
+    const refrashIntervalItems = [
+        { value: null, label: 'Naver'},
+        { value: '5',label: '5'},
+        { value: '10',label: '10'},
+        { value: '15',label: '15'},
+        { value: '30',label: '30'}
+    ]
+
     const tooltipItems = [
         { value: "title", label: getMessageById(context.messages, "layerProperties.tooltip.title") },
         { value: "description", label: getMessageById(context.messages, "layerProperties.tooltip.description") },
@@ -130,15 +138,27 @@ function GeneralSettings({
                     onBlur={(event) => onChange({ description: event.target.value })}/>
             </FormGroup>
             {nodeType === 'layer'
-                ? <FormGroup>
-                    <ControlLabel><Message msgId="layerProperties.group" /></ControlLabel>
-                    <SelectGroup
-                        node={node}
-                        onChange={onChange}
-                        groups={groups}
-                        currentLocale={currentLocale}
-                    />
-                </FormGroup>
+                ? <>
+                    <FormGroup>
+                        <ControlLabel><Message msgId="layerProperties.group" /></ControlLabel>
+                        <SelectGroup
+                            node={node}
+                            onChange={onChange}
+                            groups={groups}
+                            currentLocale={currentLocale}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <ControlLabel><Message msgId="layerProperties.refreshIntervalLayer" /></ControlLabel>
+                        <Select
+                            clearable={false}
+                            key="refresh-interval-layer-dropdown"
+                            options={refrashIntervalItems}
+                            value={find(refrashIntervalItems, o => o.value === (this.props.element.timeInterval || "Naver"))}
+                            onChange={(item) => { this.setLayerInterval("timeInterval", { target: { value: item.value || "Naver" } }); }}
+                        />
+                    </FormGroup>
+                </>
                 : null}
             {showTooltipOptions &&
             <>
@@ -163,7 +183,6 @@ function GeneralSettings({
                     />
                 </FormGroup>
             </>}
-
         </>
     );
 }
