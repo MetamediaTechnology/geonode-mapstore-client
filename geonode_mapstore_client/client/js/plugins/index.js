@@ -523,6 +523,10 @@ export const plugins = {
             }
         }
     ),
+    FetchLayersPlugin: toLazyPlugin(
+        'FetchLayers',
+        () => import('@mapstore/framework/plugins/FetchLayers')
+    ),
 };
 
 const pluginsDefinition = {

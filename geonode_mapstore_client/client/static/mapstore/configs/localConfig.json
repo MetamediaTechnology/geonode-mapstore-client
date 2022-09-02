@@ -2283,6 +2283,9 @@
             },
             {
                 "name": "MapImport"
+            },
+            {
+                "name": "FetchLayers"
             }
         ],
         "geostory_viewer": [
