@@ -91,17 +91,16 @@ function GeneralSettings({
     }
 
     function setLayerInterval(key, event) {
-        return isObject(key) ? this.props.onChange(key) : this.props.onChange(key, event.target.value);
+        return isObject(key) ? onChange(key) : onChange(key, event.target.value);
     }
 
     const refreshIntervalItems = [
-        { value: null, label: 'Naver'},
-        { value: '5',label: '5'},
-        { value: '10',label: '10'},
-        { value: '15',label: '15'},
-        { value: '30',label: '30'}
-    ]
-
+        { value: 'Naver', label: 'Naver'},
+        { value: '5', label: '5'},
+        { value: '10', label: '10'},
+        { value: '15', label: '15'},
+        { value: '30', label: '30'}
+    ];
     const tooltipItems = [
         { value: "title", label: getMessageById(context.messages, "layerProperties.tooltip.title") },
         { value: "description", label: getMessageById(context.messages, "layerProperties.tooltip.description") },
@@ -118,7 +117,8 @@ function GeneralSettings({
         title,
         description = '',
         tooltipOptions = 'title',
-        tooltipPlacement = 'top'
+        tooltipPlacement = 'top',
+        timeInterval = 'Naver'
     } = node || {};
 
     const currentTitle = isString(title) ? title : _getTitle(title, currentLocale) ?? title?.default ?? '';
@@ -158,7 +158,7 @@ function GeneralSettings({
                             clearable={false}
                             key="refresh-interval-layer-dropdown"
                             options={refreshIntervalItems}
-                            value={find(refreshIntervalItems, o => o.value === (this.props.element.timeInterval || "Naver"))}
+                            value={refreshIntervalItems.find(({ value }) => value === timeInterval)}
                             onChange={(item) => { setLayerInterval("timeInterval", { target: { value: item.value || "Naver" } }); }}
                         />
                     </FormGroup>
