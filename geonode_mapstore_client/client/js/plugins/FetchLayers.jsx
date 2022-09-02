@@ -96,8 +96,10 @@ const fetchLayer = connect(
     }
 )(FetchLayerCmp);
 const updateSettingParamsEpic = (action$, store) =>
-    action$.ofType('LAYERS:UPDATE_SETTINGS_PARAMS')
-        .flatMap(({ newParams = {}, update }) => {
+    // action$.ofType('LAYERS:UPDATE_SETTINGS_PARAMS')
+    action$.ofType('UPDATE_NODE')
+        .flatMap(({ node = {}, update }) => {
+            const newParams = node;
             const state = store.getState();
             const settings = layerSettingSelector(state);
             const layer = settings?.nodeType === 'layers' ? getLayerFromId(state, settings?.node) : null;
