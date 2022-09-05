@@ -90,16 +90,13 @@ function GeneralSettings({
         onChange({ title });
     }
 
-    // function setLayerInterval(key, event) {
-    //     return isObject(key) ? onChange(key) : onChange(key, event.target.value);
-    // }
-
     const refreshIntervalItems = [
         { value: 'Naver', label: 'Naver'},
         { value: '5', label: '5'},
         { value: '10', label: '10'},
         { value: '15', label: '15'},
-        { value: '30', label: '30'}
+        { value: '30', label: '30'},
+        { value: '60', label: '60'}
     ];
     const tooltipItems = [
         { value: "title", label: getMessageById(context.messages, "layerProperties.tooltip.title") },

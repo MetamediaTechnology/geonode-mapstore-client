@@ -15,8 +15,7 @@ import {
     getLayerFromId
 } from '@mapstore/framework/selectors/layers';
 import {
-    refreshLayerVersion,
-    refreshLayers
+    refreshLayerVersion
 } from '@mapstore/framework/actions/layers'
 createControlEnabledSelector('fetchlayer');
 const FetchLayerSelector = (state) => get(state, 'controls.fetchlayer.enabled');
@@ -96,14 +95,12 @@ const fetchLayer = connect(
     }
 )(FetchLayerCmp);
 const updateSettingParamsEpic = (action$, store) =>
-    // action$.ofType('LAYERS:UPDATE_SETTINGS_PARAMS')
     action$.ofType('UPDATE_NODE')
-        .flatMap(({ node = {}, update }) => {
-            const newParams = node;
+        .flatMap(() => {
             const state = store.getState();
             const settings = layerSettingSelector(state);
             const layer = settings?.nodeType === 'layers' ? getLayerFromId(state, settings?.node) : null;
-            if (layer.timeInterval !== null && layer.timeInterval && layer.timeInterval !== 'Naver') {
+            if (layer !== null && layer.timeInterval !== null && layer.timeInterval && layer.timeInterval !== 'Naver') {
                 const timeInterval = (Number.parseInt(layer.timeInterval) * 1000) || 1000;
                 return Rx.Observable.interval(timeInterval)
                     .map(() =>
