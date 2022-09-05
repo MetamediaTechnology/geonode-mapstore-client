@@ -103,7 +103,7 @@ const updateSettingParamsEpic = (action$, store) =>
             const state = store.getState();
             const settings = layerSettingSelector(state);
             const layer = settings?.nodeType === 'layers' ? getLayerFromId(state, settings?.node) : null;
-            console.log(newParams, settings);
+            console.log(newParams, settings, layer);
             if (newParams.timeInterval !== null && newParams.timeInterval && newParams.timeInterval !== 'Naver') {
                 const timeInterval = (Number.parseInt(newParams.timeInterval) * 1000) || 1000;
                 return Rx.Observable.interval(timeInterval)
