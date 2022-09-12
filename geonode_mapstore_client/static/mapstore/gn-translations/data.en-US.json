@@ -293,7 +293,8 @@
             "embeddocument": "Embed this Document",
             "embeddashboard": "Embed this Dashboard",
             "directLink": "Direct Link",
-<<<<<<< HEAD
+            "iso": "ISO Metadata",
+            "dublinCore": "Dublin Core Metadata",
             "moreMenuItem": "More"
         },
         "printScreenPlugin": {
@@ -344,10 +345,6 @@
         },
         "layerProperties": {
             "refreshIntervalLayer": "Refrash Interval (second)"
-=======
-            "iso": "ISO Metadata",
-            "dublinCore": "Dublin Core Metadata"
->>>>>>> 49d48b6b519c37c05d1b335c4ec506f9b23ebf53
         }
     }
 }
