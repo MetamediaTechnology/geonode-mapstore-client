@@ -126,7 +126,7 @@ export const LayerDownloadActionButton = connect(
             size={size}
             onClick={() => onClick()}
         >
-            <Message msgId="gnviewer.export" />
+            <Message msgId="gnhome.dataset" />
         </Button>
     );
 });

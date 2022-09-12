@@ -435,6 +435,14 @@ export const plugins = {
         'Sync',
         () => import(/* webpackChunkName: 'plugins/sync-plugin' */ '@js/plugins/Sync')
     ),
+    IsoDownloadPlugin: toLazyPlugin(
+        'IsoDownload',
+        () => import(/* webpackChunkName: 'plugins/iso-download-plugin' */ '@js/plugins/downloads/IsoDownload')
+    ),
+    DublinCoreDownloadPlugin: toLazyPlugin(
+        'DublinCoreDownload',
+        () => import(/* webpackChunkName: 'plugins/iso-download-plugin' */ '@js/plugins/downloads/DublinCoreDownload')
+    ),
     PrintScreenPlugin: toLazyPlugin(
         'PrintScreen',
         () => import('@js/plugins/PrintScreen'),
@@ -526,7 +534,7 @@ export const plugins = {
     FetchLayersPlugin: toLazyPlugin(
         'FetchLayers',
         () => import('@js/plugins/FetchLayers')
-    ),
+    )
 };
 
 const pluginsDefinition = {

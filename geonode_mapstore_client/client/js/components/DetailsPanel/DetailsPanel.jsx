@@ -17,7 +17,7 @@ import Spinner from '@js/components/Spinner';
 import Message from '@mapstore/framework/components/I18N/Message';
 import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
 import moment from 'moment';
-import { getResourceTypesInfo, getMetadataDetailUrl, ResourceTypes, GXP_PTYPES } from '@js/utils/ResourceUtils';
+import { getResourceTypesInfo, getMetadataDetailUrl, ResourceTypes, GXP_PTYPES, getResourceImageSource } from '@js/utils/ResourceUtils';
 import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
 import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
@@ -29,7 +29,6 @@ import Loader from '@mapstore/framework/components/misc/Loader';
 import { getUserName } from '@js/utils/SearchUtils';
 import ZoomTo from '@js/components/ZoomTo';
 import { boundsToExtentString } from '@js/utils/CoordinatesUtils';
-import { getUserFavoriteResources } from '@js/api/geonode/v2';
 
 const Map = mapTypeHOC(BaseMap);
 Map.displayName = 'Map';
@@ -83,6 +82,7 @@ function formatResourceLinkUrl(resourceUrl = '') {
 function ThumbnailPreview({
     src,
     style,
+    icon,
     ...props
 }) {
 
@@ -95,19 +95,29 @@ function ThumbnailPreview({
     }, [src]);
 
     return (
-        <img
-            {...props}
-            src={src}
-            onLoad={() => setLoading(false)}
-            onError={() => setLoading(false)}
-            style={{
+        <>
+            {!src ? <div className="card-img-placeholder" style={{
                 ...style,
-                ...(loading && {
-                    backgroundColor: 'transparent'
-                }),
-                objectFit: 'contain'
-            }}
-        />
+                width: 250,
+                height: 184,
+                outline: '1px solid #eee'
+            }}>
+                <FaIcon name={icon} />
+            </div>
+                : <img
+                    {...props}
+                    src={src}
+                    onLoad={() => setLoading(false)}
+                    onError={() => setLoading(false)}
+                    style={{
+                        ...style,
+                        ...(loading && {
+                            backgroundColor: 'transparent'
+                        }),
+                        objectFit: 'contain'
+                    }}
+                />}
+        </>
     );
 }
 
@@ -206,10 +216,7 @@ function DetailsPanel({
     enableMapViewer,
     onClose,
     onAction,
-    canDownload,
-    setFavorites,
-    removeFavorite,
-    resourceId
+    canDownload
 }) {
     const detailsContainerNode = useRef();
     const isMounted = useRef();
@@ -222,10 +229,6 @@ function DetailsPanel({
             isMounted.current = false;
         };
     }, []);
-
-    useEffect(() => {
-        getUserFavoriteResources().then(favorites => setFavorites(favorites));
-    }, [resourceId]);
 
     if (!resource && !loading) {
         return null;
@@ -240,9 +243,8 @@ function DetailsPanel({
         }, 700);
     };
 
-    const handleFavorite = () => {
-        favorite ? removeFavorite(resourceId) : setFavorites(resourceId);
-        onFavorite(!favorite);
+    const handleFavorite = (fav) => {
+        onFavorite(!fav);
     };
 
     const handleResourceThumbnailUpdate = () => {
@@ -469,6 +471,7 @@ function DetailsPanel({
                         />
                         : (!embedUrl && !editThumbnail ? (<ThumbnailPreview
                             src={resource?.thumbnail_url}
+                            icon={icon}
                             style={{
                                 position: 'absolute',
                                 width: '100%',
@@ -499,13 +502,13 @@ function DetailsPanel({
 
                 <div className="gn-details-panel-content">
                     {editThumbnail && <div className="gn-details-panel-content-img">
-                        {!activeEditMode && <ThumbnailPreview src={resource?.thumbnail_url} />}
+                        {!activeEditMode && <ThumbnailPreview src={resource?.thumbnail_url} icon={icon} />}
                         {activeEditMode && <div className="gn-details-panel-preview inediting">
-                            {!enableMapViewer ? <> <EditThumbnail
+                            {!enableMapViewer ? <> <div {...(!resource?.thumbnail_url && {style: {outline: '1px solid #eee'}})}><EditThumbnail
                                 onEdit={editThumbnail}
-                                image={resource?.thumbnail_url}
+                                image={() => getResourceImageSource(resource?.thumbnail_url)}
                                 thumbnailUpdating={resourceThumbnailUpdating}
-                            />
+                            /></div>
                             {
                                 ((resource.resource_type === ResourceTypes.MAP || resource.resource_type === ResourceTypes.DATASET) && (resource.ptype !== GXP_PTYPES.REST_IMG || resource.ptype !== GXP_PTYPES.REST_MAP)) &&
                                 ( <><MapThumbnailButtonToolTip
@@ -549,7 +552,7 @@ function DetailsPanel({
                                         enableFavorite &&
                                     <Button
                                         variant="default"
-                                        onClick={debounce(handleFavorite, 500)}>
+                                        onClick={debounce(() => handleFavorite(favorite), 500)}>
                                         <FaIcon name={favorite ? 'star' : 'star-o'} />
                                     </Button>
                                     }
