@@ -157,6 +157,11 @@ store information of the resource in use</p>
 <dd><p>Actions for GeoNode resource featured items
 set new Featured Resources includes data, page, links</p>
 </dd>
+<dt><a href="#module_api/geonode/v2">api/geonode/v2</a></dt>
+<dd><p>Actions for GeoNode save workflow</p>
+</dd>
+<dt><a href="#module_components/Menu">components/Menu</a></dt>
+<dd></dd>
 <dt><a href="#module_epics/datasetcatalog">epics/datasetcatalog</a></dt>
 <dd></dd>
 <dt><a href="#module_epics/index">epics/index</a></dt>
@@ -194,6 +199,9 @@ set new Featured Resources includes data, page, links</p>
 ## Constants
 
 <dl>
+<dt><a href="#DOWNLOAD_METADATA">DOWNLOAD_METADATA</a></dt>
+<dd><p>Sync geostory components with their live resources on geonode</p>
+</dd>
 <dt><a href="#SYNC_RESOURCES">SYNC_RESOURCES</a></dt>
 <dd><p>Sync geostory components with their live resources on geonode</p>
 </dd>
@@ -213,6 +221,9 @@ set new Featured Resources includes data, page, links</p>
 </dd>
 <dt><a href="#getNotificationInfo">getNotificationInfo(errors, successes)</a> ⇒ <code>Object</code></dt>
 <dd><p>Get notification title, leve, and message for showNotification</p>
+</dd>
+<dt><a href="#getImageDimensions">getImageDimensions(src)</a> ⇒ <code>Promise</code></dt>
+<dd><p>Get promise of Image dimensions</p>
 </dd>
 </dl>
 
@@ -479,6 +490,7 @@ set new Featured Resources includes data, page, links
 * [actions/gnsearch](#module_actions/gnsearch)
     * [.loadFeaturedResources(action, pageSize)](#module_actions/gnsearch.loadFeaturedResources)
     * [.reduceTotalCount()](#module_actions/gnsearch.reduceTotalCount)
+    * [.increaseTotalCount()](#module_actions/gnsearch.increaseTotalCount)
 
 <a name="module_actions/gnsearch.loadFeaturedResources"></a>
 
@@ -499,6 +511,46 @@ loads new featured resources basing on the action, previous or next
 Reduce total count of resouces after deletion
 
 **Kind**: static method of [<code>actions/gnsearch</code>](#module_actions/gnsearch)  
+<a name="module_actions/gnsearch.increaseTotalCount"></a>
+
+### actions/gnsearch.increaseTotalCount()
+Increase total count of resouces after deletion
+
+**Kind**: static method of [<code>actions/gnsearch</code>](#module_actions/gnsearch)  
+<a name="module_api/geonode/v2"></a>
+
+## api/geonode/v2
+Actions for GeoNode save workflow
+
+<a name="module_api/geonode/v2.getEndpoints"></a>
+
+### api/geonode/v2.getEndpoints
+get all thw endpoints available from API V2
+
+**Kind**: static constant of [<code>api/geonode/v2</code>](#module_api/geonode/v2)  
+<a name="module_components/Menu"></a>
+
+## components/Menu
+<a name="module_components/Menu..Menu"></a>
+
+### components/Menu~Menu
+Menu component
+
+**Kind**: inner property of [<code>components/Menu</code>](#module_components/Menu)  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| items | <code>array</code> | list of menu item |
+| containerClass | <code>string</code> | css class of list container |
+| childrenClass | <code>string</code> | css class of item in list |
+| query | <code>string</code> | string to build the query url in case of link item |
+| formatHref | <code>function</code> | function to format the href in case of link item |
+
+**Example**  
+```js
+<Menu items={items} />
+```
 <a name="module_epics/datasetcatalog"></a>
 
 ## epics/datasetcatalog
@@ -525,8 +577,7 @@ Handles checking and for permissions of a layer when its selected
 <a name="module_epics/index.gnSetDatasetsPermissions"></a>
 
 ### epics/index.gnSetDatasetsPermissions
-Checks the permissions for layers when a map is loaded and when a new layer is added
-to a map
+Checks the permissions for layers when a map is loaded and when a new layer is addedto a map
 
 **Kind**: static constant of [<code>epics/index</code>](#module_epics/index)  
 <a name="module_epics/layersetting"></a>
@@ -577,9 +628,7 @@ Plugin for layer and groups settings
 **Kind**: inner property of [<code>plugins/LayerSettings</code>](#module_plugins/LayerSettings)  
 **Example**  
 ```js
-{
-  "name": "LayerSettings",
-}
+{  "name": "LayerSettings",}
 ```
 <a name="module_plugins/MediaViewer"></a>
 
@@ -629,8 +678,7 @@ Plugin for SaveAs modal
 <a name="module_selectors/config.getParsedGeoNodeConfiguration"></a>
 
 ### selectors/config.getParsedGeoNodeConfiguration
-get the parsed geonode configuration that take into account
-user permissions and expressions
+get the parsed geonode configuration that take into accountuser permissions and expressions
 
 **Kind**: static constant of [<code>selectors/config</code>](#module_selectors/config)  
 
@@ -657,8 +705,7 @@ Utilities for api requests
 <a name="module_utils/APIUtils.parseDevHostname"></a>
 
 ### utils/APIUtils.parseDevHostname ⇒ <code>string</code>
-In development mode it returns the request with a relative path
-if the request url contain localhost:8000
+In development mode it returns the request with a relative pathif the request url contain localhost:8000
 
 **Kind**: static constant of [<code>utils/APIUtils</code>](#module_utils/APIUtils)  
 **Returns**: <code>string</code> - correct url for localhost  
@@ -687,13 +734,10 @@ Given a bounds { minx, miny, maxx, maxy } and a crs return the extent param as s
 <a name="module_utils/CoordinatesUtils.getExtent"></a>
 
 ### utils/CoordinatesUtils.getExtent ⇒ <code>Array</code>
-Get the extent of area of interest from map bbox
-the values of the extent are expressed in the unit of the projection
+Get the extent of area of interest from map bboxthe values of the extent are expressed in the unit of the projection
 
 **Kind**: static constant of [<code>utils/CoordinatesUtils</code>](#module_utils/CoordinatesUtils)  
-**Returns**: <code>Array</code> - containng minx, miny, maxx, maxy
-minx, miny -> bottom-left corner of square
-maxx, maxy -> top-right corner of square  
+**Returns**: <code>Array</code> - containng minx, miny, maxx, maxyminx, miny -> bottom-left corner of squaremaxx, maxy -> top-right corner of square  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -827,6 +871,12 @@ Util to check if resosurce can be cloned (Save As)
 Requirements for copying are 'add_resource' permission and is_copyable property on resource
 
 **Kind**: static constant of [<code>utils/ResourceUtils</code>](#module_utils/ResourceUtils)  
+<a name="DOWNLOAD_METADATA"></a>
+
+## DOWNLOAD\_METADATA
+Sync geostory components with their live resources on geonode
+
+**Kind**: global constant  
 <a name="SYNC_RESOURCES"></a>
 
 ## SYNC\_RESOURCES
@@ -881,4 +931,15 @@ Get notification title, leve, and message for showNotification
 | --- | --- | --- |
 | errors | <code>Number</code> | length of errors array |
 | successes | <code>Number</code> | length of success arra |
+
+<a name="getImageDimensions"></a>
+
+## getImageDimensions(src) ⇒ <code>Promise</code>
+Get promise of Image dimensions
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| src | <code>string</code> | geostory image source (href) |
 

@@ -1,0 +1,210 @@
+#main-map-section {
+    display: flex;
+    flex-direction: row;
+    height: 145mm;
+    position: relative;
+}
+#prtstd-header {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 25mm;
+    width: 100%;
+    margin-bottom: 5mm;
+    overflow: hidden;
+}
+#prtstd-header .logo {
+    margin: 1mm;
+    width: 23mm;
+    height: 23mm;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+#prtstd-header .title {
+    width: calc(100% - (2 * 25mm));
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 5mm;
+    overflow: hidden;
+}
+
+.control-paper{
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+#prtstd-remark {
+    margin-top: 10px;
+    width: 100%;
+    height: 26.5mm;
+    font-size: 3.5mm;
+    margin-bottom: 5mm;
+}
+#prtstd-remark textarea {
+    background-color: #ffff;
+    width: 100%;
+    height: 30mm;
+    resize: none;
+    outline: none;
+    border: none;
+    font-size: 3mm;
+    border: 1px solid #d5d5d5;
+}
+#prtstd-remark label {
+    margin: 0px;
+    height: 5mm;
+    font-size: 3.5mm;
+}
+
+#prtstd-symbol {
+    margin-top: 12mm;
+    width: 100%;
+    font-size: 3mm;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+#prtstd-symbol #legend {
+    border: 0.2mm solid #000000;
+    width: calc((100% - 70mm - 2mm) / 2);
+    height: 64mm;
+    box-sizing: border-box;
+}
+#prtstd-symbol #minimap {
+    border: 0.2mm solid #000000;
+    width: calc((100% - 70mm - 2mm) / 2);
+    height: 64mm;
+    box-sizing: border-box;
+}
+#compass {
+    width: 70mm !important;
+    border: none !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5mm;
+}
+#compass-img {
+    height: 37.5mm !important;
+    width: 60% !important;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+#prtstd-footer {
+    width: 100%;
+    font-size: 3mm;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-top: 1mm;
+}
+#prtstd-footer .footer-div {
+    border: 0.2mm solid #000000;
+    padding: 0.5mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc((100% - 70mm - 2mm) / 2);
+    box-sizing: border-box;
+}
+
+#ruler-container {
+    display: flex;
+    justify-content: center;
+    width: 70mm !important;
+    padding-bottom: 2.5mm !important;
+}
+
+.print-btn {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+#ruler {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#ruler > .unit {
+    position: absolute;
+    right: 0%;
+    bottom: 0%;
+    transform: translate(calc(100% + 1mm), 25%);
+}
+
+#ruler > div {
+    height: 1.5mm;
+    box-sizing: border-box;
+    position: relative;
+    border-top: 0.5mm solid black;
+    border-bottom: 0.5mm solid black;
+    border-left: none;
+    border-right: none;
+}
+
+#ruler-unit{
+    margin-left: 5px;
+}
+
+#ruler.r-2000 {
+    width: 50mm;
+}
+
+#ruler.r-4000 {
+    width: calc(100mm / 40 * 10);
+}
+
+#ruler.r-8000 {
+    width: calc(500mm / 80 * 10);
+}
+
+#ruler.r-12000 {
+    width: calc(500mm / 120 * 10);
+}
+
+#ruler > .small {
+    width: 12.5%;
+}
+
+#ruler > div > span {
+    font-size: 2.25mm;
+    position: absolute;
+    top: calc(100% + 0.5mm);
+}
+
+#ruler > div > span:first-child {
+    left: -0.25mm;
+    transform: translate(-50%, 0%);
+}
+
+#ruler > div > span:nth-child(2) {
+    right: 0.25mm;
+    transform: translate(50%, 0%);
+}
+
+#ruler > .large {
+    width: 50%;
+}
+
+#ruler > .black {
+    background-color: #000000 !important;
+}

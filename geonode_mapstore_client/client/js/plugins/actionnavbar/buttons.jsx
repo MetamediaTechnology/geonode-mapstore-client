@@ -126,7 +126,7 @@ export const LayerDownloadActionButton = connect(
             size={size}
             onClick={() => onClick()}
         >
-            <Message msgId="gnviewer.export" />
+            <Message msgId="gnhome.dataset" />
         </Button>
     );
 });
@@ -169,6 +169,140 @@ export const AnnotationsActionButton = connect(
             onClick={() => onClick()}
         >
             <Message msgId="annotationsbutton" />
+        </Button>
+    );
+});
+
+export const PrintScreenActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'prtsc', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="printScreenPlugin.title" />
+        </Button>
+    );
+});
+
+export const RoutingActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'routing', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="routingPlugin.title" />
+        </Button>
+    );
+});
+
+export const NearbyActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'nearby', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="nearbyPlugin.title" />
+        </Button>
+    );
+});
+
+export const BufferActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'buffer', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="bufferPlugin.title" />
+        </Button>
+    );
+});
+
+export const MergeLayerActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'mergelyr', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="mergeLayerPlugin.title" />
+        </Button>
+    );
+});
+
+export const PrintStandardActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'prtstd', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="printStandardPlugin.title" />
+        </Button>
+    );
+});
+
+export const MapImportActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'mapimport', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+            tooltip={"mapImport.tooltip"}
+        >
+            <Message msgId="mapImport.title" />
         </Button>
     );
 });

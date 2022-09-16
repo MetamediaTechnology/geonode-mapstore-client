@@ -297,11 +297,6 @@ export const setFavoriteResource = (pk, favorite) => {
         .then(({ data }) => data );
 };
 
-export const getUserFavoriteResources = () => {
-    return axios.get(parseDevHostname(`${endpoints[RESOURCES]}/favorites`))
-        .then(({ data }) => data.favorites.map(({ pk }) => pk));
-};
-
 export const getResourceByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[RESOURCES]}/${pk}`), {
         params: {
@@ -606,7 +601,7 @@ export const getCategories = ({ q, includes, page, pageSize, config, ...params }
             ...params,
             ...(includes && {'filter{identifier.in}': includes}),
             ...(q && { 'filter{identifier.icontains}': q }),
-            with_resources: params.with_response !== 'all' ? params.with_response || 'True' : null
+            with_resources: "True"
         }
     })
         .then(({ data }) => {

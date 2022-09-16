@@ -18,7 +18,7 @@ import { searchResources, loadFeaturedResources } from "@js/actions/gnsearch";
 import FeaturedList from "@js/components/FeaturedList";
 
 import {
-  hashLocationToHref,
+  hashLocationToHref
 } from "@js/utils/SearchUtils";
 import { withResizeDetector } from "react-resize-detector";
 
@@ -35,7 +35,6 @@ import { setControlProperty } from "@mapstore/framework/actions/controls";
 import { featuredResourceDownload } from "@js/selectors/resourceservice";
 
 import { getCategories } from '@js/api/geonode/v2';
-
 
 function loadCategories() {
   console.log('Func call')
@@ -87,8 +86,6 @@ const ConnectedFeatureList = connect(
   }
 )(FeaturedList);
 
-
-
 function Home({
   location,
   params,
@@ -136,7 +133,6 @@ function Home({
     );
   }
 
-
   const [categories,setCategories] = useState([]);
 
   const { query } = url.parse(location.search, true);
@@ -149,20 +145,6 @@ function Home({
     })
 
   }, [])
-
-   function convertStringtoColor(str) {
-      var hash = 0;
-      if(!str) return null
-        for (var i = 0; i < str.length; i++) {
-          hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-      var colour = '#';
-      for (var i = 0; i < 3; i++) {
-          var value = (hash >> (i * 8)) & 0xFF;
-          colour += ('00' + value.toString(16)).substr(-2);
-      }
-      return colour;
-  }
 
   const categoriesStyle = (str) => {
     return {

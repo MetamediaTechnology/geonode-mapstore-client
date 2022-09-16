@@ -90,6 +90,14 @@ function GeneralSettings({
         onChange({ title });
     }
 
+    const refreshIntervalItems = [
+        { value: 'Naver', label: 'Naver'},
+        { value: '5', label: '5'},
+        { value: '10', label: '10'},
+        { value: '15', label: '15'},
+        { value: '30', label: '30'},
+        { value: '60', label: '60'}
+    ];
     const tooltipItems = [
         { value: "title", label: getMessageById(context.messages, "layerProperties.tooltip.title") },
         { value: "description", label: getMessageById(context.messages, "layerProperties.tooltip.description") },
@@ -106,7 +114,8 @@ function GeneralSettings({
         title,
         description = '',
         tooltipOptions = 'title',
-        tooltipPlacement = 'top'
+        tooltipPlacement = 'top',
+        timeInterval = 'Naver'
     } = node || {};
 
     const currentTitle = isString(title) ? title : _getTitle(title, currentLocale) ?? title?.default ?? '';
@@ -130,15 +139,28 @@ function GeneralSettings({
                     onBlur={(event) => onChange({ description: event.target.value })}/>
             </FormGroup>
             {nodeType === 'layer'
-                ? <FormGroup>
-                    <ControlLabel><Message msgId="layerProperties.group" /></ControlLabel>
-                    <SelectGroup
-                        node={node}
-                        onChange={onChange}
-                        groups={groups}
-                        currentLocale={currentLocale}
-                    />
-                </FormGroup>
+                ? <>
+                    <FormGroup>
+                        <ControlLabel><Message msgId="layerProperties.group" /></ControlLabel>
+                        <SelectGroup
+                            node={node}
+                            onChange={onChange}
+                            groups={groups}
+                            currentLocale={currentLocale}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <ControlLabel><Message msgId="layerProperties.refreshIntervalLayer" /></ControlLabel>
+                        <Select
+                            clearable={false}
+                            key="refresh-interval-layer-dropdown"
+                            options={refreshIntervalItems}
+                            value={refreshIntervalItems.find(({ value }) => value === timeInterval)}
+                            // onChange={(item) => { setLayerInterval("timeInterval", { target: { value: item.value || "Naver" } }); }}
+                            onChange={({ value }) => onChange({ timeInterval: value || 'Naver' })}
+                        />
+                    </FormGroup>
+                </>
                 : null}
             {showTooltipOptions &&
             <>
@@ -163,7 +185,6 @@ function GeneralSettings({
                     />
                 </FormGroup>
             </>}
-
         </>
     );
 }

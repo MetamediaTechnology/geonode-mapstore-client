@@ -24,7 +24,7 @@ import {
     loadFeaturedResources
 } from '@js/actions/gnsearch';
 
-import { downloadResource, setFavoriteResource, setFavoriteResources, removeFavoriteResource } from '@js/actions/gnresource';
+import { downloadResource, setFavoriteResource } from '@js/actions/gnresource';
 import {
     hashLocationToHref,
     clearQueryParams,
@@ -36,7 +36,7 @@ import MetaTags from "@js/components/MetaTags";
 import {
     getThemeLayoutSize
 } from '@js/utils/AppUtils';
-import { resourceHasPermission } from '@js/utils/ResourceUtils';
+import { resourceHasPermission, getResourceImageSource } from '@js/utils/ResourceUtils';
 import { getTotalResources } from '@js/selectors/search';
 import ConnectedCardGrid from '@js/routes/catalogue/ConnectedCardGrid';
 import DeleteResource from '@js/plugins/DeleteResource';
@@ -51,20 +51,17 @@ const ConnectedDetailsPanel = connect(
         state => state?.gnresource?.loading || false,
         state => state?.gnresource?.data?.favorite || false,
         processingDownload,
-        state => state?.gnresource?.data || null,
-        state => state?.gnresource?.favoriteResources || []
-    ], (loading, favorite, downloading, resource, favorites) => ({
+        state => state?.gnresource?.data || null
+    ], (loading, favorite, downloading, resource) => ({
         loading,
-        favorite: favorite || favorites.includes(resource?.pk),
+        favorite: favorite,
         downloading,
         canDownload: resourceHasPermission(resource, 'download_resourcebase'),
         resourceId: resource.pk
     })),
     {
         onFavorite: setFavoriteResource,
-        onAction: downloadResource,
-        setFavorites: setFavoriteResources,
-        removeFavorite: removeFavoriteResource
+        onAction: downloadResource
     }
 )(DetailsPanel);
 function Detail({
@@ -136,7 +133,7 @@ function Detail({
     return (
         <>
             <MetaTags
-                logo={resource ? resource.thumbnail_url : window.location.origin + config?.navbar?.logo[0]?.src}
+                logo={resource ? () => getResourceImageSource(resource?.thumbnail_url) : window.location.origin + config?.navbar?.logo[0]?.src}
                 title={(resource?.title) ? resource?.title + " - " + siteName : siteName }
                 siteName={siteName}
                 contentURL={resource?.detail_url}
