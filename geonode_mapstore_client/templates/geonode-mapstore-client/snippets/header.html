@@ -7,7 +7,19 @@
     {% include './hero.html' %}
 {% endif %}
 
-{% include './topbar.html' with id='gn-topbar' %}
+{% if show_hero is True %}
+<div class="container">
+    <div class="sphere-search-bar">
+        {% block center_menu %}
+            {% include './search_bar.html' with search_bar_id='gn-search-bar' %}
+        {% endblock %}
+    </div>
+</div>
+{% endif %}
+
+{% if show_hero is not True %}
+    {% include './topbar.html' with id='gn-topbar' %}
+{% endif %}
 
 <script>
     (function () {
