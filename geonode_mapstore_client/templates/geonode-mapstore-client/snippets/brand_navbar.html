@@ -5,36 +5,67 @@
 
 {% block extra_style %}
 {% endblock %}
-
-<style>
-    #{{ id|default:'' }}-bottom {
-        display: none;
-        margin-bottom: 0;
-    }
-    @media (max-width: 748px) {
-        #{{ id|default:'' }} .gn-menu-content-center > * {
-            display: none;
-        }
-        #{{ id|default:'' }}-bottom {
-            display: flex;
-            width: calc(100% - 16px);
-            margin: 8px;
-        }
-    }
-</style>
-
+<div id="sphere-header">
+    <div class="landing-header font-kanit">
+        <div class="py-4 d-none d-md-flex">
+            <a href="/" aria-current="page" style="padding-bottom: 6px">
+                <img height="85" contain=""
+                src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}" alt="sphere"
+                class="ml-lg-15 mt-2">
+            </a>
+        </div>
+        <div class="landing-navigation d-none d-md-flex align-center text-lg">
+            <div class="mx-lg-4"><a class="navigation-link">
+                    About
+                </a></div>
+            <div class="mx-2 mx-lg-4"><a class="navigation-link">
+                    APIs
+                </a></div>
+            <div class="mx-2 mx-lg-4"><a class="navigation-link">
+                    Map Maker
+                </a></div>
+            <div class="mx-2 mx-lg-4"><a class="navigation-link">
+                    Data Cube
+                </a></div>
+            <div class="mx-2 mx-lg-4"><a class="navigation-link">
+                    Solutions
+                </a></div>
+            <div class="mx-2 mx-lg-4"><a class="navigation-link">
+                    Pricing
+                </a></div>
+            <div class="locale-switch d-flex">
+                <span class="cursor-pointer">TH</span>
+                    <hr 
+                    role="separator"  
+                    class="mx-1 v-divider v-divider--vertical theme--light"
+                    style="border-color: white;">
+                <span class="font-weight-semi-bold secondary--text">EN</span>
+            </div>
+            <div class="login-panel d-flex align-center">
+                <button type="button" style="color: rgb(255, 255, 255);"
+                    class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
+                    <span class="v-btn__content"> Log in </span>
+                </button>
+                <button type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255); 
+                    caret-color: rgb(255, 255, 255);">
+                    <span class="v-btn__content">Sign up </span></button>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %} 
 <nav id="{{ id|default:'' }}" class="gn-menu gn-menu-symmetric">
     <div class="gn-menu-container">
         <div class="gn-menu-content">
             <div class="gn-menu-content-left">
                 {% block left_menu %}
                 <ul class="gn-menu-list">
-                    <li>
+                    <li class="sphere-logo-block">
                         <a href="{% block logo_href %}{% catalogue_home %}{% endblock %}">
                             {% if custom_theme.logo and custom_theme.logo.url %}
                                 <img src="{{ custom_theme.logo.url }}">
                             {% else %}
-                                <img src="{% block logo_src %}/static/mapstore/img/geonode-logo.svg{% endblock %}">
+                                <img class="sphere-logo" height="85" src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}">
                             {% endif %}
                         </a>
                     </li>
@@ -45,7 +76,7 @@
                 {% block center_menu %}
                     {% include './search_bar.html' with search_bar_id='gn-search-bar' %}
                 {% endblock %}
-            </div>
+            </div> 
             <div class="gn-menu-content-right">
                 {% block right_menu %}
                 <ul class="gn-menu-list">
@@ -53,16 +84,24 @@
                         {% include './menu_item.html' with menu_item=menu_item align_right=True %}
                     {% endfor %}
                 </ul>
+                <ul class="gn-menu-list sphere-link">
+                    <li>
+                        <a href="#" class="nav-link">About</a>
+                    </li>
+                    <li><a href="" class="nav-link">Open Portal</a></li>
+                    <li><a href="" class="nav-link">APIs</a></li>
+                    <li><a href="" class="nav-link">Data Cute</a></li>
+                </ul>
                 {% endblock %}
             </div>
         </div>
     </div>
-</nav>
-<div id="{{ id|default:'' }}-bottom">
+</nav> {% endcomment %}
+{% comment %} <div id="{{ id|default:'' }}-bottom">
     {% block bottom_menu %}
         {% include './search_bar.html' with search_bar_id='gn-search-bar-bottom' %}
     {% endblock %}
-</div>
+</div> {% endcomment %}
 {% block extra_script %}
     <script type="text/javascript">
         (function() {

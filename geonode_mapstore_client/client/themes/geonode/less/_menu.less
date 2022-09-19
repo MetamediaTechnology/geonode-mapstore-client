@@ -11,18 +11,18 @@
         .background-color-var(@theme-vars[primary-contrast]);
     }
     .gn-main-header {
-        .background-color-var(@theme-vars[main-bg]);
+        .background-color-var(@theme-vars[sphere-bg]);
     }
     .gn-menu {
         .color-var(@theme-vars[main-color]);
-        .background-color-var(@theme-vars[main-bg]);
+        .background-color-var(@theme-vars[sphere-bg]);
         &.gn-primary {
             .color-var(@theme-vars[primary-contrast]);
             .background-color-var(@theme-vars[primary]);
         }
         &.gn-default {
-            .color-var(@theme-vars[main-variant-color]);
-            .background-color-var(@theme-vars[main-variant-bg]);
+            .color-var(@theme-vars[primary-contrast]);
+            .background-color-var(@theme-vars[main-bg]);
             .gn-menu-divider {
                 .background-color-var(@theme-vars[main-border-color]);
             }
@@ -100,7 +100,7 @@ nav.hide-navigation#gn-topbar {
     width: 100%;
     position: relative;
     padding: 0.5rem 0;
-    min-height: 3rem;
+    min-height: 4.5rem;
 
     &.gn-default {
         padding: 0.25rem 0;
@@ -179,7 +179,7 @@ nav.hide-navigation#gn-topbar {
             // li is still visible for injected plugin that return a null component
             // so we need to target the inner component and apply the margin to that element
             > li > * {
-                margin-right: 0;
+                margin-right: 0rem;
                 margin-left: 0.4rem;
             }
         }

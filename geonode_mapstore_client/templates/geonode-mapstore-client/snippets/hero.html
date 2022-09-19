@@ -17,17 +17,15 @@
 {% endif %}
 {% block extra_style %}
 {% endblock %}
-<div id="gn-hero" class="gn-hero">
-    <div class="jumbotron">
+<div id="gn-hero" class="gn-hero sphere-hero">
+    <div class="jumbotron" style="max-width: 900px;">
         <div class="gn-hero-description">
-            {% if not custom_theme.jumbotron_welcome_hide %}
-                {% with jumbotron_welcome_title=custom_theme.jumbotron_welcome_title|default:"GeoNode"|template_trans %}
-                <h1>{% trans jumbotron_welcome_title %}</h1>
-                {% endwith %}
-                {% with jumbotron_welcome_content=custom_theme.jumbotron_welcome_content|default:"sharing geospatial data and maps."|template_trans %}
-                <p>{% trans jumbotron_welcome_content %}</p>
-                {% endwith %}
-            {% endif %}
+            <h2>sphere <span style="color: #FFA940"> Open portal</span></h2>
+            <h6>ระบบภูมิสารสนเทศกลางเพื่อการบริการแผนที่ออนไลน์</h6>
+            <p>
+                แหล่งรวบรวมข้อมูลและเชื่อมโยงข้อมูลภูมิสารสนเทศ<br>เพื่อให้ผู้ใช้สามารถเข้าถึงข้อมูล
+                และนำมาสร้างแอปพลิเคชันได้ด้วยตนเอง
+            </p>
         </div>
         <p class="gn-hero-tools">
         </p>
