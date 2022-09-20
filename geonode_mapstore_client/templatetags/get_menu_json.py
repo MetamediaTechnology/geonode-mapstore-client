@@ -176,10 +176,11 @@ def get_user_menu(context):
                 ]
             }
         ]
-
     profile = {
         # get src of user avatar
+        "firstname": user.first_name,
         "name": user.username,
+        "superuser": user.is_superuser,
         "image": avatar_url(user),
         "type": "dropdown",
         "className": "gn-user-menu-dropdown",
