@@ -179,6 +179,7 @@ def get_user_menu(context):
 
     profile = {
         # get src of user avatar
+        "name": user.username,
         "image": avatar_url(user),
         "type": "dropdown",
         "className": "gn-user-menu-dropdown",

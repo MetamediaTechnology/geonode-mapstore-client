@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {% load get_menu_json %}
 {% load catalogue_urls %}
 {% get_user_menu as USER_MENU %}
@@ -41,15 +42,50 @@
                     style="border-color: white;">
                 <span class="font-weight-semi-bold secondary--text">EN</span>
             </div>
-            <div class="login-panel d-flex align-center">
-                <button type="button" style="color: rgb(255, 255, 255);"
-                    class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
-                    <span class="v-btn__content"> Log in </span>
-                </button>
-                <button type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255); 
-                    caret-color: rgb(255, 255, 255);">
-                    <span class="v-btn__content">Sign up </span></button>
-            </div>
+            {% for menu_item in USER_MENU %}
+                {% if menu_item.type == 'link' %}
+                    {% if menu_item.label == 'Register'%}
+                        <div class="login-panel d-flex align-center">
+                            <a href="/account/login/" type="button" style="color: rgb(255, 255, 255);"
+                                class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
+                                <span class="v-btn__content"> Log in </span>
+                            </a>
+                            <a href="/account/signup/" type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255); 
+                                caret-color: rgb(255, 255, 255);">
+                                <span class="v-btn__content">Sign up </span>
+                            </a>
+                    {% endif %}
+                {% endif %}
+                {% if menu_item.type == 'dropdown' %}
+                    <div class="login-panel d-flex align-center">
+                        <li class="dropdown sphere-dropdown">
+                            <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown">
+                                {% if menu_item.image %}
+                                    <img  class="img-circle user-profile-img" src="{{ menu_item.image }}">
+                                {% endif %}
+                                {% if menu_item.name %}
+                                    {% trans menu_item.name %}
+                                {% endif %}
+                                 <b class="caret"></b>
+                                </a>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            {% for child_item in menu_item.items %}
+                                                {% if child_item.type == 'link' %}
+                                                <li>
+                                                    <a href="{{ child_item.href }}" target="{{ child_item.target }}">
+                                                        {% trans child_item.label %}
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                                {% if child_item.type == 'divider' %}
+                                                    <li role="separator" class="divider"></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                        </li>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 </div>
