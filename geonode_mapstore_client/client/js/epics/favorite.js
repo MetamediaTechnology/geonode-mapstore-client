@@ -9,12 +9,12 @@
 import { Observable } from 'rxjs';
 import {
     updateResourceProperties,
-    SET_FAVORITE_RESOURCE,
-    removeFavoriteResource,
-    setFavoriteResources
+    SET_FAVORITE_RESOURCE
 } from '@js/actions/gnresource';
 import {
-    updateResources
+    updateResources,
+    reduceTotalCount,
+    increaseTotalCount
 } from '@js/actions/gnsearch';
 import {
     setFavoriteResource
@@ -37,21 +37,26 @@ export const gnSaveFavoriteContent = (action$, store) =>
                 : [...resources, resource]) : resources;
 
 
-            return Observable
-                .defer(() => setFavoriteResource(pk, favorite))
-                .switchMap(() => {
-                    return Observable.of(
-                        updateResourceProperties({
-                            'favorite': favorite
-                        }),
-                        updateResources(newResources, true)
-                    );
-                })
-                .catch((error) => {
-                    return Observable.of(
-                        action.favorite ? removeFavoriteResource(pk) : setFavoriteResources(pk),
-                        errorNotification({ title: "gnviewer.cannotPerfomAction", message: error?.data?.message || error?.data?.detail || error?.originalError?.message || "gnviewer.syncErrorDefault" }));
-                });
+            return Observable.concat(
+                Observable.of(updateResourceProperties({'favorite': favorite})),
+                Observable.defer(() => setFavoriteResource(pk, favorite))
+                    .switchMap(() => {
+                        return Observable.of(
+                            updateResources(newResources, true),
+                            // if on favorites filter page, we must adjust total count appropriately
+                            ...((state?.gnsearch?.params?.f?.includes('favorite') && !action.favorite) ? [reduceTotalCount()] : [increaseTotalCount()])
+                        );
+                    })
+                    .catch((error) => {
+                        return Observable.of(
+                            action.favorite ? updateResourceProperties({
+                                'favorite': false
+                            }) : updateResourceProperties({
+                                'favorite': true
+                            }),
+                            errorNotification({ title: "gnviewer.cannotPerfomAction", message: error?.data?.message || error?.data?.detail || error?.originalError?.message || "gnviewer.syncErrorDefault" }));
+                    })
+            );
 
         });
 

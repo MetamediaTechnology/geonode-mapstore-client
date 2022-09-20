@@ -929,8 +929,23 @@
                             "name": "FilterLayer"
                         },
                         {
-                            "type": "plugin",
-                            "name": "LayerDownload"
+                            "labelId": "gnviewer.download",
+                            "disablePluginIf": "{!state('selectedLayerPermissions').includes('download_resourcebase')}",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "LayerDownload"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "IsoDownload"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "DublinCoreDownload"
+                                }
+                            ]
                         },
                         {
                             "type": "plugin",
@@ -1012,7 +1027,8 @@
                     "tools": [
                         "measurement",
                         "draw",
-                        "box"
+                        "box",
+                        "scalebar"
                     ],
                     "mapOptions": {
                         "openlayers": {
@@ -1023,6 +1039,11 @@
                                 "pinchRotate": false,
                                 "altShiftDragRotate": false
                             }
+                        }
+                    },
+                    "toolsOptions": {
+                        "scalebar": {
+                            "container": "#footer-scalebar-container"
                         }
                     }
                 }
@@ -1174,6 +1195,12 @@
             },
             {
                 "name": "Playback"
+            },
+            {
+                "name": "IsoDownload"
+            },
+            {
+                "name": "DublinCoreDownload"
             },
             {
                 "name": "LayerDownload",
@@ -1354,6 +1381,12 @@
                         "min-width: 768px"
                     ]
                 }
+            },
+            {
+                "name": "SearchServicesConfig"
+            },
+            {
+                "name": "SearchByBookmark"
             },
             {
                 "name": "FullScreen",
@@ -1639,7 +1672,8 @@
                     "tools": [
                         "measurement",
                         "draw",
-                        "box"
+                        "box",
+                        "scalebar"
                     ],
                     "mapOptions": {
                         "openlayers": {
@@ -1650,6 +1684,11 @@
                                 "pinchRotate": false,
                                 "altShiftDragRotate": false
                             }
+                        }
+                    },
+                    "toolsOptions": {
+                        "scalebar": {
+                            "container": "#footer-scalebar-container"
                         }
                     }
                 }
@@ -1747,6 +1786,10 @@
                             "labelId": "gnviewer.moreMenuItem",
                             "type": "dropdown",
                             "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "MapImport"
+                                },
                                 {
                                     "type": "plugin",
                                     "name": "Nearby"
@@ -2142,6 +2185,12 @@
                 }
             },
             {
+                "name": "SearchServicesConfig"
+            },
+            {
+                "name": "SearchByBookmark"
+            },
+            {
                 "name": "FullScreen",
                 "override": {
                     "Toolbar": {
@@ -2252,6 +2301,12 @@
             },
             {
                 "name": "ExportGeoJson"
+            },
+            {
+                "name": "MapImport"
+            },
+            {
+                "name": "FetchLayers"
             }
         ],
         "geostory_viewer": [
@@ -2719,6 +2774,12 @@
                 }
             },
             {
+                "name": "SearchServicesConfig"
+            },
+            {
+                "name": "SearchByBookmark"
+            },
+            {
                 "name": "OmniBar"
             },
             {
@@ -2849,6 +2910,12 @@
                         "min-width: 768px"
                     ]
                 }
+            },
+            {
+                "name": "SearchServicesConfig"
+            },
+            {
+                "name": "SearchByBookmark"
             },
             {
                 "name": "OmniBar"

@@ -126,7 +126,7 @@ export const LayerDownloadActionButton = connect(
             size={size}
             onClick={() => onClick()}
         >
-            <Message msgId="gnviewer.export" />
+            <Message msgId="gnhome.dataset" />
         </Button>
     );
 });
@@ -283,6 +283,26 @@ export const PrintStandardActionButton = connect(
             onClick={() => onClick()}
         >
             <Message msgId="printStandardPlugin.title" />
+        </Button>
+    );
+});
+
+export const MapImportActionButton = connect(
+    () => ({}),
+    { onClick: setControlProperty.bind(null, 'mapimport', 'enabled', true) }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+            tooltip={"mapImport.tooltip"}
+        >
+            <Message msgId="mapImport.title" />
         </Button>
     );
 });

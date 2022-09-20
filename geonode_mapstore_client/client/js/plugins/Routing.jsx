@@ -46,7 +46,7 @@ const routingSelector = (state) => get(state, "controls.routing.enabled");
 const toggleRoutingTool = toggleControl.bind(null, "routing", null);
 
 const SERVICE_MAP_API_URL = "https://api.longdo.com/map/?key=";
-const SERVICE_MAP_API_KEY = "8691719DEAE84A8D8BEEF76393A8D03F";
+const SERVICE_MAP_API_KEY = "6605d49756a8e87937d07a0366bd7b13";
 
 const selector = (state) => {
     return {

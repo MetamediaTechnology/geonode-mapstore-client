@@ -22,7 +22,8 @@ import {
     NearbyActionButton,
     BufferActionButton,
     MergeLayerActionButton,
-    PrintStandardActionButton
+    PrintStandardActionButton,
+    MapImportActionButton
 } from '@js/plugins/actionnavbar/buttons';
 import { getMetadataUrl,
     getMetadataDetailUrl,
@@ -128,7 +129,7 @@ export const plugins = {
     ),
     SearchServicesConfigPlugin: toLazyPlugin(
         'SearchServicesConfig',
-        () => import(/* webpackChunkName: 'plugins/search-service-config' */ '@mapstore/framework/plugins/SearchServicesConfig')
+        () => import(/* webpackChunkName: 'plugins/search-service-config' */ '@js/plugins/SearchServicesConfig')
     ),
     MousePositionPlugin: toLazyPlugin(
         'MousePosition',
@@ -268,7 +269,7 @@ export const plugins = {
     ),
     SearchPlugin: toLazyPlugin(
         'Search',
-        () => import(/* webpackChunkName: 'plugins/search-plugin' */ '@mapstore/framework/plugins/Search')
+        () => import(/* webpackChunkName: 'plugins/search-plugin' */ '@js/plugins/Search')
     ),
     SharePlugin: toLazyPlugin(
         'Share',
@@ -434,9 +435,17 @@ export const plugins = {
         'Sync',
         () => import(/* webpackChunkName: 'plugins/sync-plugin' */ '@js/plugins/Sync')
     ),
+    IsoDownloadPlugin: toLazyPlugin(
+        'IsoDownload',
+        () => import(/* webpackChunkName: 'plugins/iso-download-plugin' */ '@js/plugins/downloads/IsoDownload')
+    ),
+    DublinCoreDownloadPlugin: toLazyPlugin(
+        'DublinCoreDownload',
+        () => import(/* webpackChunkName: 'plugins/iso-download-plugin' */ '@js/plugins/downloads/DublinCoreDownload')
+    ),
     PrintScreenPlugin: toLazyPlugin(
         'PrintScreen',
-        () => import(/* webpackChunkName: 'plugins/print-screen-plugin' */ '@js/plugins/PrintScreen'),
+        () => import('@js/plugins/PrintScreen'),
         {
             containers: {
                 ActionNavbar: {
@@ -448,7 +457,7 @@ export const plugins = {
     ),
     RoutingPlugin: toLazyPlugin(
         'Routing',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/Routing'),
+        () => import('@js/plugins/Routing'),
         {
             containers: {
                 ActionNavbar: {
@@ -460,7 +469,7 @@ export const plugins = {
     ),
     NearbyPlugin: toLazyPlugin(
         'Nearby',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/Nearby'),
+        () => import('@js/plugins/Nearby'),
         {
             containers: {
                 ActionNavbar: {
@@ -472,7 +481,7 @@ export const plugins = {
     ),
     BufferPlugin: toLazyPlugin(
         'Buffer',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/Buffer'),
+        () => import('@js/plugins/Buffer'),
         {
             containers: {
                 ActionNavbar: {
@@ -484,7 +493,7 @@ export const plugins = {
     ),
     MergeLayerPlugin: toLazyPlugin(
         'MergeLayer',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/MergeLayer'),
+        () => import('@js/plugins/MergeLayer'),
         {
             containers: {
                 ActionNavbar: {
@@ -496,7 +505,7 @@ export const plugins = {
     ),
     PrintStandardPlugin: toLazyPlugin(
         'PrintStandard',
-        () => import(/* webpackChunkName: 'plugins/routing-plugin' */ '@js/plugins/PrintStandard'),
+        () => import('@js/plugins/PrintStandard'),
         {
             containers: {
                 ActionNavbar: {
@@ -508,8 +517,24 @@ export const plugins = {
     ),
     ExportGeoJsonPlugin: toLazyPlugin(
         'ExportGeoJson',
-        () => import(/* webpackChunkName: 'plugins/filter-layer-plugin' */ '@js/plugins/ExportGeoJson')
+        () => import('@js/plugins/ExportGeoJson')
     ),
+    MapImportPlugin: toLazyPlugin(
+        'MapImport',
+        () => import('@mapstore/framework/plugins/MapImport'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'MapImport',
+                    Component: MapImportActionButton
+                }
+            }
+        }
+    ),
+    FetchLayersPlugin: toLazyPlugin(
+        'FetchLayers',
+        () => import('@js/plugins/FetchLayers')
+    )
 };
 
 const pluginsDefinition = {

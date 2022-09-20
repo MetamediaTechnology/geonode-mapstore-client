@@ -23,7 +23,7 @@
             "aZ": "A Z",
             "zA": "Z A",
             "mostPopular": "Most popular",
-            "data": "Dati",
+            "data": "Data",
             "dataset": "Dataset",
             "datasets": "Datasets",
             "document": "Document",
@@ -293,6 +293,8 @@
             "embeddocument": "Embed this Document",
             "embeddashboard": "Embed this Dashboard",
             "directLink": "Direct Link",
+            "iso": "ISO Metadata",
+            "dublinCore": "Dublin Core Metadata",
             "moreMenuItem": "More"
         },
         "printScreenPlugin": {
@@ -340,6 +342,9 @@
         },
         "exportGeoJsonPlugin": {
             "tooltip": "Download GeoJson"
+        },
+        "layerProperties": {
+            "refreshIntervalLayer": "Refrash Interval (second)"
         }
     }
 }
