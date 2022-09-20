@@ -65,6 +65,8 @@
                                 {% endif %}
                                 {% if menu_item.name %}
                                     {% trans menu_item.name %}
+                                    {% if menu_item.superuser %}
+                                    {% endif %}
                                 {% endif %}
                                  <b class="caret"></b>
                                 </a>
