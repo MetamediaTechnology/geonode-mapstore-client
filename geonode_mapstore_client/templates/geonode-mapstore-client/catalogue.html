@@ -24,13 +24,16 @@
     </head>
 
     <body class="msgapi ms2" data-ms2-container="ms2" >
+
         <div class="gn-page-wrapper {% if request.user_agent.is_mobile %}gn-mobile{% else %}gn-desktop{% endif %}">
             {% block gn_config %}
                 {% include './_geonode_config.html' %}
             {% endblock %}
             <div class="gn-catalogue gn-theme">
                 {% block header %}
-                    {% include './snippets/header.html' %}
+                  <div class="">
+                    {% include './snippets/catalogue_header.html' %}
+                  </div>
                 {% endblock %}
 
                 {% block container %}
@@ -49,7 +52,7 @@
                 {% endblock %}
 
                 {% block footer %}
-                    {% include './snippets/footer.html' %}
+                    {% include './snippets/footer_map.html' %}
                 {% endblock %}
 
                 {% block scripts %}
