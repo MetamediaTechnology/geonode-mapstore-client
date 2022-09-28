@@ -24,11 +24,10 @@ function ViewerLayout({
             id={id}
             className={`${className ? `${className} ` : ''}gn-viewer-layout`}
             style={{
-                position: 'absolute',
                 top: 0,
                 left: 0,
                 width: '100%',
-                height: '100%',
+                height: 'calc(100% - 70px)',
                 display: 'flex',
                 flexDirection: 'column'
             }}>
