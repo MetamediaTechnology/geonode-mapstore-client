@@ -7,6 +7,7 @@
 {% block extra_style %}
 {% endblock %}
 
+<div id="{{ id|default:'' }}">
 <nav id="sphere-header" class="gn-menu gn-menu-symmetric">
     <div class="gn-menu-container">
         <div class="gn-menu-content">
@@ -23,11 +24,6 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav sphere-catalogue-navbar">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/catalogue/#/">Catalogue</a></li>
-                    <li><a href="/about">About</a></li>
-                  </ul>
                 {% endblock %}
             </div>
             <div class="gn-menu-content-center">
@@ -90,3 +86,4 @@
         </div>
     </div>
 </nav>
+</div>
