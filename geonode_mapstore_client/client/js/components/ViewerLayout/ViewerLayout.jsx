@@ -27,7 +27,7 @@ function ViewerLayout({
                 top: 0,
                 left: 0,
                 width: '100%',
-                height: 'calc(100% - 70px)',
+                height: '100%',
                 display: 'flex',
                 flexDirection: 'column'
             }}>
