@@ -5,7 +5,13 @@
 .font-kanit {
   font-family: Kanit, sans-serif !important;
 }
+#wrap{
+  min-height: 100vh !important;
+}
 // Header bar
+.hide-sphere-header{
+    display: none;
+}
 #sphere-header {
    font-family: Kanit, sans-serif !important;
   .text-lg {
@@ -291,10 +297,26 @@
     caret-color: #ffa940 !important;
   }
 }
+#sphere-map-header.navbar-default{
+  background-color: @sphere-main-bg;
+  border: none;
+  height: 70px;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important
+} 
+.banner-action{
+  margin-right: 15px;
+}    
 // Menu
 .landing-navigation {
   a {
     color: @gn-primary-contrast !important;
+  }
+}
+.navbar-map-header{
+  font-size: 20px !important;
+  a{
+    color: #FFF !important;
   }
 }
 .sphere-search-bar {
