@@ -28,6 +28,11 @@ def get_base_left_topbar_menu(context):
 
     return [
         {
+            "label": 'Catalogue',
+            "href": "/catalogue/#",
+            "type": "link"
+        },
+        {
             "label": "Data",
             "type": "dropdown",
             "items": [
