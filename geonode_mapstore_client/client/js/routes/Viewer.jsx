@@ -19,10 +19,7 @@ import useLazyPlugins from '@js/hooks/useLazyPlugins';
 import {
     requestResourceConfig,
     requestNewResourceConfig,
-    editBannerResource,
-    setResourceBanner
 } from '@js/actions/gnresource';
-import { userSelector } from '@mapstore/framework/selectors/security';
 import MetaTags from '@js/components/MetaTags';
 import MainEventView from '@js/components/MainEventView';
 import ViewerLayout from '@js/components/ViewerLayout';
@@ -61,13 +58,10 @@ function getPluginsConfiguration(name, pluginsConfig) {
 
 function ViewerRoute({
     name,
-    user,
     pluginsConfig: propPluginsConfig,
     params,
     onUpdate,
     onCreate = () => {},
-    onResourceBanner = () => {},
-    onEditBanner = () => {},
     loaderComponent,
     lazyPlugins,
     plugins,
@@ -131,97 +125,8 @@ function ViewerRoute({
         };
     }, [loading]);
 
-    const [file, setFile] = useState();
-    const [bannerDefault,setBannerDefault] = useState();
-
-
-    const handleResourceBannerlUpdate = () => {
-        onEditBanner(file)
-        onResourceBanner()
-        setFile('')
-    };
-    const handleCancelUpload = () => {
-        setFile(bannerDefault)
-        setFile('')
-    }
-
-    const onClickUplodaBanner = () => {
-        document.getElementById('banner-input').click()
-    }
-
-    function getFilesFromEvent(e) {
-        const toBase64 = file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-        toBase64(e.target.files[0]).then((image) => {
-            setFile(image)
-        })
-    }
-
-    const bannerBtnCtrl = () => {
-        if(user?.is_staff || user?.is_admin) {
-            if(!file) {
-                return (
-                    <ul className="nav navbar-nav navbar-right banner-action">
-                        <li>
-                            <a onClick={onClickUplodaBanner} className='btn btn-xs'>
-                                <i className="glyphicon glyphicon-pencil"></i>
-                            </a>
-                        </li>
-                        {/*<li>*/}
-                        {/*    <a onClick={onClickRemoveBanner} className='btn btn-xs'>*/}
-                        {/*        <i className="glyphicon glyphicon-trash"></i>*/}
-                        {/*    </a>*/}
-                        {/*</li>*/}
-                    </ul>
-                )
-            } else {
-                return (
-                    <ul className="nav navbar-nav navbar-right banner-action">
-                        <li>
-                            <a onClick={handleResourceBannerlUpdate} className='btn btn-xs'>Save</a>
-                        </li>
-                        <li>
-                            <a onClick={handleCancelUpload} className={'btn btn-xs'}>Cancel</a>
-                        </li>
-                    </ul>
-                )
-            }
-        } else {
-            return (<a></a>)
-        }
-    }
-
-    const TopBanner = ({banner_url}) => {
-        const imageUrl = file ? file : banner_url
-        setBannerDefault(banner_url)
-        const bannerStyle = {
-            backgroundImage: `url(${imageUrl})`,
-            backgroundSize: 'cover'
-        }
-        return (
-           <nav id="sphere-map-header" style={bannerStyle} className="navbar navbar-default navbar-map-header">
-                <input
-                    style={{ display: 'none' }}
-                    id={'banner-input'}
-                    type="file"
-                    multiple
-                    onChange={getFilesFromEvent}
-                />
-                <ul className="nav navbar-nav">
-                    <li><a href="#"><i className="glyphicon glyphicon-backward"></i></a></li>
-                    <li><a style={{marginTop:'5px'}} id="map-title">{resource?.title || 'Create new map'}</a></li>
-                </ul>
-               {bannerBtnCtrl()}
-            </nav>)
-    }
-
     return (
         <>
-            <TopBanner banner_url={resource?.banner_url}/>
             {resource && <MetaTags
                 logo={resource.thumbnail_url}
                 title={(resource?.title) ? `${resource?.title} - ${siteName}` : siteName }
@@ -253,21 +158,16 @@ const ConnectedViewerRoute = connect(
         state => state?.gnresource?.data,
         state => state?.gnsettings?.siteName || 'GeoNode',
         state => state?.gnresource?.loadingResourceConfig,
-        state => state?.gnresource?.configError,
-        userSelector
+        state => state?.gnresource?.configError
     ], (resource, siteName, loadingConfig, configError,user) => ({
         resource,
         siteName,
         loadingConfig,
-        configError,
-        user
+        configError
     })),
     {
         onUpdate: requestResourceConfig,
-        onCreate: requestNewResourceConfig,
-        onEditBanner: editBannerResource,
-        onResourceBanner: setResourceBanner
-
+        onCreate: requestNewResourceConfig
     }
 )(ViewerRoute);
 
