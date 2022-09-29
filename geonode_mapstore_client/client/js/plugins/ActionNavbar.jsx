@@ -112,7 +112,7 @@ function ActionNavbarPlugin(
     const [bannerDefault,setBannerDefault] = useState();
 
 
-    const handleResourceBannerlUpdate = () => {
+    const handleResourceBannerUpdate = () => {
         onEditBanner(file)
         onResourceBanner()
         setFile('')
@@ -122,7 +122,7 @@ function ActionNavbarPlugin(
         setFile('')
     }
 
-    const onClickUplodaBanner = () => {
+    const onClickUploadBanner = () => {
         document.getElementById('banner-input').click()
     }
 
@@ -144,7 +144,7 @@ function ActionNavbarPlugin(
                 return (
                     <ul className="nav navbar-nav navbar-right banner-action">
                         <li>
-                            <a onClick={onClickUplodaBanner} className='btn btn-xs'>
+                            <a onClick={onClickUploadBanner} className='btn btn-xs'>
                                 <i className="glyphicon glyphicon-pencil"></i>
                             </a>
                         </li>
@@ -154,7 +154,7 @@ function ActionNavbarPlugin(
                 return (
                     <ul className="nav navbar-nav navbar-right banner-action">
                         <li>
-                            <a onClick={handleResourceBannerlUpdate} className='btn btn-xs'>Save</a>
+                            <a onClick={handleResourceBannerUpdate} className='btn btn-xs'>Save</a>
                         </li>
                         <li>
                             <a onClick={handleCancelUpload} className={'btn btn-xs'}>Cancel</a>
@@ -184,8 +184,12 @@ function ActionNavbarPlugin(
                     onChange={getFilesFromEvent}
                 />
                 <ul className="nav navbar-nav">
-                    <li><a href="#"><i className="glyphicon glyphicon-backward"></i></a></li>
-                    <li><a style={{marginTop:'5px'}} id="map-title">{resource?.title || 'Create new map'}</a></li>
+                    <li>
+                        <a href="#">
+                            <i style={{marginRight: '10px',marginLeft:'10px'}} className="glyphicon glyphicon-backward"></i>
+                            {resource?.title || 'Create new map'}
+                        </a>
+                    </li>
                 </ul>
                 { bannerBtnCtrl() }
             </nav>)

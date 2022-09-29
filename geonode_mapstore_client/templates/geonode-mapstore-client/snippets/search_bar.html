@@ -1,4 +1,4 @@
-<div id="{{ search_bar_id }}" class="gn-search-bar">
+<div id="{{ search_bar_id }}" class="gn-search-bar sphere-search">
     <div class="input-group">
         <div class="input-group-prepend">
             <button id="{{ search_bar_id }}-clear" type="button" class="btn btn-default" style="display: none;">
@@ -100,7 +100,7 @@
                 const splitHash = hash.split('?') || [];
                 const queryHash = splitHash[1] || '';
                 const params = queryHash.split('&');
-                var newParams = q ? ['q=' + q] : []; 
+                var newParams = q ? ['q=' + q] : [];
                 for (var i = 0; i < params.length; i++) {
                     if (params[i] && params[i].indexOf('q=') !== 0) {
                         newParams.push(params[i]);
