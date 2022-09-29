@@ -36,8 +36,8 @@
                 </a></div>
             <div class="locale-switch d-flex">
                 <span class="cursor-pointer">TH</span>
-                    <hr 
-                    role="separator"  
+                    <hr
+                    role="separator"
                     class="mx-1 v-divider v-divider--vertical theme--light"
                     style="border-color: white;">
                 <span class="font-weight-semi-bold secondary--text">EN</span>
@@ -50,7 +50,7 @@
                                 class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
                                 <span class="v-btn__content"> Log in </span>
                             </a>
-                            <a href="/account/signup/" type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255); 
+                            <a href="/account/signup/" type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255);
                                 caret-color: rgb(255, 255, 255);">
                                 <span class="v-btn__content">Sign up </span>
                             </a>
@@ -91,55 +91,6 @@
         </div>
     </div>
 </div>
-{% comment %} 
-<nav id="{{ id|default:'' }}" class="gn-menu gn-menu-symmetric">
-    <div class="gn-menu-container">
-        <div class="gn-menu-content">
-            <div class="gn-menu-content-left">
-                {% block left_menu %}
-                <ul class="gn-menu-list">
-                    <li class="sphere-logo-block">
-                        <a href="{% block logo_href %}{% catalogue_home %}{% endblock %}">
-                            {% if custom_theme.logo and custom_theme.logo.url %}
-                                <img src="{{ custom_theme.logo.url }}">
-                            {% else %}
-                                <img class="sphere-logo" height="85" src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}">
-                            {% endif %}
-                        </a>
-                    </li>
-                </ul>
-                {% endblock %}
-            </div>
-            <div class="gn-menu-content-center">
-                {% block center_menu %}
-                    {% include './search_bar.html' with search_bar_id='gn-search-bar' %}
-                {% endblock %}
-            </div> 
-            <div class="gn-menu-content-right">
-                {% block right_menu %}
-                <ul class="gn-menu-list">
-                    {% for menu_item in USER_MENU %}
-                        {% include './menu_item.html' with menu_item=menu_item align_right=True %}
-                    {% endfor %}
-                </ul>
-                <ul class="gn-menu-list sphere-link">
-                    <li>
-                        <a href="#" class="nav-link">About</a>
-                    </li>
-                    <li><a href="" class="nav-link">Open Portal</a></li>
-                    <li><a href="" class="nav-link">APIs</a></li>
-                    <li><a href="" class="nav-link">Data Cute</a></li>
-                </ul>
-                {% endblock %}
-            </div>
-        </div>
-    </div>
-</nav> {% endcomment %}
-{% comment %} <div id="{{ id|default:'' }}-bottom">
-    {% block bottom_menu %}
-        {% include './search_bar.html' with search_bar_id='gn-search-bar-bottom' %}
-    {% endblock %}
-</div> {% endcomment %}
 {% block extra_script %}
     <script type="text/javascript">
         (function() {

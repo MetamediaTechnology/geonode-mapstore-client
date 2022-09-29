@@ -12,6 +12,59 @@
 .hide-sphere-header{
     display: none;
 }
+#sphere-sidebar{
+  display: none;
+}
+#sphere-header-mobile{
+  display: none;
+  li{
+    padding: 5px;
+  }
+  a{
+    font-size: 20px;
+    color: #FFF;
+  }
+}
+#sphere-sidebar.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    background-color: @sphere-main-bg;
+    border-color: #1e1e1e;
+    // box-shadow: 0 8px 10px -5px rgb(0 0 0 / 20%), 0 16px 24px 2px rgb(0 0 0 / 14%), 0 6px 30px 5px rgb(0 0 0 / 12%);
+    overflow-x: hidden;
+    transition: 0.2s;
+    .user-profile{
+      border-bottom: 1px solid hsla(0,0%,100%,.12);
+      padding: 65px 0 30px 0;
+    }
+    .menu-list {
+      margin-top: 4px !important;
+      margin-bottom: 4px !important;
+      text-align: center;
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 1.125rem;
+      color: #FFF;
+      display: block;
+      transition: 0.3s;
+    }
+    .menu-list:hover {
+      color: #f1f1f1;
+    }
+    .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+  }
+
+
 #sphere-header {
    font-family: Kanit, sans-serif !important;
   .text-lg {
@@ -344,7 +397,7 @@
   font-family: "Kanit", sans-serif;
   color: #fff;
   background-size: cover;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 54, 99)),
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 54, 99)),
     url("/static/mapstore/img/bg-satellite-data.jpg");
   background-size: cover;
 }
@@ -425,9 +478,26 @@
   .design a {
     color: #fff;
   }
+  @media only screen and (max-width: 600px) {
+    #marine-map-footer {
+      text-align: center !important;
+    }
+    #marine-map-footer .design {
+      text-align: center !important;
+    }
+  }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 960px) {
+  #sphere-sidebar{
+    display: block;
+  }
+  #sphere-header-mobile{
+    display: block;
+  }
+  .landing-header{
+    display: none !important;
+  }
   .sphere-search {
     display: none;
   }
