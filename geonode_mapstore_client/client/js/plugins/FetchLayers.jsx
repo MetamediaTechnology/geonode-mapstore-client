@@ -44,7 +44,6 @@ const defaultState = {
 function fetchLayerReducers(state = defaultState, action) {
     switch (action.type) {
         case 'FETCH:SET_LAYER_INTERVAL_WORK': {
-            console.log(state)
             return assign({}, state, {
                 layersInterval: state.layersInterval.concat({
                     id: action.id,
@@ -100,7 +99,7 @@ const updateSettingParamsEpic = (action$, store) =>
             const state = store.getState();
             const settings = layerSettingSelector(state);
             const layer = settings?.nodeType === 'layers' ? getLayerFromId(state, settings?.node) : null;
-            if (layer !== null && layer.timeInterval !== null && layer.timeInterval && layer.timeInterval !== 'Naver') {
+            if (layer !== null && layer.timeInterval !== null && layer.timeInterval && layer.timeInterval !== 'Never') {
                 const timeInterval = (Number.parseInt(layer.timeInterval) * 1000) || 1000;
                 return Rx.Observable.interval(timeInterval)
                     .map(() =>

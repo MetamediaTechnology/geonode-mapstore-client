@@ -199,6 +199,9 @@ set new Featured Resources includes data, page, links</p>
 ## Constants
 
 <dl>
+<dt><a href="#DOWNLOAD_METADATA">DOWNLOAD_METADATA</a></dt>
+<dd><p>Sync geostory components with their live resources on geonode</p>
+</dd>
 <dt><a href="#SYNC_RESOURCES">SYNC_RESOURCES</a></dt>
 <dd><p>Sync geostory components with their live resources on geonode</p>
 </dd>
@@ -227,7 +230,8 @@ set new Featured Resources includes data, page, links</p>
 <a name="module_actions/gnresource"></a>
 
 ## actions/gnresource
-Actions for GeoNode resourcestore information of the resource in use
+Actions for GeoNode resource
+store information of the resource in use
 
 
 * [actions/gnresource](#module_actions/gnresource)
@@ -479,17 +483,20 @@ Save or updates a resource (trigger epic actions.gnsaveDirectContent)
 <a name="module_actions/gnsearch"></a>
 
 ## actions/gnsearch
-Actions for GeoNode resource featured itemsset new Featured Resources includes data, page, links
+Actions for GeoNode resource featured items
+set new Featured Resources includes data, page, links
 
 
 * [actions/gnsearch](#module_actions/gnsearch)
     * [.loadFeaturedResources(action, pageSize)](#module_actions/gnsearch.loadFeaturedResources)
     * [.reduceTotalCount()](#module_actions/gnsearch.reduceTotalCount)
+    * [.increaseTotalCount()](#module_actions/gnsearch.increaseTotalCount)
 
 <a name="module_actions/gnsearch.loadFeaturedResources"></a>
 
 ### actions/gnsearch.loadFeaturedResources(action, pageSize)
-Actions for GeoNode resource featured itemsloads new featured resources basing on the action, previous or next
+Actions for GeoNode resource featured items
+loads new featured resources basing on the action, previous or next
 
 **Kind**: static method of [<code>actions/gnsearch</code>](#module_actions/gnsearch)  
 
@@ -502,6 +509,12 @@ Actions for GeoNode resource featured itemsloads new featured resources basing 
 
 ### actions/gnsearch.reduceTotalCount()
 Reduce total count of resouces after deletion
+
+**Kind**: static method of [<code>actions/gnsearch</code>](#module_actions/gnsearch)  
+<a name="module_actions/gnsearch.increaseTotalCount"></a>
+
+### actions/gnsearch.increaseTotalCount()
+Increase total count of resouces after deletion
 
 **Kind**: static method of [<code>actions/gnsearch</code>](#module_actions/gnsearch)  
 <a name="module_api/geonode/v2"></a>
@@ -854,9 +867,16 @@ Parse map response object
 <a name="module_utils/ResourceUtils.canCopyResource"></a>
 
 ### utils/ResourceUtils.canCopyResource
-Util to check if resosurce can be cloned (Save As)Requirements for copying are 'add_resource' permission and is_copyable property on resource
+Util to check if resosurce can be cloned (Save As)
+Requirements for copying are 'add_resource' permission and is_copyable property on resource
 
 **Kind**: static constant of [<code>utils/ResourceUtils</code>](#module_utils/ResourceUtils)  
+<a name="DOWNLOAD_METADATA"></a>
+
+## DOWNLOAD\_METADATA
+Sync geostory components with their live resources on geonode
+
+**Kind**: global constant  
 <a name="SYNC_RESOURCES"></a>
 
 ## SYNC\_RESOURCES
