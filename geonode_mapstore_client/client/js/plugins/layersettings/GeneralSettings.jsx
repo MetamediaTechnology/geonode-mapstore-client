@@ -91,12 +91,12 @@ function GeneralSettings({
     }
 
     const refreshIntervalItems = [
-        { value: 'Naver', label: 'Naver'},
-        { value: '5', label: '5'},
-        { value: '10', label: '10'},
-        { value: '15', label: '15'},
+        { value: 'Never', label: 'Never'},
         { value: '30', label: '30'},
-        { value: '60', label: '60'}
+        { value: '60', label: '60'},
+        { value: '90', label: '90'},
+        { value: '120', label: '120'},
+        { value: '180', label: '180'}
     ];
     const tooltipItems = [
         { value: "title", label: getMessageById(context.messages, "layerProperties.tooltip.title") },
@@ -115,7 +115,7 @@ function GeneralSettings({
         description = '',
         tooltipOptions = 'title',
         tooltipPlacement = 'top',
-        timeInterval = 'Naver'
+        timeInterval = 'Never'
     } = node || {};
 
     const currentTitle = isString(title) ? title : _getTitle(title, currentLocale) ?? title?.default ?? '';
@@ -156,8 +156,7 @@ function GeneralSettings({
                             key="refresh-interval-layer-dropdown"
                             options={refreshIntervalItems}
                             value={refreshIntervalItems.find(({ value }) => value === timeInterval)}
-                            // onChange={(item) => { setLayerInterval("timeInterval", { target: { value: item.value || "Naver" } }); }}
-                            onChange={({ value }) => onChange({ timeInterval: value || 'Naver' })}
+                            onChange={({ value }) => onChange({ timeInterval: value || 'Never' })}
                         />
                     </FormGroup>
                 </>
