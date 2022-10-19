@@ -291,6 +291,11 @@ export const setResourceThumbnail = (pk, body) => {
         .then(({ data }) => data);
 };
 
+export const setResourceBanner = (pk,body) => {
+    return axios.put(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/set_banner`), body)
+        .then(({ data }) => data);
+}
+
 export const setFavoriteResource = (pk, favorite) => {
     const request = favorite ? axios.post : axios.delete;
     return request(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/favorite`))
@@ -601,7 +606,7 @@ export const getCategories = ({ q, includes, page, pageSize, config, ...params }
             ...params,
             ...(includes && {'filter{identifier.in}': includes}),
             ...(q && { 'filter{identifier.icontains}': q }),
-            with_resources: params.with_response !== 'all' ? params.with_response || 'True' : null
+            with_resources: "True"
         }
     })
         .then(({ data }) => {

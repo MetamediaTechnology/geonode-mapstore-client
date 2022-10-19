@@ -27,7 +27,10 @@ import {
     SET_RESOURCE_COMPACT_PERMISSIONS,
     UPDATE_RESOURCE_COMPACT_PERMISSIONS,
     RESET_GEO_LIMITS,
-    ENABLE_MAP_THUMBNAIL_VIEWER
+    ENABLE_MAP_THUMBNAIL_VIEWER,
+    SET_FAVORITE_RESOURCES,
+    REMOVE_FAVORITE_RESOURCE,
+    EDIT_BANNER_RESOURCE
 } from '@js/actions/gnresource';
 
 import {
@@ -148,6 +151,16 @@ function gnresource(state = defaultState, action) {
                 ...state?.data,
                 thumbnail_url: action?.thumbnailUrl,
                 thumbnailChanged: action?.thumbnailChanged
+            }
+        };
+    }
+
+    case EDIT_BANNER_RESOURCE: {
+        return {
+            ...state,
+            data: {
+                ...state?.data,
+                banner_url: action?.bannerUrl
             }
         };
     }

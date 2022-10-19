@@ -6,12 +6,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 import { connect, createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import { createSelector } from 'reselect';
+import { userSelector } from '@mapstore/framework/selectors/security';
+import {
+    editBannerResource,
+    setResourceBanner
+} from '@js/actions/gnresource';
 import ActionNavbar from '@js/components/ActionNavbar';
-
 import usePluginItems from '@js/hooks/usePluginItems';
 import {
     getResourcePerms,
@@ -35,6 +39,7 @@ function checkResourcePerms(menuItem, resourcePerms) {
 
 function ActionNavbarPlugin(
     {
+        user,
         items,
         leftMenuItems,
         rightMenuItems,
@@ -43,7 +48,9 @@ function ActionNavbarPlugin(
         isDirtyState,
         selectedLayerPermissions,
         titleItems,
-        disableTitle
+        disableTitle,
+        onEditBanner,
+        onResourceBanner
     },
     context
 ) {
@@ -101,16 +108,106 @@ function ActionNavbarPlugin(
         (menuItem) => checkResourcePerms(menuItem, resourcePerms)
     );
 
+    const [file, setFile] = useState();
+    const [bannerDefault,setBannerDefault] = useState();
+
+
+    const handleResourceBannerUpdate = () => {
+        onEditBanner(file)
+        onResourceBanner()
+        setFile('')
+    };
+    const handleCancelUpload = () => {
+        setFile(bannerDefault)
+        setFile('')
+    }
+
+    const onClickUploadBanner = () => {
+        document.getElementById('banner-input').click()
+    }
+
+    function getFilesFromEvent(e) {
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+        toBase64(e.target.files[0]).then((image) => {
+            setFile(image)
+        })
+    }
+
+    const bannerBtnCtrl = () => {
+        if(user?.is_staff || user?.is_admin) {
+            if(!file) {
+                return (
+                    <ul className="nav navbar-nav navbar-right banner-action">
+                        <li>
+                            <a onClick={onClickUploadBanner} className='btn btn-xs'>
+                                <i className="glyphicon glyphicon-pencil"></i>
+                            </a>
+                        </li>
+                    </ul>
+                )
+            } else {
+                return (
+                    <ul className="nav navbar-nav navbar-right banner-action">
+                        <li>
+                            <a onClick={handleResourceBannerUpdate} className='btn btn-xs'>Save</a>
+                        </li>
+                        <li>
+                            <a onClick={handleCancelUpload} className={'btn btn-xs'}>Cancel</a>
+                        </li>
+                    </ul>
+                )
+            }
+        } else {
+            return (<a></a>)
+        }
+    }
+
+    const TopBanner = ({banner_url}) => {
+        const imageUrl = file ? file : banner_url
+        setBannerDefault(banner_url)
+        const bannerStyle = {
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: 'cover'
+        }
+        return (
+            <nav id="sphere-map-header" style={bannerStyle} className="navbar navbar-default navbar-map-header">
+                <input
+                    style={{ display: 'none' }}
+                    id={'banner-input'}
+                    type="file"
+                    multiple
+                    onChange={getFilesFromEvent}
+                />
+                <ul className="nav navbar-nav">
+                    <li>
+                        <a href="#">
+                            <i style={{marginRight: '10px',marginLeft:'10px'}} className="glyphicon glyphicon-backward"></i>
+                            {resource?.title || 'Create new map'}
+                        </a>
+                    </li>
+                </ul>
+                { bannerBtnCtrl() }
+            </nav>)
+    }
+
     return (
-        <ActionNavbar
-            leftItems={leftItems}
-            rightItems={rightItems}
-            variant="primary"
-            size="sm"
-            resource={resource}
-            titleItems={titleNavbarItems}
-            disableTitle={disableTitle}
-        />
+        <div>
+            <TopBanner banner_url={resource?.banner_url}/>
+            <ActionNavbar
+                leftItems={leftItems}
+                rightItems={rightItems}
+                variant="primary"
+                size="sm"
+                resource={resource}
+                titleItems={titleNavbarItems}
+                disableTitle={disableTitle}
+            />
+        </div>
     );
 }
 
@@ -118,6 +215,9 @@ ActionNavbarPlugin.propTypes = {
     items: PropTypes.array,
     leftMenuItems: PropTypes.array,
     rightMenuItems: PropTypes.array,
+    onResourceBanner: PropTypes.func,
+    onEditBanner: PropTypes.func,
+    user: PropTypes.object,
     titleItems: PropTypes.array
 };
 
@@ -125,34 +225,41 @@ ActionNavbarPlugin.defaultProps = {
     items: [],
     leftMenuItems: [],
     rightMenuItems: [],
+    onResourceBanner:() => {},
+    onEditBanner: () => {},
+    user: {},
     titleItems: []
 };
 
 const ConnectedActionNavbarPlugin = connect(
-    createSelector(
-        [
+    createSelector([
             getResourcePerms,
             canAddResource,
             getResourceData,
             getResourceDirtyState,
             getSelectedLayerPermissions,
-            isNewResource
-        ],
-        (
+            isNewResource,
+            userSelector
+        ],(
             resourcePerms,
             userCanAddResource,
             resource,
             dirtyState,
             selectedLayerPermissions,
-            newResource
+            newResource,
+            user
         ) => ({
             resourcePerms: resourcePerms.length > 0 ? resourcePerms : userCanAddResource ? ['change_resourcebase'] : [],
             resource,
             isDirtyState: !!dirtyState,
             selectedLayerPermissions,
-            disableTitle: newResource
+            disableTitle: newResource,
+            user
         })
-    )
+    ),{
+        onEditBanner: editBannerResource,
+        onResourceBanner: setResourceBanner
+    }
 )(ActionNavbarPlugin);
 
 export default createPlugin('ActionNavbar', {

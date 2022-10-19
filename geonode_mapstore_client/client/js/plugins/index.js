@@ -443,82 +443,82 @@ export const plugins = {
         'DublinCoreDownload',
         () => import(/* webpackChunkName: 'plugins/iso-download-plugin' */ '@js/plugins/downloads/DublinCoreDownload')
     ),
-    // PrintScreenPlugin: toLazyPlugin(
-    //     'PrintScreen',
-    //     () => import('@js/plugins/PrintScreen'),
-    //     {
-    //         containers: {
-    //             ActionNavbar: {
-    //                 name: 'PrintScreen',
-    //                 Component: PrintScreenActionButton
-    //             }
-    //         }
-    //     }
-    // ),
-    // RoutingPlugin: toLazyPlugin(
-    //     'Routing',
-    //     () => import('@js/plugins/Routing'),
-    //     {
-    //         containers: {
-    //             ActionNavbar: {
-    //                 name: 'Routing',
-    //                 Component: RoutingActionButton
-    //             }
-    //         }
-    //     }
-    // ),
-    // NearbyPlugin: toLazyPlugin(
-    //     'Nearby',
-    //     () => import('@js/plugins/Nearby'),
-    //     {
-    //         containers: {
-    //             ActionNavbar: {
-    //                 name: 'Nearby',
-    //                 Component: NearbyActionButton
-    //             }
-    //         }
-    //     }
-    // ),
-    // BufferPlugin: toLazyPlugin(
-    //     'Buffer',
-    //     () => import('@js/plugins/Buffer'),
-    //     {
-    //         containers: {
-    //             ActionNavbar: {
-    //                 name: 'Buffer',
-    //                 Component: BufferActionButton
-    //             }
-    //         }
-    //     }
-    // ),
-    // MergeLayerPlugin: toLazyPlugin(
-    //     'MergeLayer',
-    //     () => import('@js/plugins/MergeLayer'),
-    //     {
-    //         containers: {
-    //             ActionNavbar: {
-    //                 name: 'MergeLayer',
-    //                 Component: MergeLayerActionButton
-    //             }
-    //         }
-    //     }
-    // ),
-    // PrintStandardPlugin: toLazyPlugin(
-    //     'PrintStandard',
-    //     () => import('@js/plugins/PrintStandard'),
-    //     {
-    //         containers: {
-    //             ActionNavbar: {
-    //                 name: 'PrintStandard',
-    //                 Component: PrintStandardActionButton
-    //             }
-    //         }
-    //     }
-    // ),
-    // ExportGeoJsonPlugin: toLazyPlugin(
-    //     'ExportGeoJson',
-    //     () => import('@js/plugins/ExportGeoJson')
-    // ),
+    PrintScreenPlugin: toLazyPlugin(
+        'PrintScreen',
+        () => import('@js/plugins/PrintScreen'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'PrintScreen',
+                    Component: PrintScreenActionButton
+                }
+            }
+        }
+    ),
+    RoutingPlugin: toLazyPlugin(
+        'Routing',
+        () => import('@js/plugins/Routing'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'Routing',
+                    Component: RoutingActionButton
+                }
+            }
+        }
+    ),
+    NearbyPlugin: toLazyPlugin(
+        'Nearby',
+        () => import('@js/plugins/Nearby'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'Nearby',
+                    Component: NearbyActionButton
+                }
+            }
+        }
+    ),
+    BufferPlugin: toLazyPlugin(
+        'Buffer',
+        () => import('@js/plugins/Buffer'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'Buffer',
+                    Component: BufferActionButton
+                }
+            }
+        }
+    ),
+    MergeLayerPlugin: toLazyPlugin(
+        'MergeLayer',
+        () => import('@js/plugins/MergeLayer'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'MergeLayer',
+                    Component: MergeLayerActionButton
+                }
+            }
+        }
+    ),
+    PrintStandardPlugin: toLazyPlugin(
+        'PrintStandard',
+        () => import('@js/plugins/PrintStandard'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'PrintStandard',
+                    Component: PrintStandardActionButton
+                }
+            }
+        }
+    ),
+    ExportGeoJsonPlugin: toLazyPlugin(
+        'ExportGeoJson',
+        () => import('@js/plugins/ExportGeoJson')
+    ),
     MapImportPlugin: toLazyPlugin(
         'MapImport',
         () => import('@mapstore/framework/plugins/MapImport'),

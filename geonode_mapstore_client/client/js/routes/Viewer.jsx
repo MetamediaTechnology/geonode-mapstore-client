@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo,useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -16,7 +16,10 @@ import { getMonitoredState } from '@mapstore/framework/utils/PluginsUtils';
 import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 import PluginsContainer from '@mapstore/framework/components/plugins/PluginsContainer';
 import useLazyPlugins from '@js/hooks/useLazyPlugins';
-import { requestResourceConfig, requestNewResourceConfig } from '@js/actions/gnresource';
+import {
+    requestResourceConfig,
+    requestNewResourceConfig,
+} from '@js/actions/gnresource';
 import MetaTags from '@js/components/MetaTags';
 import MainEventView from '@js/components/MainEventView';
 import ViewerLayout from '@js/components/ViewerLayout';
@@ -111,11 +114,13 @@ function ViewerRoute({
         // hide the naviagtion bar is a recource is being viewed
         if (!loading) {
             document.getElementById('gn-topbar')?.classList.add('hide-navigation');
+            document.getElementById('sphere-header')?.classList.add('hide-sphere-header')
             document.getElementById('gn-brand-navbar-bottom')?.classList.add('hide-search-bar');
             resize();
         }
         return () => {
             document.getElementById('gn-topbar')?.classList.remove('hide-navigation');
+            document.getElementById('sphere-header')?.classList.remove('hide-sphere-header')
             document.getElementById('gn-brand-navbar-bottom')?.classList.remove('hide-search-bar');
             resize();
         };
@@ -155,7 +160,7 @@ const ConnectedViewerRoute = connect(
         state => state?.gnsettings?.siteName || 'GeoNode',
         state => state?.gnresource?.loadingResourceConfig,
         state => state?.gnresource?.configError
-    ], (resource, siteName, loadingConfig, configError) => ({
+    ], (resource, siteName, loadingConfig, configError,user) => ({
         resource,
         siteName,
         loadingConfig,
@@ -164,7 +169,6 @@ const ConnectedViewerRoute = connect(
     {
         onUpdate: requestResourceConfig,
         onCreate: requestNewResourceConfig
-
     }
 )(ViewerRoute);
 
