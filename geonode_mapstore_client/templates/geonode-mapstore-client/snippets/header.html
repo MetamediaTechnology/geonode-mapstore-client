@@ -4,10 +4,19 @@
 </header>
 <div class="gn-main-header-placeholder"></div>
 {% if show_hero %}
-    {% include './hero.html' %}
+    <div>
+        {% include './hero.html' %}
+        <div style="background-color:#f2f0f0; width:100%;">
+            <div class="container">
+                 {% include './search_bar.html' with search_bar_id='gn-search-bar' %}
+            </div>
+        </div>
+    </div>
 {% endif %}
 
+{% if show_hero is not True %}
 {% include './topbar.html' with id='gn-topbar' %}
+{% endif %}
 
 <script>
     (function () {

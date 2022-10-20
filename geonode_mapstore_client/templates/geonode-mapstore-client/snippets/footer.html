@@ -1,21 +1,68 @@
+<style>
+  .marine-footer {
+        padding: 10px;
+        background-color: #185787;
+    }
 
+    .footer-brand>img {
+        height: 100%;
+        padding: 25px;
+        width: 200px;
+    }
 
-<footer class="gn-footer">
-    <ul>
-        <li>
-            <a href="https://geonode.org/" class="nav-link">
-                <span>geonode.org</span>
-            </a>
-        </li>
-        <li>
-            <a href="/developer/" class="nav-link">
-                <span>Developers</span>
-            </a>
-        </li>
-        <li>
-            <a href="/about/" class="nav-link">
-                <span>About</span>
-            </a>
-        </li>
-    </ul>
-</footer>
+    .marine-text-address {
+        font-size: 16px;
+        padding: 20px;
+        color: #FFF;
+    }
+
+    .footer-bottom {
+        background-color: #185787;
+        min-height: 30px;
+        width: 100%;
+    }
+
+    .copyright {
+        color: #fff;
+        line-height: 30px;
+        min-height: 30px;
+        padding: 7px 0;
+    }
+
+    .design {
+        color: #fff;
+        line-height: 30px;
+        min-height: 30px;
+        padding: 7px 0;
+        text-align: right;
+    }
+
+    .design a {
+        color: #fff;
+    }
+    @media only screen and (max-width: 600px) {
+        #marine-map-footer{
+            text-align: center !important
+        }
+        #marine-map-footer .design{
+            text-align: center !important
+        }
+    }
+
+</style>
+<div class="footer-bottom" id="marine-map-footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="copyright">
+                    &copy; 2022 GISTDA All rights reserved.
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="design">
+                    Version 0.0.3
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
