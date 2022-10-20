@@ -432,17 +432,7 @@
                     "action": "copy",
                     "labelId": "gnviewer.clone",
                     "icon": "copy",
-                    "authenticated": true,
-                    "perms": [
-                        {
-                            "type": "user",
-                            "value": "add_resource"
-                        },
-                        {
-                            "type": "resource",
-                            "value": "download_resourcebase"
-                        }
-                    ]
+                    "authenticated": true
                 },
                 {
                     "type": "button",
@@ -847,7 +837,7 @@
                         {
                             "labelId": "gnviewer.save",
                             "showPendingChangesIcon": true,
-                            "disableIf": "{!state('isNewResource') && !context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && (!context.canCopyResource(state('gnResourceData'), state('user')) || !state('selectedLayerPermissions').includes('download_resourcebase'))}",
+                            "disableIf": "{!state('isNewResource') && !context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !context.canCopyResource(state('gnResourceData'), state('user'))}",
                             "type": "dropdown",
                             "items": [
                                 {
@@ -856,8 +846,7 @@
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "SaveAs",
-                                    "disableIf": "{!state('selectedLayerPermissions').includes('download_resourcebase') || !context.resourceHasPermission(state('gnResourceData'), 'download_resourcebase')}"
+                                    "name": "SaveAs"
                                 }
                             ]
                         },
@@ -967,6 +956,28 @@
                             "href": "{'#/map/new?gn-dataset=' + (state('gnResourceData') || {}).pk}",
                             "labelId": "gnviewer.createMap",
                             "disableIf": "{!(state('user') && state('user').perms && state('user').perms.includes('add_resource'))}"
+                        },
+                        {
+                            "labelId": "gnviewer.moreMenuItem",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Nearby"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "Routing"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "PrintScreen"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "PrintStandard"
+                                }
+                            ]
                         }
                     ],
                     "rightMenuItems": [
@@ -1396,6 +1407,18 @@
             },
             {
                 "name": "Legend"
+            },
+            {
+                "name": "Nearby"
+            },
+            {
+                "name": "Routing"
+            },
+            {
+                "name": "PrintScreen"
+            },
+            {
+                "name": "PrintStandard"
             }
         ],
         "dataset_edit_data_viewer": [
@@ -1761,13 +1784,42 @@
                         },
                         {
                             "type": "plugin",
-                            "name": "MapImport",
+                            "name": "MetadataExplorer",
                             "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !state('isNewResource')}"
                         },
                         {
-                            "type": "plugin",
-                            "name": "MetadataExplorer",
-                            "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !state('isNewResource')}"
+                            "labelId": "gnviewer.moreMenuItem",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "MapImport"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "Nearby"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "Routing"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "Buffer"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "MergeLayer"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "PrintScreen"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "PrintStandard"
+                                }
+                            ]
                         }
                     ],
                     "rightMenuItems": [
@@ -2182,10 +2234,7 @@
                 "name": "Locate"
             },
             {
-                "name": "WidgetsBuilder",
-                "cfg": {
-                    "disablePluginIf": "{!state('selectedLayerPermissions').includes('download_resourcebase')}"
-                }
+                "name": "WidgetsBuilder"
             },
             {
                 "name": "Save",
@@ -2242,6 +2291,27 @@
                     "editingAllowedRoles": null,
                     "enableSetDefaultStyle": true
                 }
+            },
+            {
+                "name": "Nearby"
+            },
+            {
+                "name": "Routing"
+            },
+            {
+                "name": "Buffer"
+            },
+            {
+                "name": "MergeLayer"
+            },
+            {
+                "name": "PrintScreen"
+            },
+            {
+                "name": "PrintStandard"
+            },
+            {
+                "name": "ExportGeoJson"
             },
             {
                 "name": "MapImport"
@@ -2447,7 +2517,7 @@
                             "labelId": "gnviewer.save",
                             "type": "dropdown",
                             "showPendingChangesIcon": true,
-                            "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && (!context.canCopyResource(state('gnResourceData'), state('user')) || !context.resourceHasPermission(state('gnResourceData'), 'download_resourcebase'))}",
+                            "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !context.canCopyResource(state('gnResourceData'), state('user'))}",
                             "items": [
                                 {
                                     "type": "plugin",
@@ -2455,8 +2525,7 @@
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "SaveAs",
-                                    "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'download_resourcebase')}"
+                                    "name": "SaveAs"
                                 }
                             ]
                         },
