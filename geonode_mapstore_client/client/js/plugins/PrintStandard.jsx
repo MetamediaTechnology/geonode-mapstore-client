@@ -227,7 +227,8 @@ class PrintStandardComponent extends React.Component {
             title: "Open Street Map",
             type: "graticule",
             visibility: true,
-            showLabels: true
+            showLabels: true,
+            labels: true
         },
         ...this.props.layers
         ];

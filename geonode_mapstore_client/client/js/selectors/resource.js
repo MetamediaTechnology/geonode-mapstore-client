@@ -222,6 +222,10 @@ export const getResourceDirtyState = (state) => {
         : null;
 };
 
+export const getResourceMapKeyApi = (state) => {
+    return state?.gnresource?.data?.map_key || false;
+};
+
 /**
  * Get geonode resources from within a Geostory
  * @param {Object} state App state

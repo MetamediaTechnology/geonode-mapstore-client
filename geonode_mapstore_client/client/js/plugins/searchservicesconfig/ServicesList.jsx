@@ -21,7 +21,7 @@ class ServicesList extends React.Component {
     static propTypes = {
         services: PropTypes.array,
         override: PropTypes.bool,
-        longdoSearch: PropTypes.bool,
+        baseSearch: PropTypes.bool,
         service: PropTypes.object,
         onPropertyChange: PropTypes.func
     };
@@ -33,7 +33,7 @@ class ServicesList extends React.Component {
     static defaultProps = {
         services: [],
         override: false,
-        longdoSearch: localStorage.getItem('isLongdoSearch') === 'true' ? true : false,
+        baseSearch: localStorage.getItem('isBaseSearch') === 'true' ? true : false,
         onPropertyChange: () => {}
     };
 
@@ -86,8 +86,8 @@ class ServicesList extends React.Component {
     };
 
     searchByLongdoMap = () => {
-        const { services, longdoSearch } = this.props
-        this.props.onPropertyChange("textSearchConfig", {services, longdoSearch: !longdoSearch});
+        const { services, baseSearch } = this.props
+        this.props.onPropertyChange("textSearchConfig", {services, baseSearch: !baseSearch});
     }
 
     remove = (idx) => {

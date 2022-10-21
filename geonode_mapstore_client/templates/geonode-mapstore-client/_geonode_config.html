@@ -62,6 +62,11 @@
         const translationsPath = geoNodeSettings.TRANSLATIONS_PATH;
         const extensionsFolder = geoNodeSettings.EXTENSIONS_FOLDER_PATH;
         const supportedDatasetFileTypes = geoNodeSettings.SUPPORTED_DATASET_FILE_TYPES;
+        const longdoApiKey = geoNodeSettings.LONGDO_API_KEY;
+        const sphereApiKey = geoNodeSettings.SPHERE_API_KEY;
+        const mapApiUrl = geoNodeSettings.MAP_API_URL;
+        const routeApiUrl = geoNodeSettings.ROUTE_API_URL;
+        const searchApiUrl = geoNodeSettings.SEARCH_API_URL;
 
         const isEmbed = checkBoolean('{{ is_embed }}') || false;
         const pluginsConfigKey = '{{ plugins_config_key }}';
@@ -130,7 +135,12 @@
                     maxParallelUploads: maxParallelUploads,
                     upload: { 
                         supportedDatasetFileTypes: supportedDatasetFileTypes
-                        }
+                    },
+                    longdoApiKey: longdoApiKey,
+                    sphereApiKey: sphereApiKey,
+                    mapApiUrl: mapApiUrl,
+                    routeApiUrl: routeApiUrl,
+                    searchApiUrl: searchApiUrl
                 },
                 geoNodeConfiguration: {
                     cardsMenu: {

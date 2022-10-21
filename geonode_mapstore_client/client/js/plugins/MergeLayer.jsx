@@ -158,7 +158,7 @@ class MergeLayerComponent extends React.Component {
                         {this.props.loading ? (
                             <button
                                 key="mergelayer-merge"
-                                className="btn btn-longdo-outline-info"
+                                className="btn btn-outline-info"
                                 style={{ minWidth: "100px" }}
                                 disabled
                             >
@@ -167,7 +167,7 @@ class MergeLayerComponent extends React.Component {
                         ) : (
                             <button
                                 key="mergelayer-merge"
-                                className="btn btn-longdo-outline-info"
+                                className="btn btn-outline-info"
                                 style={{ minWidth: "100px" }}
                                 onClick={this.onDoMerge}
                             >
@@ -177,7 +177,7 @@ class MergeLayerComponent extends React.Component {
 
                         <button
                             key="clear-mergelayer"
-                            className="btn btn-longdo-outline"
+                            className="btn btn-outline"
                             style={{
                                 minWidth: "90px",
                                 marginRight: "5px"

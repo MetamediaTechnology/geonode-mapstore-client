@@ -145,3 +145,15 @@ export const getExtent = ({
     }
     return null;
 };
+
+export const locationBound = (e) => {
+    for (var n, t = (n = e[0]).lon, o = n.lat, a = t, r = o, i = 1; n = e[i]; ++i)
+        n.lon < t ? t = n.lon : n.lon > a && (a = n.lon),
+        n.lat < o ? o = n.lat : n.lat > r && (r = n.lat);
+    return {
+        minLon: t,
+        minLat: o,
+        maxLon: a,
+        maxLat: r
+    }
+}
