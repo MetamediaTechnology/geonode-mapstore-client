@@ -7,7 +7,10 @@ import Rx from 'rxjs';
 import { get } from 'lodash';
 import { createControlEnabledSelector } from '@mapstore/framework/selectors/controls';
 import { createSelector } from 'reselect';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
+import {
+    LOADING_RESOURCE_CONFIG,
+} from '@js/actions/gnresource';
 
 import {
     groupsSelector,
@@ -29,15 +32,25 @@ const layerNodesExtracter = (groups) => {
 }
 const selector = (state) => {
     return {
-        layersInterval: state.fetchLayer.layersInterval
+        layersInterval: state.fetchLayer.layersInterval,
+        map: state.map
     };
 };
+
+const setOneInterval = (layer) => {
+    return {
+        type: 'LAYERS:SET_ONE_INTERVAL',
+        layerId: layer,
+        layer: layer
+    }
+}
 const cancelInterval = (layer) => {
     return {
         type: 'LAYERS:CANCLE_INTERVAL',
         layer: layer
     }
 }
+
 const defaultState = {
     layersInterval: [],
 };
@@ -51,6 +64,11 @@ function fetchLayerReducers(state = defaultState, action) {
                 })
             });
         }
+        case 'FETCH:UPDATE_LAYER_MAP_INTERVAL': {
+            return assign({},state, {
+                // map: state.map.la
+            })
+        }
         default: {
             return state;
         }
@@ -58,12 +76,13 @@ function fetchLayerReducers(state = defaultState, action) {
 }
 class FetchLayerCmp extends React.Component {
     static propTypes = {
-        layerInterval: PropTypes.array,
+        layerInterval: PropTypes.array
     };
 
     static defaultProps = {
         layersInterval: []
     };
+
     render() {
         return null
     }
@@ -76,14 +95,14 @@ const fetchLayer = connect(
             (state) => {
                 return FetchLayerSelector(state);
             },
-            groupsSelector
+            groupsSelector,
         ],
-        (fetchLayerState, show, layersGroups) => {
+        (fetchLayerState, show, layersGroups,mapSelector) => {
             return {
                 ...fetchLayerState,
                 show,
                 layersGroups,
-                layers: layerNodesExtracter(layersGroups)
+                layers: layerNodesExtracter(layersGroups),
             };
         }
     ),
@@ -93,7 +112,19 @@ const fetchLayer = connect(
         pure: false
     }
 )(FetchLayerCmp);
-const updateSettingParamsEpic = (action$, store) =>
+
+const setOneLayerIntervalEpic = (action$, store) =>
+        action$.ofType('LAYERS:SET_ONE_INTERVAL')
+            .flatMap((action) => {
+                    store.getState();
+                    const _layer = action.layer
+                    const timeInterval = (Number.parseInt(_layer.timeInterval) * 1000) || 1000;
+                    return Rx.Observable.interval(timeInterval)
+                    .map(() =>
+                        refreshLayerVersion(_layer.id)
+                    ).takeUntil(action$.filter(x => (x.type === 'LAYERS:CANCLE_INTERVAL' && x.layer.id == _layer.id)))
+            })
+const triggerRefreshLayerEpic = (action$, store) =>
     action$.ofType('UPDATE_NODE')
         .flatMap(() => {
             const state = store.getState();
@@ -112,12 +143,31 @@ const updateSettingParamsEpic = (action$, store) =>
                 ])
             }
         })
+const updateSettingParamsEpic = (action$, store) =>
+        action$.ofType(LOADING_RESOURCE_CONFIG)
+            .flatMap((action) => {
+                const state = store.getState();
+                const layersFlat = state.layers.flat
+                const layers = layersFlat.filter((layer) => { 
+                    if(layer.timeInterval && layer.timeInterval !== 'Never') {
+                        return layer
+                    } else {
+                        return false
+                    }
+                })     
+                return Rx.Observable.from(
+                    layers.map(layer => setOneInterval(layer))
+                )
+            })
+
 export default {
     FetchLayersPlugin: assign(fetchLayer, {}),
     reducers: {
         fetchLayer: fetchLayerReducers
     },
     epics: {
-        updateSettingParamsEpic
+        triggerRefreshLayerEpic,
+        updateSettingParamsEpic,
+        setOneLayerIntervalEpic
     }
 };
