@@ -26,6 +26,7 @@ export const mapSaveSelector = (state) => {
                     const { availableStyles } = layerState;
                     return {
                         ...layer,
+                        timeInterval: layerState.timeInterval || 'Never',
                         availableStyles
                     };
                 }
