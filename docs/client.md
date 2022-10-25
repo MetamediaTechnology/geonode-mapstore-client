@@ -734,10 +734,13 @@ Given a bounds { minx, miny, maxx, maxy } and a crs return the extent param as s
 <a name="module_utils/CoordinatesUtils.getExtent"></a>
 
 ### utils/CoordinatesUtils.getExtent ⇒ <code>Array</code>
-Get the extent of area of interest from map bboxthe values of the extent are expressed in the unit of the projection
+Get the extent of area of interest from map bbox
+the values of the extent are expressed in the unit of the projection
 
 **Kind**: static constant of [<code>utils/CoordinatesUtils</code>](#module_utils/CoordinatesUtils)  
-**Returns**: <code>Array</code> - containng minx, miny, maxx, maxyminx, miny -> bottom-left corner of squaremaxx, maxy -> top-right corner of square  
+**Returns**: <code>Array</code> - containng minx, miny, maxx, maxy
+minx, miny -> bottom-left corner of square
+maxx, maxy -> top-right corner of square  
 
 | Param | Type | Description |
 | --- | --- | --- |
