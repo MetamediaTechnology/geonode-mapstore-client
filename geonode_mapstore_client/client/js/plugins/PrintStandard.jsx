@@ -131,13 +131,13 @@ class PrintStandardComponent extends React.Component {
     };
 
     dialogStyle = {
-        position: 'fixed',
+        position: 'absolute',
         top: '0px',
         width: '60%'
     };
     start = {
-        x: (window.innerWidth - 800) * 0.5,
-        y: (window.innerHeight - 800) * 0.5
+        x: (window.innerWidth) / 5,
+        y: 10
     }
 
     onPrint = () => {
@@ -233,7 +233,7 @@ class PrintStandardComponent extends React.Component {
         ...this.props.layers
         ];
         return this.props.show ?
-            <Dialog id="prtstd-dialog" style={this.dialogStyle} start={this.start} >
+            <Dialog id="prtstd-dialog" style={this.dialogStyle} start={this.start}>
                 <div key="header" role="header">
                     <Glyphicon glyph="print" />&nbsp;Print Standard
                     <button key="close" onClick={this.onClose} className="close"><Glyphicon glyph="1-close" /></button>
@@ -243,9 +243,13 @@ class PrintStandardComponent extends React.Component {
                     overflow: 'scroll',
                     backgroundColor: '#E9E9E9'
                 }}>
-                    <div className="control-paper">
-                        <input type={'button'} value="-" className="btn btn-info" onClick={this.onZoomControl} />
-                        <input type={'button'} value="+" className="btn btn-info" onClick={this.onZoomControl} />
+                    <div>
+                        <div style={{textAlign:'center'}}>Zoom</div>
+                        <div className="control-paper">
+                            <input type={'button'} value="-" className="btn btn-info" onClick={this.onZoomControl} />
+                            &nbsp;&nbsp;
+                            <input type={'button'} value="+" className="btn btn-info" onClick={this.onZoomControl} />
+                        </div>
                     </div>
                     <div style={
                         {
@@ -267,16 +271,18 @@ class PrintStandardComponent extends React.Component {
                             </div>
                             <div className="title">
                                 <div>
-                                    <input style={{ textAlign: 'center', border: 'none' }} type="text" onKeyUp={this.onChangePrintTitle} placeholder={'แผนที่ไม่มีชื่อ'}/>
+                                    <input style={{ textAlign: 'center', border: 'none', width:'600px' }} type="text" onKeyUp={this.onChangePrintTitle} placeholder={'แผนที่ไม่มีชื่อ'}/>
                                 </div>
                                 <div id="address"></div>
                             </div>
                             <div className="logo right">
-                                <img src="https://via.placeholder.com/250x250" width={'100%'} />
+                                <img src={gistdaLogo} width={'100%'} />
                             </div>
                         </div>
                         <div id="main-map-section">
                             <MapStandardPreview
+                                height={'600'}
+                                width={'400'}
                                 onMapViewChanges={this.onMapViewChanges}
                                 resolutions={getResolutions()}
                                 map={this.props.map}
@@ -290,7 +296,7 @@ class PrintStandardComponent extends React.Component {
                         </div>
                         <div id="prtstd-symbol">
                             <div id="legend">
-                                <label>สัญลักษณ์</label>
+                                <label>&nbsp;&nbsp;สัญลักษณ์</label>
                                 <div>
                                     {
                                         this.props.layers.map((layer) => {
