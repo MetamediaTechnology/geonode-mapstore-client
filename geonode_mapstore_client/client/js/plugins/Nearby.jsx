@@ -375,7 +375,7 @@ class NearbyDialog extends React.Component {
                                                 responses={this.props.layersNode}
                                                 index={this.props.layerIndex}
                                                 setIndex={this.onLayerChange}
-                                            ></LayerSelector>
+                                            />
                                         </div>
                                         <div className="btn-toolbar" style={{ marginTop: '10px' }}>
                                             <div className="row">

@@ -217,10 +217,10 @@ class SearchServicesConfigPanel extends React.Component {
     };
 }
 export function setSearchConfigProp(property, value) {
-    if(value.baseSearch){
-        localStorage.setItem('isBaseSearch',true)
+    if (value.baseSearch) {
+        localStorage.setItem('isBaseSearch', true);
     } else {
-        localStorage.setItem('isBaseSearch',false)
+        localStorage.setItem('isBaseSearch', false);
     }
     return {
         type: SET_SEARCH_CONFIG_PROP,

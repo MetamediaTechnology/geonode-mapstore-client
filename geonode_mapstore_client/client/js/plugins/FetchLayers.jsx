@@ -7,9 +7,9 @@ import Rx from 'rxjs';
 import { get } from 'lodash';
 import { createControlEnabledSelector } from '@mapstore/framework/selectors/controls';
 import { createSelector } from 'reselect';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import {
-    LOADING_RESOURCE_CONFIG,
+    LOADING_RESOURCE_CONFIG
 } from '@js/actions/gnresource';
 
 import {
@@ -19,17 +19,17 @@ import {
 } from '@mapstore/framework/selectors/layers';
 import {
     refreshLayerVersion
-} from '@mapstore/framework/actions/layers'
+} from '@mapstore/framework/actions/layers';
 createControlEnabledSelector('fetchlayer');
 const FetchLayerSelector = (state) => get(state, 'controls.fetchlayer.enabled');
 
 const layerNodesExtracter = (groups) => {
-    const layerNode = []
+    const layerNode = [];
     groups.map(groupNode => {
-        layerNode.push(...groupNode.nodes)
-    })
-    return layerNode
-}
+        layerNode.push(...groupNode.nodes);
+    });
+    return layerNode;
+};
 const selector = (state) => {
     return {
         layersInterval: state.fetchLayer.layersInterval,
@@ -42,36 +42,36 @@ const setOneInterval = (layer) => {
         type: 'LAYERS:SET_ONE_INTERVAL',
         layerId: layer,
         layer: layer
-    }
-}
+    };
+};
 const cancelInterval = (layer) => {
     return {
         type: 'LAYERS:CANCLE_INTERVAL',
         layer: layer
-    }
-}
+    };
+};
 
 const defaultState = {
-    layersInterval: [],
+    layersInterval: []
 };
 function fetchLayerReducers(state = defaultState, action) {
     switch (action.type) {
-        case 'FETCH:SET_LAYER_INTERVAL_WORK': {
-            return assign({}, state, {
-                layersInterval: state.layersInterval.concat({
-                    id: action.id,
-                    layer: action.layer
-                })
-            });
-        }
-        case 'FETCH:UPDATE_LAYER_MAP_INTERVAL': {
-            return assign({},state, {
-                // map: state.map.la
+    case 'FETCH:SET_LAYER_INTERVAL_WORK': {
+        return assign({}, state, {
+            layersInterval: state.layersInterval.concat({
+                id: action.id,
+                layer: action.layer
             })
-        }
-        default: {
-            return state;
-        }
+        });
+    }
+    case 'FETCH:UPDATE_LAYER_MAP_INTERVAL': {
+        return assign({}, state, {
+            // map: state.map.la
+        });
+    }
+    default: {
+        return state;
+    }
     }
 }
 class FetchLayerCmp extends React.Component {
@@ -84,7 +84,7 @@ class FetchLayerCmp extends React.Component {
     };
 
     render() {
-        return null
+        return null;
     }
 }
 
@@ -95,14 +95,14 @@ const fetchLayer = connect(
             (state) => {
                 return FetchLayerSelector(state);
             },
-            groupsSelector,
+            groupsSelector
         ],
-        (fetchLayerState, show, layersGroups,mapSelector) => {
+        (fetchLayerState, show, layersGroups) => {
             return {
                 ...fetchLayerState,
                 show,
                 layersGroups,
-                layers: layerNodesExtracter(layersGroups),
+                layers: layerNodesExtracter(layersGroups)
             };
         }
     ),
@@ -114,16 +114,16 @@ const fetchLayer = connect(
 )(FetchLayerCmp);
 
 const setOneLayerIntervalEpic = (action$, store) =>
-        action$.ofType('LAYERS:SET_ONE_INTERVAL')
-            .flatMap((action) => {
-                    store.getState();
-                    const _layer = action.layer
-                    const timeInterval = (Number.parseInt(_layer.timeInterval) * 1000) || 1000;
-                    return Rx.Observable.interval(timeInterval)
-                    .map(() =>
-                        refreshLayerVersion(_layer.id)
-                    ).takeUntil(action$.filter(x => (x.type === 'LAYERS:CANCLE_INTERVAL' && x.layer.id == _layer.id)))
-            })
+    action$.ofType('LAYERS:SET_ONE_INTERVAL')
+        .flatMap((action) => {
+            store.getState();
+            const _layer = action.layer;
+            const timeInterval = (Number.parseInt(_layer.timeInterval) * 1000) || 1000;
+            return Rx.Observable.interval(timeInterval)
+                .map(() =>
+                    refreshLayerVersion(_layer.id)
+                ).takeUntil(action$.filter(x => (x.type === 'LAYERS:CANCLE_INTERVAL' && x.layer.id === _layer.id)));
+        });
 const triggerRefreshLayerEpic = (action$, store) =>
     action$.ofType('UPDATE_NODE')
         .flatMap(() => {
@@ -136,29 +136,29 @@ const triggerRefreshLayerEpic = (action$, store) =>
                     .map(() =>
                         refreshLayerVersion(layer.id)
                     )
-                    .takeUntil(action$.filter(x => (x.type === 'LAYERS:CANCLE_INTERVAL' && x.layer.id == layer.id)))
-            } else {
-                return Rx.Observable.from([
-                    cancelInterval(layer)
-                ])
+                    .takeUntil(action$.filter(x => (x.type === 'LAYERS:CANCLE_INTERVAL' && x.layer.id === layer.id)));
             }
-        })
+            return Rx.Observable.from([
+                cancelInterval(layer)
+            ]);
+
+        });
 const updateSettingParamsEpic = (action$, store) =>
-        action$.ofType(LOADING_RESOURCE_CONFIG)
-            .flatMap((action) => {
-                const state = store.getState();
-                const layersFlat = state.layers.flat
-                const layers = layersFlat.filter((layer) => { 
-                    if(layer.timeInterval && layer.timeInterval !== 'Never') {
-                        return layer
-                    } else {
-                        return false
-                    }
-                })     
-                return Rx.Observable.from(
-                    layers.map(layer => setOneInterval(layer))
-                )
-            })
+    action$.ofType(LOADING_RESOURCE_CONFIG)
+        .flatMap(() => {
+            const state = store.getState();
+            const layersFlat = state.layers.flat;
+            const layers = layersFlat.filter((layer) => {
+                if (layer.timeInterval && layer.timeInterval !== 'Never') {
+                    return layer;
+                }
+                return false;
+
+            });
+            return Rx.Observable.from(
+                layers.map(layer => setOneInterval(layer))
+            );
+        });
 
 export default {
     FetchLayersPlugin: assign(fetchLayer, {}),

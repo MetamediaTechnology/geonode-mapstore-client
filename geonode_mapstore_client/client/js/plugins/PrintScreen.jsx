@@ -77,6 +77,7 @@ class PrintScreenComponent extends React.Component {
         show: PropTypes.bool,
         captureImg: PropTypes.string,
         onDownload: PropTypes.func,
+        onCapture: PropTypes.func,
         onReCapture: PropTypes.func,
         onClose: PropTypes.func
     };
@@ -101,13 +102,14 @@ class PrintScreenComponent extends React.Component {
     }
 
     componentDidMount() {
-        new Promise((resolve, reject) => {
+        new Promise((resolve) => {
             const id = 'html2canvas-api';
             var scriptTag = window.document.getElementById(id);
+            var script = null;
             if (scriptTag) {
                 resolve();
             } else {
-                var script = window.document.createElement('script');
+                script = window.document.createElement('script');
                 script.setAttribute('id', id);
                 script.setAttribute('src', 'https://html2canvas.hertzen.com/dist/html2canvas.min.js');
                 script.onload = () => {

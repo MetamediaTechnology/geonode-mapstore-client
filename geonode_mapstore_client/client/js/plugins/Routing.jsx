@@ -148,6 +148,7 @@ class RoutingDialog extends React.Component {
             if (!point.lat || !point.lon) {
                 return point;
             }
+            return false;
         });
         const routeMode = this.props.routeMode;
         const routeType = this.props.routeType;

@@ -244,7 +244,7 @@ class PrintStandardComponent extends React.Component {
                     backgroundColor: '#E9E9E9'
                 }}>
                     <div>
-                        <div style={{textAlign:'center'}}>Zoom</div>
+                        <div style={{textAlign: 'center'}}>Zoom</div>
                         <div className="control-paper">
                             <input type={'button'} value="-" className="btn btn-info" onClick={this.onZoomControl} />
                             &nbsp;&nbsp;
@@ -271,7 +271,7 @@ class PrintStandardComponent extends React.Component {
                             </div>
                             <div className="title">
                                 <div>
-                                    <input style={{ textAlign: 'center', border: 'none', width:'600px' }} type="text" onKeyUp={this.onChangePrintTitle} placeholder={'แผนที่ไม่มีชื่อ'}/>
+                                    <input style={{ textAlign: 'center', border: 'none', width: '600px' }} type="text" onKeyUp={this.onChangePrintTitle} placeholder={'แผนที่ไม่มีชื่อ'}/>
                                 </div>
                                 <div id="address"></div>
                             </div>

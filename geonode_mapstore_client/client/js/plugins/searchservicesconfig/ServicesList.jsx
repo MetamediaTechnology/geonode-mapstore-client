@@ -86,7 +86,7 @@ class ServicesList extends React.Component {
     };
 
     searchByLongdoMap = () => {
-        const { services, baseSearch } = this.props
+        const { services, baseSearch } = this.props;
         this.props.onPropertyChange("textSearchConfig", {services, baseSearch: !baseSearch});
     }
 

@@ -231,7 +231,7 @@ export const searchPointForRouting = function(index, value, center, mapApiKey) {
     return (dispatch) => {
         return instance
             .get(
-                SERVICE_SEARCH_API_URL,
+                SEARCH_API_URL,
                 {
                     params: {
                         lat: center.y,
