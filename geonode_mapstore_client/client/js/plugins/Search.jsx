@@ -64,7 +64,8 @@ import uuidv1 from "uuid/v1";
 const axios = require('axios')
 const instance = axios.create();
 
-const LONGDO_API_KEY = "6605d49756a8e87937d07a0366bd7b13";
+const SEARCH_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').searchApiUrl;
+const SEARCH_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').longdoApiKey;
 
 const searchSelector = createSelector([
     state => state.search || null,
@@ -219,15 +220,16 @@ const SearchPlugin = connect((state) => ({
                 ;
         }
     });
-export const searchEpic = action$ =>
+export const searchEpic = (action$, { getState = () => { } }) =>
     action$.ofType(TEXT_SEARCH_STARTED)
         .debounceTime(250)
         .switchMap(action =>
             Rx.Observable.from(
                 (action.services || [{ type: "nominatim", priority: 5 }])
                     .map((service) => {
+                        const mapApiKey = getState().gnresource?.data?.map_key || false;
                         const serviceInstance = API.Utils.getService(service.type);
-                        const getSearchData = (searchText = '') => { return instance.get(`https://search.longdo.com/mapsearch/json/search?keyword=${searchText}&key=${LONGDO_API_KEY}`)}
+                        const getSearchData = (searchText = '') => { return instance.get(`${SEARCH_API_URL}?keyword=${searchText}&key=${mapApiKey || SEARCH_API_KEY}`)};
                         if (!serviceInstance) {
                             const err = new Error("Service Missing");
                             err.msgId = "search.service_missing";

@@ -3,6 +3,9 @@ import uuidv1 from "uuid/v1";
 import { changeDrawingStatus } from "@mapstore/framework/actions/draw";
 import { zoomToExtent } from "@mapstore/framework/actions/map";
 import { locationBound } from '@js/utils/CoordinatesUtils';
+import ConfigUtils from '@mapstore/framework/utils/ConfigUtils';
+
+const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').longdoApiKey;
 
 import {
     searchPointForRouting
@@ -146,7 +149,8 @@ export const routingChangePointInputEpic = (action$, { getState = () => { } }) =
         })
         .switchMap(({ index, value }) => {
             const center = getState().map.present.center;
+            const mapApiKey = getState().gnresource?.data?.map_key || false;
             return Rx.Observable.from([
-                searchPointForRouting(index, value, center)
+                searchPointForRouting(index, value, center, mapApiKey || MAP_API_KEY)
             ]);
         });

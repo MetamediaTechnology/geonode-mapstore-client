@@ -1,10 +1,12 @@
-const SERVICE_ROUTE_API_URL = "https://api.longdo.com/RouteService/geojson/route";
-const SERVICE_SEARCH_API_URL = "https://search.longdo.com/mapsearch/json/search";
-const SERVICE_MAP_API_KEY = "6605d49756a8e87937d07a0366bd7b13";
 const axios = require("axios");
 const instance = axios.create();
 
+import ConfigUtils from '@mapstore/framework/utils/ConfigUtils';
 import { routePointStyle } from "../styles/pointStyle";
+
+const ROUTE_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').routeApiUrl;
+const SEARCH_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').searchApiUrl;
+const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').longdoApiKey;
 
 // ROUTING ACTION
 export const addPoint = function() {
@@ -87,13 +89,13 @@ export const featureLoaded = function(features) {
 };
 
 // Search
-export const searchRouting = (pointList, routeMode, routeType) => {
+export const searchRouting = (pointList, routeMode, routeType, mapApiKey) => {
     return (dispatch) => {
         const routeTypeTotal = routeType.length === 0 ? null : routeType.reduce((type, a) => (Number.parseInt(type, 10) + Number.parseInt(a, 10)), 0);
         let geoJsonData = new Promise((resolve) => {
             setTimeout(() => {
                 let getRoutePath = instance.get(
-                    SERVICE_ROUTE_API_URL,
+                    ROUTE_API_URL,
                     {
                         params: {
                             flon: pointList[0].lon,
@@ -103,7 +105,7 @@ export const searchRouting = (pointList, routeMode, routeType) => {
                             locale: "th",
                             mode: routeMode,
                             type: routeTypeTotal,
-                            key: SERVICE_MAP_API_KEY
+                            key: mapApiKey || MAP_API_KEY
                         }
                     }
                 );
@@ -173,7 +175,7 @@ export const searchRouting = (pointList, routeMode, routeType) => {
                         (resolve) => {
                             setTimeout(() => {
                                 let getRoutePath = instance.get(
-                                    SERVICE_ROUTE_API_URL,
+                                    ROUTE_API_URL,
                                     {
                                         params: {
                                             flon: lon,
@@ -183,7 +185,7 @@ export const searchRouting = (pointList, routeMode, routeType) => {
                                             locale: "th",
                                             mode: routeMode,
                                             type: routeTypeTotal,
-                                            key: SERVICE_MAP_API_KEY
+                                            key: mapApiKey || MAP_API_KEY
                                         }
                                     }
                                 );
@@ -225,7 +227,7 @@ export const searchRouting = (pointList, routeMode, routeType) => {
         });
     };
 };
-export const searchPointForRouting = function(index, value, center) {
+export const searchPointForRouting = function(index, value, center, mapApiKey) {
     return (dispatch) => {
         return instance
             .get(
@@ -236,7 +238,7 @@ export const searchPointForRouting = function(index, value, center) {
                         lon: center.x,
                         keyword: value,
                         locale: "th",
-                        key: SERVICE_MAP_API_KEY
+                        key: mapApiKey || MAP_API_KEY
                     }
                 }
             )

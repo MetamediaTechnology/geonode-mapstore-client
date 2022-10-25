@@ -174,7 +174,7 @@ class SearchServicesConfigPanel extends React.Component {
                         <Section.Element
                             services={textSearchConfig.services}
                             override={textSearchConfig.override}
-                            longdoSearch={textSearchConfig.longdoSearch}
+                            baseSearch={textSearchConfig.baseSearch}
                             onPropertyChange={onPropertyChange}
                             service={service}/>
                     </div>
@@ -217,10 +217,10 @@ class SearchServicesConfigPanel extends React.Component {
     };
 }
 export function setSearchConfigProp(property, value) {
-    if(value.longdoSearch){
-        localStorage.setItem('isLongdoSearch',true)
-    }else{
-        localStorage.setItem('isLongdoSearch',false)
+    if(value.baseSearch){
+        localStorage.setItem('isBaseSearch',true)
+    } else {
+        localStorage.setItem('isBaseSearch',false)
     }
     return {
         type: SET_SEARCH_CONFIG_PROP,

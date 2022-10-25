@@ -12,6 +12,8 @@ import BorderLayout from "@mapstore/framework/components/layout/BorderLayout";
 import { setControlProperty, toggleControl } from "@mapstore/framework/actions/controls";
 import { Glyphicon, Row, Col } from "react-bootstrap";
 import { createControlEnabledSelector } from "@mapstore/framework/selectors/controls";
+import ConfigUtils from '@mapstore/framework/utils/ConfigUtils';
+import { getResourceMapKeyApi } from '@js/selectors/resourceservice';
 
 // Action
 import {
@@ -45,8 +47,8 @@ const routingSelector = (state) => get(state, "controls.routing.enabled");
 
 const toggleRoutingTool = toggleControl.bind(null, "routing", null);
 
-const SERVICE_MAP_API_URL = "https://api.longdo.com/map/?key=";
-const SERVICE_MAP_API_KEY = "6605d49756a8e87937d07a0366bd7b13";
+const MAP_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').mapApiUrl;
+const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').longdoApiKey;
 
 const selector = (state) => {
     return {
@@ -60,6 +62,7 @@ const selector = (state) => {
 
 class RoutingDialog extends React.Component {
     static propTypes = {
+        mapApiKey: PropTypes.string,
         show: PropTypes.bool,
         displaySetting: PropTypes.bool,
         dockProps: PropTypes.object,
@@ -80,6 +83,7 @@ class RoutingDialog extends React.Component {
     };
 
     static defaultProps = {
+        mapApiKey: MAP_API_KEY,
         show: false,
         displaySetting: false,
         dockProps: {
@@ -101,14 +105,14 @@ class RoutingDialog extends React.Component {
 
     componentDidMount() {
         new Promise((resolve) => {
-            const id = 'longdo-map-js-api';
+            const id = 'map-js-api';
             var scriptTag = window.document.getElementById(id);
             if (scriptTag) {
                 resolve();
             } else {
                 let script = window.document.createElement('script');
                 script.setAttribute('id', id);
-                script.setAttribute('src', SERVICE_MAP_API_URL + SERVICE_MAP_API_KEY);
+                script.setAttribute('src', MAP_API_URL + '?key=' + MAP_API_KEY);
                 script.onload = () => {
                     resolve();
                 };
@@ -152,7 +156,7 @@ class RoutingDialog extends React.Component {
             return;
         }
         document.getElementById("find-route").innerHTML = "กำลังค้นหา...";
-        this.props.onSearch(this.props.pointList, routeMode, routeType);
+        this.props.onSearch(this.props.pointList, routeMode, routeType, this.props.mapApiKey || MAP_API_KEY);
 
     };
 
@@ -453,14 +457,14 @@ class RoutingDialog extends React.Component {
                                         <div>
                                             <button
                                                 key="add-point"
-                                                className="btn btn-londo-circle-sm"
+                                                className="btn btn-circle-sm"
                                                 onClick={this.onAddPoint}
                                             >
                                                 <Glyphicon glyph="plus" />
                                             </button>
                                             <button
                                                 key="swap-point"
-                                                className="btn btn-londo-circle-sm"
+                                                className="btn btn-circle-sm"
                                                 style={{ marginLeft: "5px" }}
                                                 onClick={this.onSwapPoint}
                                             >
@@ -468,7 +472,7 @@ class RoutingDialog extends React.Component {
                                             </button>
                                             <button
                                                 key="setting"
-                                                className="btn btn-londo-circle-sm"
+                                                className="btn btn-circle-sm"
                                                 style={{ marginLeft: "5px" }}
                                                 onClick={this.onDisplaySetting}
                                             >
@@ -479,7 +483,7 @@ class RoutingDialog extends React.Component {
                                             <button
                                                 key="clear-routing"
                                                 onClick={this.onClearSearch}
-                                                className="btn btn-longdo-outline-default btn-rounded"
+                                                className="btn btn-outline-default btn-rounded"
                                                 style={{
                                                     minWidth: "90px",
                                                     marginRight: "5px"
@@ -490,7 +494,7 @@ class RoutingDialog extends React.Component {
                                             <button
                                                 key="search-routing"
                                                 onClick={this.onSearch}
-                                                className="btn btn-longdo-outline-info btn-rounded"
+                                                className="btn btn-outline-info btn-rounded"
                                                 style={{ minWidth: "100px" }}
                                                 id="find-route"
                                             >
@@ -523,12 +527,14 @@ const routing = connect(
             selector,
             (state) => {
                 return routingSelector(state);
-            }
+            },
+            getResourceMapKeyApi
         ],
-        (routingState, show) => {
+        (routingState, show, mapApiKey) => {
             return {
                 ...routingState,
-                show
+                show,
+                mapApiKey
             };
         }
     ),

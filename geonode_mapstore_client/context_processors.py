@@ -56,6 +56,11 @@ def resource_urls(request):
                     dict()).get(
                         'MOSAIC_ENABLED',
                         False),
-        'SUPPORTED_DATASET_FILE_TYPES': get_supported_datasets_file_types()
+        'SUPPORTED_DATASET_FILE_TYPES': get_supported_datasets_file_types(),
+        'LONGDO_API_KEY': getattr(settings, "LONGDO_API_KEY", "6605d49756a8e87937d07a0366bd7b13"),
+        'SPHERE_API_KEY': getattr(settings, "SPHERE_API_KEY", "test2022"),
+        'MAP_API_URL': getattr(settings, "MAP_API_URL", "https://api.longdo.com/map/"),
+        'ROUTE_API_URL': getattr(settings, "ROUTE_API_URL", "https://api.longdo.com/RouteService/geojson/route/"),
+        'SEARCH_API_URL': getattr(settings, "SEARCH_API_URL", "https://search.longdo.com/mapsearch/json/search/")
     }
     return defaults

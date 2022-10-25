@@ -205,7 +205,7 @@ class BufferDialog extends React.Component {
                         {this.props.loading ? (
                             <button
                                 key="buffer-loading"
-                                className="btn btn-longdo-outline-info"
+                                className="btn btn-outline-info"
                                 style={{ minWidth: "100px" }}
                                 disabled
                             >
@@ -214,7 +214,7 @@ class BufferDialog extends React.Component {
                         ) : (
                             <button
                                 key="buffer-save"
-                                className="btn btn-longdo-outline-info"
+                                className="btn btn-outline-info"
                                 style={{ minWidth: "100px" }}
                                 onClick={this.onDoBuffer}
                             >
@@ -225,7 +225,7 @@ class BufferDialog extends React.Component {
                         <button
                             key="buffer-clear"
                             onClick={this.onReset}
-                            className="btn btn-longdo-outline"
+                            className="btn btn-outline"
                             style={{
                                 minWidth: "90px",
                                 marginRight: "5px"
