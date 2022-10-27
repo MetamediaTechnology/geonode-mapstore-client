@@ -13,7 +13,7 @@ import { setControlProperty, toggleControl } from "@mapstore/framework/actions/c
 import { Glyphicon, Row, Col } from "react-bootstrap";
 import { createControlEnabledSelector } from "@mapstore/framework/selectors/controls";
 import ConfigUtils from '@mapstore/framework/utils/ConfigUtils';
-import { getResourceMapKeyApi } from '@js/selectors/resourceservice';
+import { getResourceMapKeyApi } from '@js/selectors/resource';
 
 // Action
 import {
