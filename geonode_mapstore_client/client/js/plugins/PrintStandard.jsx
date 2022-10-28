@@ -143,15 +143,16 @@ class PrintStandardComponent extends React.Component {
     onPrint = () => {
         this.onPreparePrint();
         window.html2canvas(document.getElementById("printContainer"), {
-            useCORS: true,
-            allowTaint: true,
-            proxy: proxyUrl.url
+            allowTaint: true
         }).then(canvas => {
-            var link = document.createElement('a');
-            link.setAttribute('download', `sphere_${new Date().getTime()}.png`);
-            link.setAttribute('href', canvas.toDataURL('image/png', 1.0).replace("image/png", "image/octet-stream"));
-            link.click();
-            this.onAfterPrint();
+            canvas.setAttribute('id','print_standard')
+            document.body.append(canvas)
+            var print_tab = window.open("", "",'');
+            print_tab.document.body.appendChild(canvas);
+            print_tab.print()
+            setTimeout(() => {
+                print_tab.close()
+            }, 0);
         });
     }
 
@@ -218,7 +219,7 @@ class PrintStandardComponent extends React.Component {
     render() {
         const layers = [{
             group: "background",
-            id: "testeiei",
+            id: "Label",
             loading: false,
             loadingError: false,
             name: "test",
@@ -302,12 +303,13 @@ class PrintStandardComponent extends React.Component {
                                         this.props.layers.map((layer) => {
                                             if (layer.type === "wms") {
                                                 return (<Legend
+                                                    style={{ height: '200px'}}
                                                     layer={layer}
                                                 />);
                                             }
                                         })
                                     }
-                                    {/*  */}
+                                    
                                 </div>
                             </div>
                             <div id="compass">

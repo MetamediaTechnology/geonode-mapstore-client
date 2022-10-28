@@ -9,8 +9,19 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@js/components/Button';
 import FaIcon from '@js/components/FaIcon/FaIcon';
+import {
+    ShareButtons,
+    generateShareIcon
+} from 'react-share';
+// components of the socialnetworks grouped in a bigger container aka ShareSocials
+const {
+    FacebookShareButton,
+    TwitterShareButton
+} = ShareButtons;
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+const FacebookIcon = generateShareIcon('facebook');
+const TwitterIcon = generateShareIcon('twitter');
 
 function SharePageLink({label, url}) {
     const [copied, setCopied] = useState(false);
@@ -21,7 +32,7 @@ function SharePageLink({label, url}) {
             }, 1000);
         }
     }, [copied]);
-    const title = getMessageById(this.context.messages, "share.sharedTitle");
+    const title = 'Hello'
     return (
         <div className="gn-share-link-pad">
             <div className="gn-share-link-wrapper">
