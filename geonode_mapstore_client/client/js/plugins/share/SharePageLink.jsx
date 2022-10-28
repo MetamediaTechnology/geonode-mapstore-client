@@ -21,6 +21,7 @@ function SharePageLink({label, url}) {
             }, 1000);
         }
     }, [copied]);
+    const title = getMessageById(this.context.messages, "share.sharedTitle");
     return (
         <div className="gn-share-link-pad">
             <div className="gn-share-link-wrapper">
@@ -43,7 +44,24 @@ function SharePageLink({label, url}) {
                                 <FaIcon name="copy" />
                             </Button>
                         </CopyToClipboard>}
-                        {copied && <Button size="sm"><FaIcon name="check" /></Button>}</div>
+                        {copied && <Button size="sm"><FaIcon name="check" /></Button>}
+                        <FacebookShareButton
+                            url={url}
+                            quote={title}
+                            className="share-facebook">
+                            <FacebookIcon
+                                size={16}
+                                round />
+                        </FacebookShareButton>
+                        <TwitterShareButton
+                            url={url}
+                            title={title}
+                            className="share-twitter">
+                            <TwitterIcon
+                                size={16}
+                                round />
+                        </TwitterShareButton>
+                    </div>
                 </div>
             </div>
         </div>
