@@ -59,7 +59,8 @@ function SharePageLink({label, url}) {
                         <FacebookShareButton
                             url={url}
                             quote={title}
-                            className="share-facebook">
+                            style={{ margin: '5px'}}
+                            >
                             <FacebookIcon
                                 size={16}
                                 round />
@@ -67,7 +68,7 @@ function SharePageLink({label, url}) {
                         <TwitterShareButton
                             url={url}
                             title={title}
-                            className="share-twitter">
+                            style={{ margin: '5px'}}>
                             <TwitterIcon
                                 size={16}
                                 round />
