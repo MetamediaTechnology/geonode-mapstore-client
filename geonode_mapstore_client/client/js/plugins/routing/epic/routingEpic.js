@@ -5,7 +5,7 @@ import { zoomToExtent } from "@mapstore/framework/actions/map";
 import { locationBound } from '@js/utils/CoordinatesUtils';
 import ConfigUtils from '@mapstore/framework/utils/ConfigUtils';
 
-const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').longdoApiKey;
+const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').sphereApiKey;
 
 import {
     searchPointForRouting

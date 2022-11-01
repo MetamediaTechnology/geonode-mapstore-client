@@ -59,13 +59,13 @@ import { layersSelector } from '@mapstore/framework/selectors/layers';
 import { mapSelector } from '@mapstore/framework/selectors/map';
 import ConfigUtils from '@mapstore/framework/utils/ConfigUtils';
 import { defaultIconStyle } from '@mapstore/framework/utils/SearchUtils';
-import ToggleButton from '@mapstore/framework/plugins/searchbar/ToggleButton'
+import ToggleButton from '@mapstore/framework/plugins/searchbar/ToggleButton';
 import uuidv1 from "uuid/v1";
-const axios = require('axios')
+const axios = require('axios');
 const instance = axios.create();
 
 const SEARCH_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').searchApiUrl;
-const SEARCH_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').longdoApiKey;
+const SEARCH_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').sphereApiKey;
 
 const searchSelector = createSelector([
     state => state.search || null,
@@ -199,9 +199,9 @@ const SearchPlugin = connect((state) => ({
                         <ToggleButton />
                         {this.props.enabled ? search : null}
                     </MediaQuery>
-                        <MediaQuery query={"(" + this.props.withToggle[1] + ")"}>
-                            {search}
-                        </MediaQuery>
+                    <MediaQuery query={"(" + this.props.withToggle[1] + ")"}>
+                        {search}
+                    </MediaQuery>
                     </span>
                 );
             }
@@ -217,7 +217,7 @@ const SearchPlugin = connect((state) => ({
                     onUpdateResultsStyle={this.props.onUpdateResultsStyle}
                     key="nominatimresults" />
             </span>)
-                ;
+            ;
         }
     });
 export const searchEpic = (action$, { getState = () => { } }) =>
@@ -229,7 +229,7 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                     .map((service) => {
                         const mapApiKey = getState().gnresource?.data?.map_key || false;
                         const serviceInstance = API.Utils.getService(service.type);
-                        const getSearchData = (searchText = '') => { return instance.get(`${SEARCH_API_URL}?keyword=${searchText}&key=${mapApiKey || SEARCH_API_KEY}`)}
+                        const getSearchData = (searchText = '') => { return instance.get(`${SEARCH_API_URL}?keyword=${searchText}&key=${mapApiKey || SEARCH_API_KEY}`);};
                         if (!serviceInstance) {
                             const err = new Error("Service Missing");
                             err.msgId = "search.service_missing";
@@ -238,8 +238,8 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                         }
                         return Rx.Observable.defer(() =>
                             service.type === 'nominatim' ? getSearchData(action.searchText).then(({ data } ) => {
-                                var response = data.data
-                                var geoJson = []
+                                var response = data.data;
+                                var geoJson = [];
                                 response.map((searchResult) => {
                                     geoJson.push({
                                         properties: {
@@ -248,18 +248,18 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                                         },
                                         id: uuidv1(),
                                         type: "Feature",
-                                        bbox: [(searchResult.lon - 0.1),(searchResult.lat - 0.1),(searchResult.lon + 0.1),(searchResult.lat + 0.1)],
+                                        bbox: [(searchResult.lon - 0.1), (searchResult.lat - 0.1), (searchResult.lon + 0.1), (searchResult.lat + 0.1)],
                                         geometry: {
                                             type: "Point",
-                                            coordinates: [searchResult.lon,searchResult.lat]
+                                            coordinates: [searchResult.lon, searchResult.lat]
                                         }
-                                    })
-                                })
-                                return geoJson
+                                    });
+                                });
+                                return geoJson;
                             }) :
-                           serviceInstance(action.searchText, service.options)
-                                .then( (response = []) => response.map(result => ({...result, __SERVICE__: service, __PRIORITY__: service.priority || 0}))
-                                ))
+                                serviceInstance(action.searchText, service.options)
+                                    .then( (response = []) => response.map(result => ({...result, __SERVICE__: service, __PRIORITY__: service.priority || 0}))
+                                    ))
                             .retryWhen(errors => errors.delay(200).scan((count, err) => {
                                 if ( count >= 2) {
                                     throw err;
@@ -268,9 +268,9 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                             }, 0));
                     }) // Map
             )
-            .mergeAll()
-            .scan((oldRes, newRes) => sortBy([...oldRes, ...newRes], ["__PRIORITY__"]))
-            .map((results) => searchResultLoaded(results.slice(0, action.maxResults || 15), false))
+                .mergeAll()
+                .scan((oldRes, newRes) => sortBy([...oldRes, ...newRes], ["__PRIORITY__"]))
+                .map((results) => searchResultLoaded(results.slice(0, action.maxResults || 15), false))
                 .startWith(searchTextLoading(true))
                 .takeUntil(action$.ofType( TEXT_SEARCH_RESULTS_PURGE, TEXT_SEARCH_RESET, TEXT_SEARCH_ITEM_SELECTED))
                 .concat([searchTextLoading(false)])
@@ -278,7 +278,7 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                     const err = {msgId: "search.generic_error", ...e, message: e.message, stack: e.stack};
                     return Rx.Observable.from([searchResultError(err), searchTextLoading(false)]);
                 })
-        )
+        );
 
 export default {
     SearchPlugin: assign(SearchPlugin, {

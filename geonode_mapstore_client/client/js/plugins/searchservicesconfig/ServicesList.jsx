@@ -85,11 +85,6 @@ class ServicesList extends React.Component {
         this.props.onPropertyChange("textSearchConfig", {services, override: !override});
     };
 
-    searchByLongdoMap = () => {
-        const { services, baseSearch } = this.props
-        this.props.onPropertyChange("textSearchConfig", {services, baseSearch: !baseSearch});
-    }
-
     remove = (idx) => {
         const {services, override} = this.props;
         const newServices = services.filter((el, i) => i !== idx);

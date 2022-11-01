@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { createPlugin } from '@mapstore/framework/utils/PluginsUtils'
+import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import { connect } from 'react-redux';
 import React from 'react';
 import { Glyphicon, Tooltip } from 'react-bootstrap';
@@ -10,7 +10,7 @@ import Message from "@mapstore/framework/components/I18N/Message";
 
 const ExportGeoJson = () => {
     return (<></>);
-}
+};
 
 class ExportGeoJsonButton extends React.Component {
 
@@ -18,7 +18,7 @@ class ExportGeoJsonButton extends React.Component {
         let data = {
             type: 'FeatureCollection',
             features: [...this.props.selectedLayers[0].features]
-        }
+        };
         // console.log('download data', data)
         const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
             JSON.stringify(data)
@@ -47,7 +47,7 @@ class ExportGeoJsonButton extends React.Component {
                     : null
                 }
             </>
-        )
+        );
     }
 }
 

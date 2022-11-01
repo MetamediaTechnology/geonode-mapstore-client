@@ -174,7 +174,7 @@ Home.propTypes = {
     config: PropTypes.object,
     user: PropTypes.object,
     width: PropTypes.number,
-    totalResources: PropTypes.object,
+    totalResources: PropTypes.number,
     fetchFeaturedResources: PropTypes.func
 };
 

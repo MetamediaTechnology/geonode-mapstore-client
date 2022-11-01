@@ -6,7 +6,7 @@ import { routePointStyle } from "../styles/pointStyle";
 
 const ROUTE_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').routeApiUrl;
 const SEARCH_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').searchApiUrl;
-const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').longdoApiKey;
+const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').sphereApiKey;
 
 // ROUTING ACTION
 export const addPoint = function() {

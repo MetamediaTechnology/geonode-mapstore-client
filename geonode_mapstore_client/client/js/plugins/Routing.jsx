@@ -13,7 +13,7 @@ import { setControlProperty, toggleControl } from "@mapstore/framework/actions/c
 import { Glyphicon, Row, Col } from "react-bootstrap";
 import { createControlEnabledSelector } from "@mapstore/framework/selectors/controls";
 import ConfigUtils from '@mapstore/framework/utils/ConfigUtils';
-import { getResourceMapKeyApi } from '@js/selectors/resourceservice';
+import { getResourceMapKeyApi } from '@js/selectors/resource';
 
 // Action
 import {
@@ -48,7 +48,7 @@ const routingSelector = (state) => get(state, "controls.routing.enabled");
 const toggleRoutingTool = toggleControl.bind(null, "routing", null);
 
 const MAP_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').mapApiUrl;
-const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').longdoApiKey;
+const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').sphereApiKey;
 
 const selector = (state) => {
     return {
@@ -148,6 +148,7 @@ class RoutingDialog extends React.Component {
             if (!point.lat || !point.lon) {
                 return point;
             }
+            return false;
         });
         const routeMode = this.props.routeMode;
         const routeType = this.props.routeType;
@@ -457,14 +458,14 @@ class RoutingDialog extends React.Component {
                                         <div>
                                             <button
                                                 key="add-point"
-                                                className="btn btn-londo-circle-sm"
+                                                className="btn btn-circle-sm"
                                                 onClick={this.onAddPoint}
                                             >
                                                 <Glyphicon glyph="plus" />
                                             </button>
                                             <button
                                                 key="swap-point"
-                                                className="btn btn-londo-circle-sm"
+                                                className="btn btn-circle-sm"
                                                 style={{ marginLeft: "5px" }}
                                                 onClick={this.onSwapPoint}
                                             >
@@ -472,7 +473,7 @@ class RoutingDialog extends React.Component {
                                             </button>
                                             <button
                                                 key="setting"
-                                                className="btn btn-londo-circle-sm"
+                                                className="btn btn-circle-sm"
                                                 style={{ marginLeft: "5px" }}
                                                 onClick={this.onDisplaySetting}
                                             >
