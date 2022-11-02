@@ -983,6 +983,10 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
+                            "name": "CaptureScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "FullScreen"
                         }
                     ]
@@ -1086,6 +1090,9 @@
             },
             {
                 "name": "Measure"
+            },
+            {
+                "name": "CaptureScreen"
             },
             {
                 "name": "FullScreen"
@@ -1390,6 +1397,14 @@
             },
             {
                 "name": "FullScreen",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            },
+            {
+                "name": "CaptureScreen",
                 "override": {
                     "Toolbar": {
                         "alwaysVisible": true
@@ -1825,6 +1840,10 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
+                            "name": "CaptureScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "FullScreen"
                         }
                     ]
@@ -1891,6 +1910,9 @@
             },
             {
                 "name": "Measure"
+            },
+            {
+                "name": "CaptureScreen"
             },
             {
                 "name": "FullScreen"
@@ -2200,6 +2222,14 @@
                 "override": {
                     "Toolbar": {
                         "alwaysVisible": false
+                    }
+                }
+            },
+            {
+                "name": "CaptureScreen",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
                     }
                 }
             },
