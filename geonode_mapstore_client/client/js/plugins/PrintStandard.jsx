@@ -419,6 +419,14 @@ const changeMapViewPic = (action$, { getState = () => { } }) =>
             ]);
         });
 
+const changeLayoutEpic = (action$, { getState = () => {}}) => 
+    action$.ofType('PRTSTD:CHANGE_LAYOUT').filter(
+        () => {
+            return getState()
+        }).switchMap(() => {
+            return Rx.Observable.empty()
+        })
+
 
 export default {
     PrintStandardPlugin: assign(prtstd, {
@@ -437,6 +445,7 @@ export default {
         prtstd: printStandardReducer
     },
     epics: {
-        changeMapViewPic
+        changeMapViewPic,
+        changeLayoutEpic
     }
 };
