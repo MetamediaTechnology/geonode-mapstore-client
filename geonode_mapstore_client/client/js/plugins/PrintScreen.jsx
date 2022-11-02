@@ -254,10 +254,16 @@ const togglePrintScreenEpic = (action$, { getState = () => { } }) =>
         })
         .mergeMap((action) => {
             const printScreen = getState().controls;
-            document.getElementById('navigationBar').setAttribute('data-html2canvas-ignore', true);
-            document.getElementById('mapstore-drawermenu').setAttribute('data-html2canvas-ignore', true);
-            document.getElementById('mapstore-navbar').setAttribute('data-html2canvas-ignore', true);
-
+            
+            try {
+                document.getElementById('navigationBar').setAttribute('data-html2canvas-ignore', true);
+                document.getElementById('mapstore-drawermenu').setAttribute('data-html2canvas-ignore', true);
+                document.getElementById('mapstore-navbar').setAttribute('data-html2canvas-ignore', true);
+                document.getElementsByClassName('background-preview-button')[0].setAttribute('data-html2canvas-ignore', true)
+            } catch (error) {
+                console.error("Can't not find some element")
+                console.log(error)
+            }
 
             window.html2canvas(document.querySelector(".gn-viewer-layout-body"), {
                 allowTaint: true,
