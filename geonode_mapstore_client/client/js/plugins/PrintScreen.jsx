@@ -252,29 +252,31 @@ const togglePrintScreenEpic = (action$, { getState = () => { } }) =>
         .filter(() => {
             return (getState());
         })
-        .switchMap((action) => {
+        .mergeMap((action) => {
             const printScreen = getState().controls;
-            var printed = false
             document.getElementById('navigationBar').setAttribute('data-html2canvas-ignore', true);
             document.getElementById('mapstore-drawermenu').setAttribute('data-html2canvas-ignore', true);
             document.getElementById('mapstore-navbar').setAttribute('data-html2canvas-ignore', true);
+
 
             window.html2canvas(document.querySelector(".gn-viewer-layout-body"), {
                 allowTaint: true,
             }).then(canvas => {
                 document.body.append(canvas)
                 var print_tab = window.open("", "",'');
-                print_tab.document.body.appendChild(canvas);
-                print_tab.print()
-                printed = true
+                try {
+                    print_tab.document.body.appendChild(canvas);
+                    print_tab.focus();  
+                    print_tab.print()
+                } catch (e) {
+                    alert("Pop-up Blocker is enabled! Please add this site to your exception list.");
+                }
             });
-
-            if(!printed) {
-                console.log('NO printed')
-                return Rx.Observable
-                .of(errorNotification({title: "Can't print", message: "Please allow pop-up window in your browser."}))
-            }
-            return Rx.Observable.empty();
+            return Rx.Observable.empty()
+            // printed.then(() => {
+            //     return Rx.Observable
+            //     .of(errorNotification({title: "Can't print", message: "Please allow pop-up window in your browser."}))
+            // })
         });
 
 
