@@ -56,6 +56,8 @@
         font-size: 5mm;
         overflow: hidden;
     }
+    #prtstd-info {
+    }
     #prtstd-remark {
         margin-top: 10px;
         width: 100%;
@@ -229,7 +231,7 @@
     #main-map-section {
         display: flex;
         flex-direction: row;
-        height: 145mm;
+        height: 100mm;
         position: relative;
     }
     #prtstd-header {
@@ -263,17 +265,22 @@
         font-size: 5mm;
         overflow: hidden;
     }
+    #prtstd-info {
+        display: flex;
+        flex-direction: row;
+    }
     #prtstd-remark {
         margin-top: 10px;
-        width: 100%;
-        height: 26.5mm;
+        width: 25%;
+        height: 59mm;
         font-size: 3.5mm;
-        margin-bottom: 5mm;
+        margin-bottom: 0mm;
+        padding-right: 1mm;
     }
     #prtstd-remark textarea {
         background-color: #ffff;
         width: 100%;
-        height: 30mm;
+        height: 54mm;
         resize: none;
         outline: none;
         border: none;
@@ -286,8 +293,8 @@
         font-size: 3.5mm;
     }
     #prtstd-symbol {
-        margin-top: 12mm;
-        width: 100%;
+        margin-top: 10px;
+        width: 75%;
         font-size: 3mm;
         display: flex;
         flex-direction: row;
@@ -297,13 +304,13 @@
     #prtstd-symbol #legend {
         border: 0.2mm solid #000000;
         width: calc((100% - 70mm - 2mm) / 2);
-        height: 64mm;
+        height: 59mm;
         box-sizing: border-box;
     }
     #prtstd-symbol #minimap {
         border: 0.2mm solid #000000;
         width: calc((100% - 70mm - 2mm) / 2);
-        height: 64mm;
+        height: 59mm;
         box-sizing: border-box;
     }
     #compass {
@@ -323,7 +330,8 @@
         margin-bottom: auto;
     }
     #prtstd-footer {
-        width: 100%;
+        width: 75%;
+        margin-left: 25%;
         font-size: 3mm;
         display: flex;
         flex-direction: row;
