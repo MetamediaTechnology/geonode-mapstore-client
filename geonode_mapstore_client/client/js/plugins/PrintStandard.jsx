@@ -15,6 +15,7 @@ import { changeMapView } from '@mapstore/framework/actions/map';
 import { createControlEnabledSelector } from '@mapstore/framework/selectors/controls';
 import { setControlProperty, toggleControl } from '@mapstore/framework/actions/controls';
 import { getResolutions, getScales } from '@mapstore/framework/utils/MapUtils';
+import { resizeMap } from '@mapstore/framework/actions/map';
 
 import compassImages from './print/assets/img/compass.jpg';
 import gistdaLogo from './print/assets/img/gistda_logo.png';
@@ -155,13 +156,13 @@ class PrintStandardComponent extends React.Component {
 
     // Style
     dialogStyle = {
-        backgroundColor: '#E9E9E9',
+        backgroundColor: '#525559',
         position: 'absolute',
         top: '0px',
-        width: '60%'
+        width: 'calc(100% - 80px)'
     };
     start = {
-        x: (window.innerWidth) / 5,
+        x: 40,
         y: 10
     }
 
@@ -184,9 +185,26 @@ class PrintStandardComponent extends React.Component {
 
     onPreparePrint = () => {
         const textArea = document.querySelector('#prtstd-remark > textarea');
-        const mapCoppy = document.querySelector('#print_preview > div > div.ol-overlaycontainer-stopevent > div.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible');
-        mapCoppy.setAttribute('data-html2canvas-ignore', true);
-        textArea.style.border = 'none';
+        const mapCopy = document.querySelector('#print_preview > div > div.ol-overlaycontainer-stopevent > div.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible');
+        const miniMapCopy = document.querySelector('#mini_print_preview > div > div.ol-overlaycontainer-stopevent > div.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible');
+        const mapZoomAttr = document.querySelector('#print_preview .ol-zoom')
+        const mapMiniZoomAttr = document.querySelector('#mini_print_preview .ol-zoom')
+        
+        if(mapCopy) {
+            mapCopy.setAttribute('data-html2canvas-ignore', true);
+        }
+        if(miniMapCopy){
+            miniMapCopy.setAttribute('data-html2canvas-ignore', true);
+        }
+        if(mapZoomAttr) {
+            mapZoomAttr.setAttribute('data-html2canvas-ignore', true);
+        }
+        if(mapMiniZoomAttr) {
+            mapMiniZoomAttr.setAttribute('data-html2canvas-ignore', true);
+        }
+        if(textArea) {
+            textArea.style.border = 'none';
+        }
     }
 
     onAfterPrint = () => {
@@ -263,6 +281,10 @@ class PrintStandardComponent extends React.Component {
         },
         ...this.props.layers
         ];
+        const groupBackgroundLayer = this.props.layers.filter((layer) => {
+            return layer?.group === "background"
+        })
+        console.log(groupBackgroundLayer)
         const isPortrait = this.props.layout !== 'landscape'
         return this.props.show ?
             <Dialog id="prtstd-dialog" style={this.dialogStyle} start={this.start}>
@@ -273,16 +295,16 @@ class PrintStandardComponent extends React.Component {
                 <div key="body" role="body" style={{
                     height: '70vh',
                     overflow: 'scroll',
-                    backgroundColor: '#E9E9E9'
+                    backgroundColor: '#525559'
                 }}>
                     <div>
                         <div className="control-paper">
                             <div>
-                                <input type={'button'} value="-" className="btn btn-info" onClick={this.onZoomControl} />
+                                <input type={'button'} value="-" className="btn btn-primary" onClick={this.onZoomControl} />
                                 &nbsp;&nbsp;
-                                <input type={'button'} value="+" className="btn btn-info" onClick={this.onZoomControl} />
+                                <input type={'button'} value="+" className="btn btn-primary" onClick={this.onZoomControl} />
                                 &nbsp;&nbsp;
-                                <input type={'button'} value={isPortrait ? 'Landscape' : 'Portrait'} className="btn btn-info" onClick={this.onChangeLayout} />
+                                <input type={'button'} value={isPortrait ? 'Landscape' : 'Portrait'} className="btn btn-primary" onClick={this.onChangeLayout} />
                             </div>
                             &nbsp;&nbsp;
                             <div>
@@ -309,6 +331,7 @@ class PrintStandardComponent extends React.Component {
                         </div>
                         <div id="main-map-section">
                             <MapStandardPreview
+                                mapRef="print_preview"
                                 height={'600'}
                                 width={'400'}
                                 onMapViewChanges={this.onMapViewChanges}
@@ -351,7 +374,18 @@ class PrintStandardComponent extends React.Component {
                                         </span>
                                     </div>
                                 </div>
-                                <div id="minimap"></div>
+                                <div id="minimap" >
+                                <MapStandardPreview
+                                mapRef="mini_print_preview"
+                                height={'600'}
+                                width={'400'}
+                                onMapViewChanges={this.onMapViewChanges}
+                                resolutions={getResolutions()}
+                                map={this.props.map}
+                                layers={groupBackgroundLayer}
+                                mapType={this.props.mapType}
+                            />
+                                </div>
                             </div>
                         </div> 
                         {/* End of div  */}
@@ -424,7 +458,9 @@ const changeLayoutEpic = (action$, { getState = () => {}}) =>
         () => {
             return getState()
         }).switchMap(() => {
-            return Rx.Observable.empty()
+            return Rx.Observable.from([
+                resizeMap()
+            ]);
         })
 
 

@@ -14,6 +14,7 @@ let Feature;
 class MapStandardPreview extends React.Component {
 
     static propTypes = {
+        mapRef: PropTypes.string,
         map: PropTypes.object,
         layers: PropTypes.array,
         style: PropTypes.object,
@@ -28,6 +29,7 @@ class MapStandardPreview extends React.Component {
 
     static defaultProps = {
         map: null,
+        mapRef: 'mappa',
         layers: [],
         mapType: "openlayers",
         printRatio: 96.0 / 72.0,
@@ -103,8 +105,8 @@ class MapStandardPreview extends React.Component {
         const interactive = true;
         const zoomControl = true;
         return (<PreviewMap
-            ref="mappa"
-            id="print_preview"
+            ref={this.props.mapRef}
+            id={this.props.mapRef}
             interactive={interactive}
             zoomControl={zoomControl}
             registerHooks={false}
