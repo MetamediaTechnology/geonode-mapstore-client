@@ -331,7 +331,7 @@ class PrintStandardComponent extends React.Component {
                                             this.props.layers.map((layer) => {
                                                 if (layer.type === "wms") {
                                                     return (<Legend
-                                                        style={{ height: '200px'}}
+                                                        style={{ maxHeight: '56mm', maxWidth: '100%' }}
                                                         layer={layer}
                                                     />);
                                                 }
