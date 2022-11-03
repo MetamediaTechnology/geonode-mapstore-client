@@ -23,7 +23,7 @@ import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 const proxyUrl = getConfigProp('proxyUrl');
 
 createControlEnabledSelector('prtstd');
-const toggleRoutingTool = toggleControl.bind(null, "prtstd", null);
+const togglePrintingTool = toggleControl.bind(null, "prtstd", null);
 
 const extractMapObj = (map) => {
     return map?.present;
@@ -32,7 +32,7 @@ const layerFilter = (layer) => {
     const layerVisibility = layer?.flat.filter((l) => { return l.visibility === true; });
     return layerVisibility;
 };
-
+// Action
 const mapViewChanges = function(center, zoom) {
     return {
         type: 'PRTSTD:CHANGEMAP_VIEW',
@@ -40,7 +40,6 @@ const mapViewChanges = function(center, zoom) {
         zoom
     };
 };
-
 const zoomControl = (zoomType) => {
     return {
         type: 'PRTSTD:ZOOM_PAPER_CONTROL',
@@ -48,12 +47,19 @@ const zoomControl = (zoomType) => {
     };
 };
 
+const changeLayout = () => {
+    return {
+        type: 'PRTSTD:CHANGE_LAYOUT'
+    }
+}
+
 // Redux Selector
 const selector = (state) => {
     return {
         show: state.prtstd.show,
         paperZoom: state.prtstd.paperZoom,
         mapType: state.maptype.mapType,
+        layout: state.prtstd.layout,
         printName: state.prtstd.printName,
         mapCenter: state.prtstd.mapCenter,
         mapZoom: state.prtstd.mapZoom,
@@ -66,6 +72,7 @@ const selector = (state) => {
 
 const defaultState = {
     show: false,
+    layout: 'portrait',
     mapType: 'openlayers',
     paperZoom: 0.8,
     mapZoom: 5,
@@ -93,6 +100,18 @@ function printStandardReducer(state = defaultState, action) {
             paperZoom: zoom
         });
     }
+    case 'PRTSTD:CHANGE_LAYOUT': {
+        const currentLayout = state.layout
+        if(currentLayout === 'landscape') {
+            return assign({}, state, {
+                layout: 'portrait'
+            });
+        } else {
+            return assign({}, state, {
+                layout: 'landscape'
+            });
+        }
+    }
     default: {
         return state;
     }
@@ -102,6 +121,7 @@ class PrintStandardComponent extends React.Component {
 
     static propTypes = {
         show: PropTypes.bool,
+        layout: PropTypes.string,
         map: PropTypes.object,
         printName: PropTypes.string,
         paperZoom: PropTypes.number,
@@ -112,6 +132,7 @@ class PrintStandardComponent extends React.Component {
         mapCenter: PropTypes.object,
         onMapViewChanges: PropTypes.func,
         onZoomControl: PropTypes.func,
+        onChangeLayout: PropTypes.func,
         onClose: PropTypes.func
     };
 
@@ -119,6 +140,7 @@ class PrintStandardComponent extends React.Component {
         show: false,
         mapType: 'openlayers',
         layers: [],
+        layout: 'portrait',
         map: null,
         mapZoom: 5,
         printName: 'แผนที่ไม่มีชื่อ',
@@ -126,11 +148,14 @@ class PrintStandardComponent extends React.Component {
         mapScale: 0.00,
         mapCenter: {},
         onZoomControl: () => { },
+        onChangeLayout: () => {},
         onMapViewChanges: () => { },
         onClose: () => { }
     };
 
+    // Style
     dialogStyle = {
+        backgroundColor: '#E9E9E9',
         position: 'absolute',
         top: '0px',
         width: '60%'
@@ -154,6 +179,7 @@ class PrintStandardComponent extends React.Component {
                 print_tab.close()
             }, 0);
         });
+        this.onAfterPrint()
     }
 
     onPreparePrint = () => {
@@ -206,14 +232,18 @@ class PrintStandardComponent extends React.Component {
         return this.props.onMapViewChanges(center, zoom);
     }
 
+    onChangeLayout = () => {
+        return this.props.onChangeLayout()
+    }
+
     onZoomControl = (e) => {
         const type = e.target.value;
         return this.props.onZoomControl(type);
     }
 
     onChangePrintTitle = () => {
-        // const printMapName = e.target.value;
-        // return this.props.onChangePrintTitle(printMapName)
+        const printMapName = e.target.value;
+        return this.props.onChangePrintTitle(printMapName)
     }
 
     render() {
@@ -233,6 +263,7 @@ class PrintStandardComponent extends React.Component {
         },
         ...this.props.layers
         ];
+        const isPortrait = this.props.layout !== 'landscape'
         return this.props.show ?
             <Dialog id="prtstd-dialog" style={this.dialogStyle} start={this.start}>
                 <div key="header" role="header">
@@ -245,27 +276,23 @@ class PrintStandardComponent extends React.Component {
                     backgroundColor: '#E9E9E9'
                 }}>
                     <div>
-                        <div style={{textAlign: 'center'}}>Zoom</div>
                         <div className="control-paper">
-                            <input type={'button'} value="-" className="btn btn-info" onClick={this.onZoomControl} />
+                            <div>
+                                <input type={'button'} value="-" className="btn btn-info" onClick={this.onZoomControl} />
+                                &nbsp;&nbsp;
+                                <input type={'button'} value="+" className="btn btn-info" onClick={this.onZoomControl} />
+                                &nbsp;&nbsp;
+                                <input type={'button'} value={isPortrait ? 'Landscape' : 'Portrait'} className="btn btn-info" onClick={this.onChangeLayout} />
+                            </div>
                             &nbsp;&nbsp;
-                            <input type={'button'} value="+" className="btn btn-info" onClick={this.onZoomControl} />
+                            <div>
+                                <button className="btn btn-success" onClick={this.onPrint}>
+                                        <Glyphicon glyph="print" /> Print
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div style={
-                        {
-                            zoom: this.props.paperZoom,
-                            marginTop: '10px',
-                            width: '210mm',
-                            height: '297mm',
-                            backgroundColor: 'white',
-                            padding: '5mm',
-                            overflow: 'hidden',
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            marginBottom: '52px'
-                        }
-                    } id="printContainer">
+                    <div style={{ zoom: this.props.paperZoom }} id="printContainer" className={`layout-a4-${isPortrait ? 'portrait' : 'landscape'}`}>
                         <div id="prtstd-header">
                             <div className="logo left">
                                 <img src={gistdaLogo} width={'100%'} />
@@ -291,40 +318,43 @@ class PrintStandardComponent extends React.Component {
                                 mapType={this.props.mapType}
                             />
                         </div>
-                        <div id="prtstd-remark">
-                            <label>รายละเอียด</label>
-                            <textarea></textarea>
-                        </div>
-                        <div id="prtstd-symbol">
-                            <div id="legend">
-                                <label>&nbsp;&nbsp;สัญลักษณ์</label>
-                                <div>
-                                    {
-                                        this.props.layers.map((layer) => {
-                                            if (layer.type === "wms") {
-                                                return (<Legend
-                                                    style={{ height: '200px'}}
-                                                    layer={layer}
-                                                />);
-                                            }
-                                        })
-                                    }
-                                    
-                                </div>
+                        <div>
+                            <div id="prtstd-remark">
+                                <label>รายละเอียด</label>
+                                <textarea></textarea>
                             </div>
-                            <div id="compass">
-                                <div id="compass-img">
-                                    <img src={compassImages} width={'100%'} /></div>
-                                <div>มาตราส่วน <span id="ratio">1: {Math.ceil(getScales()[this.props.mapZoom])}</span></div>
-                                <div>UTM : WGS1984 Zone
-                                    <span id="zone">
-                                        &nbsp;
-                                        {this.locationToUTMZone()}
-                                    </span>
+                            <div id="prtstd-symbol">
+                                <div id="legend">
+                                    <label>&nbsp;&nbsp;สัญลักษณ์</label>
+                                    <div>
+                                        {
+                                            this.props.layers.map((layer) => {
+                                                if (layer.type === "wms") {
+                                                    return (<Legend
+                                                        style={{ height: '200px'}}
+                                                        layer={layer}
+                                                    />);
+                                                }
+                                            })
+                                        }
+                                        
+                                    </div>
                                 </div>
+                                <div id="compass">
+                                    <div id="compass-img">
+                                        <img src={compassImages} width={'100%'} /></div>
+                                    <div>มาตราส่วน <span id="ratio">1: {Math.ceil(getScales()[this.props.mapZoom])}</span></div>
+                                    <div>UTM : WGS1984 Zone
+                                        <span id="zone">
+                                            &nbsp;
+                                            {this.locationToUTMZone()}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="minimap"></div>
                             </div>
-                            <div id="minimap"></div>
-                        </div>
+                        </div> 
+                        {/* End of div  */}
                         <div id="prtstd-footer">
                             <div id="owner-name" className="footer-div">สำนักงานพัฒนาเทคโนโลยีอวกาศ</div>
                             <div id="ruler-container">
@@ -342,9 +372,6 @@ class PrintStandardComponent extends React.Component {
                             </div>
                             <div id="base-map-name" className="footer-div"></div>
                         </div>
-                    </div>
-                    <div className="print-btn">
-                        <button className="btn btn-success" onClick={this.onPrint}>Print</button>
                     </div>
                 </div>
             </Dialog>
@@ -368,7 +395,8 @@ const prtstd = connect(createSelector(
         };
     }
 ), {
-    onClose: toggleRoutingTool,
+    onClose: togglePrintingTool,
+    onChangeLayout: changeLayout,
     onZoomControl: zoomControl,
     onMapViewChanges: mapViewChanges
 },
@@ -391,6 +419,14 @@ const changeMapViewPic = (action$, { getState = () => { } }) =>
             ]);
         });
 
+const changeLayoutEpic = (action$, { getState = () => {}}) => 
+    action$.ofType('PRTSTD:CHANGE_LAYOUT').filter(
+        () => {
+            return getState()
+        }).switchMap(() => {
+            return Rx.Observable.empty()
+        })
+
 
 export default {
     PrintStandardPlugin: assign(prtstd, {
@@ -409,6 +445,7 @@ export default {
         prtstd: printStandardReducer
     },
     epics: {
-        changeMapViewPic
+        changeMapViewPic,
+        changeLayoutEpic
     }
 };

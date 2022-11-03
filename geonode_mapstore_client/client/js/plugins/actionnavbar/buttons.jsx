@@ -15,6 +15,9 @@ import {
 import {
     toggleFullscreen
 } from '@mapstore/framework/actions/fullscreen';
+import {
+    togglePrintScreenTool
+} from '@js/plugins/PrintScreen'
 
 import Message from '@mapstore/framework/components/I18N/Message';
 import Button from '@js/components/Button';
@@ -173,22 +176,30 @@ export const AnnotationsActionButton = connect(
     );
 });
 
-export const PrintScreenActionButton = connect(
-    () => ({}),
-    { onClick: setControlProperty.bind(null, 'prtsc', 'enabled', true) }
+export const PrintScreenActionButton = connect(createSelector([
+    state => state?.controls?.prtsc?.enabled || false
+], (enabled) => ({
+    enabled
+})), {
+    onClick: (enabled) => togglePrintScreenTool(enabled)
+}
 )(({
     onClick,
     variant,
-    size
+    size,
+    enabled
 }) => {
+    const PrintScreenButton = tooltip(Button);
     return (
-        <Button
+        <PrintScreenButton
+            tooltipPosition={"top"}
+            tooltip={ "Print Capture screen"  }
             variant={variant}
             size={size}
-            onClick={() => onClick()}
+            onClick={() => onClick(!enabled)}
         >
-            <Message msgId="printScreenPlugin.title" />
-        </Button>
+            <FaIcon name={"camera"} />
+        </PrintScreenButton>
     );
 });
 

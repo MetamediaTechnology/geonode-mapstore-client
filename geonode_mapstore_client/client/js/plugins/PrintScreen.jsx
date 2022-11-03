@@ -8,21 +8,25 @@ import { setControlProperty } from "@mapstore/framework/actions/controls";
 import { Glyphicon, Tooltip } from 'react-bootstrap';
 import { createSelector } from 'reselect';
 import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
+import Rx from 'rxjs';
 // Components
 import Dialog from '@mapstore/framework/components/misc/Dialog';
 import Button from '@mapstore/framework/components/misc/Button';
 import OverlayTrigger from '@mapstore/framework/components/misc/OverlayTrigger';
+import {
+    error as errorNotification,
+} from '@mapstore/framework/actions/notifications';
 
 const proxyUrl = getConfigProp('proxyUrl');
 
 createControlEnabledSelector('prtsc');
-const printScreenState = (state) => get(state, 'controls.prtsc.enabled');
+// const printScreenState = (state) => get(state, 'controls.prtsc.enabled');
 
-export const TOGGLE_CONTROL = 'TOGGLE_CONTROL';
+export const TOGGLE_PRINT_SCREEN_CONTROL = 'TOGGLE_PRINT_SCREEN_CONTROL';
 
-const togglePrintScreenTool = () => {
+export const togglePrintScreenTool = () => {
     return {
-        type: TOGGLE_CONTROL,
+        type: TOGGLE_PRINT_SCREEN_CONTROL,
         control: 'prtsc',
         property: null
     };
@@ -183,59 +187,55 @@ class PrintScreenComponent extends React.Component {
     };
 
     render() {
-        return (
-            <div>
-                {
-                    this.addTooltip(
-                        <Button
-                            id={this.props.id}
-                            style={this.props.style}
-                            bsSize="xsmall"
-                            onClick={this.onCapture}
-                            className="square-button"
-                            bsStyle="primary"
-                        >
-                            <Glyphicon glyph="camera" />
-                            {this.props.text}
-                            {this.props.help}
-                        </Button>
-                    )
-                }
-                {
-                    this.props.show ? (
-                        <Dialog draggable={false} id="prtsc-dialog" style={this.dialogStyle} start={this.start} >
-                            <div key="header" role="header">
-                                <Glyphicon glyph="print" />&nbsp;Print Screen
-                                <button key="close" onClick={this.onClose} className="close"><Glyphicon glyph="1-close" /></button>
-                            </div>
-                            <div key="body" role="body" style={{height: '300px', overflow: 'scroll'}}>
-                                <img id="prtsc-img" src={this.props.captureImg} width={'100%'} />
-                                <div className="prtsc-control mt-2">
-                                    <button className="btn btn-info" onClick={this.onDownload}>Download</button>
-                                    <button className="btn btn-warning" onClick={this.onReCapture}>Re-capture</button>
-                                </div>
-                            </div>
-                        </Dialog>
-                    ) : null
-                }
-            </div>
-        );
+        return null
+    //     return (
+    //         <div>
+    //             {
+    //                 this.addTooltip(
+    //                     <Button
+    //                         id={this.props.id}
+    //                         style={this.props.style}
+    //                         bsSize="xsmall"
+    //                         onClick={this.onCapture}
+    //                         className="square-button"
+    //                         bsStyle="primary"
+    //                     >
+    //                         <Glyphicon glyph="camera" />
+    //                         {this.props.text}
+    //                         {this.props.help}
+    //                     </Button>
+    //                 )
+    //             }
+    //             {
+    //                 this.props.show ? (
+    //                     <Dialog draggable={false} id="prtsc-dialog" style={this.dialogStyle} start={this.start} >
+    //                         <div key="header" role="header">
+    //                             <Glyphicon glyph="print" />&nbsp;Print Screen
+    //                             <button key="close" onClick={this.onClose} className="close"><Glyphicon glyph="1-close" /></button>
+    //                         </div>
+    //                         <div key="body" role="body" style={{height: '300px', overflow: 'scroll'}}>
+    //                             <img id="prtsc-img" src={this.props.captureImg} width={'100%'} />
+    //                             <div className="prtsc-control mt-2">
+    //                                 <button className="btn btn-info" onClick={this.onDownload}>Download</button>
+    //                                 <button className="btn btn-warning" onClick={this.onReCapture}>Re-capture</button>
+    //                             </div>
+    //                         </div>
+    //                     </Dialog>
+    //                 ) : null
+    //             }
+    //         </div>
+    //     );
     }
 }
 
 const prtsc = connect(
     createSelector(
         [
-            selector,
-            (state) => {
-                return printScreenState(state);
-            }
+            selector
+
         ],
-        (prtscState, show) => {
-            return {
-                ...prtscState,
-                show
-            };
+        (prtscState) => {
+            return {...prtscState};
         }
     ),
     {
@@ -246,6 +246,45 @@ const prtsc = connect(
     null,
     { pure: false }
 )(PrintScreenComponent);
+
+const togglePrintScreenEpic = (action$, { getState = () => { } }) =>
+    action$.ofType(TOGGLE_PRINT_SCREEN_CONTROL)
+        .filter(() => {
+            return (getState());
+        })
+        .mergeMap((action) => {
+            const printScreen = getState().controls;
+            
+            try {
+                document.getElementById('navigationBar').setAttribute('data-html2canvas-ignore', true);
+                document.getElementById('mapstore-drawermenu').setAttribute('data-html2canvas-ignore', true);
+                document.getElementById('mapstore-navbar').setAttribute('data-html2canvas-ignore', true);
+                document.getElementsByClassName('background-preview-button')[0].setAttribute('data-html2canvas-ignore', true)
+            } catch (error) {
+                console.error("Can't not find some element")
+                console.log(error)
+            }
+
+            window.html2canvas(document.querySelector(".gn-viewer-layout-body"), {
+                allowTaint: true,
+            }).then(canvas => {
+                document.body.append(canvas)
+                var print_tab = window.open("", "",'');
+                try {
+                    print_tab.document.body.appendChild(canvas);
+                    print_tab.focus();  
+                    print_tab.print()
+                } catch (e) {
+                    alert("Pop-up Blocker is enabled! Please add this site to your exception list.");
+                }
+            });
+            return Rx.Observable.empty()
+            // printed.then(() => {
+            //     return Rx.Observable
+            //     .of(errorNotification({title: "Can't print", message: "Please allow pop-up window in your browser."}))
+            // })
+        });
+
 
 export default {
     PrintScreenPlugin: assign(prtsc, {
@@ -259,18 +298,11 @@ export default {
             icon: <Glyphicon glyph="print" />,
             action: () => setControlProperty('prtsc', 'enabled', true)
         }
-        // Toolbar: {
-        //     name: "prtsc",
-        //     position: 10,
-        //     tooltip: null,
-        //     icon: <Glyphicon glyph="camera" />,
-        //     help: 'Help',
-        //     tool: true,
-        //     priority: 1
-        // }
     }),
     reducers: {
         prtsc: printScreenReducer
     },
-    epics: {}
+    epics: {
+        togglePrintScreenEpic
+    }
 };

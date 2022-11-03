@@ -971,16 +971,16 @@
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "PrintScreen"
-                                },
-                                {
-                                    "type": "plugin",
                                     "name": "PrintStandard"
                                 }
                             ]
                         }
                     ],
                     "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "PrintScreen"
+                        },
                         {
                             "type": "plugin",
                             "name": "FullScreen"
@@ -1572,6 +1572,10 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
+                            "name": "PrintScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "FullScreen"
                         }
                     ]
@@ -1813,16 +1817,16 @@
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "PrintScreen"
-                                },
-                                {
-                                    "type": "plugin",
                                     "name": "PrintStandard"
                                 }
                             ]
                         }
                     ],
                     "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "PrintScreen"
+                        },
                         {
                             "type": "plugin",
                             "name": "FullScreen"
@@ -2392,6 +2396,10 @@
                         }
                     ],
                     "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "PrintScreen"
+                        },
                         {
                             "type": "plugin",
                             "name": "FullScreen"
