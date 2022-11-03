@@ -185,6 +185,11 @@ class PrintStandardComponent extends React.Component {
 
     onPreparePrint = () => {
         const textArea = document.querySelector('#prtstd-remark > textarea');
+        const divTextArea =  document.getElementById('text-behind')
+
+        const textTitle = document.querySelector('#print-title');
+        const divTitle =  document.getElementById('print-title-behind')
+
         const mapCopy = document.querySelector('#print_preview > div > div.ol-overlaycontainer-stopevent > div.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible');
         const miniMapCopy = document.querySelector('#mini_print_preview > div > div.ol-overlaycontainer-stopevent > div.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible');
         const mapZoomAttr = document.querySelector('#print_preview .ol-zoom')
@@ -202,14 +207,41 @@ class PrintStandardComponent extends React.Component {
         if(mapMiniZoomAttr) {
             mapMiniZoomAttr.setAttribute('data-html2canvas-ignore', true);
         }
-        if(textArea) {
+        if(textArea && divTextArea) {
+            textArea.setAttribute('data-html2canvas-ignore', true)
+            textArea.style.display = 'none';
+            divTextArea.style.display = 'block';
+            divTextArea.innerText = textArea.value
             textArea.style.border = 'none';
+        }
+        if(textTitle && divTitle) {
+            textTitle.setAttribute('data-html2canvas-ignore', true)
+            textTitle.style.display = 'none';
+            divTitle.style.display = 'block';
+            divTitle.innerText = textTitle.value
         }
     }
 
     onAfterPrint = () => {
         const textArea = document.querySelector('#prtstd-remark > textarea');
-        textArea.style.border = '1px solid #d5d5d5';
+        const divTextArea =  document.getElementById('text-behind')
+
+        const textTitle = document.querySelector('#print-title');
+        const divTitle =  document.getElementById('print-title-behind')
+
+        try {
+            textArea.style.border = '1px solid #d5d5d5';
+            textArea.style.display = 'block';
+            divTextArea.style.display = 'none';
+            divTextArea.innerText = ''
+
+            textTitle.style.display = 'block';
+            divTitle.style.display = 'none';
+            divTitle.innerText = ''
+        } catch (error) {
+            console.log('after print')
+        }
+
     }
 
     onClose = () => {
@@ -239,8 +271,8 @@ class PrintStandardComponent extends React.Component {
             var scale = mapZoomElement?.innerText;
             var rulerUnit = `${scale.replace(/\d/g, '')}`.trim();
             document.getElementById('ruler').style.width = rulerSize;
-            document.getElementById('scale-1-4').innerText = (Number(scale[0]) / 4);
-            document.getElementById('scale-1-2').innerHTMLinnerText = (Number(scale[0]) / 2);
+            document.getElementById('scale-1-4').innerText = (Number.parseFloat(scale) / 4);
+            document.getElementById('scale-1-2').innerText = (Number.parseFloat(scale) / 2);
             document.getElementById('scale-1').innerText = Number.parseInt(scale, 10);
             document.getElementById('ruler-unit').innerText = rulerUnit === 'km' ? 'กม.' : 'ม';
         }, 1000);
@@ -260,8 +292,8 @@ class PrintStandardComponent extends React.Component {
     }
 
     onChangePrintTitle = () => {
-        const printMapName = e.target.value;
-        return this.props.onChangePrintTitle(printMapName)
+        // const printMapName = e.target.value;
+        // return this.props.onChangePrintTitle(printMapName)
     }
 
     render() {
@@ -284,7 +316,6 @@ class PrintStandardComponent extends React.Component {
         const groupBackgroundLayer = this.props.layers.filter((layer) => {
             return layer?.group === "background"
         })
-        console.log(groupBackgroundLayer)
         const isPortrait = this.props.layout !== 'landscape'
         return this.props.show ?
             <Dialog id="prtstd-dialog" style={this.dialogStyle} start={this.start}>
@@ -317,16 +348,17 @@ class PrintStandardComponent extends React.Component {
                     <div style={{ zoom: this.props.paperZoom }} id="printContainer" className={`layout-a4-${isPortrait ? 'portrait' : 'landscape'}`}>
                         <div id="prtstd-header">
                             <div className="logo left">
-                                <img src={gistdaLogo} width={'100%'} />
+                                <img src={gistdaLogo} width={'100%'} style={{ marginTop:'1vh'}} />
                             </div>
                             <div className="title">
                                 <div>
-                                    <input style={{ textAlign: 'center', border: 'none', width: '600px' }} type="text" onKeyUp={this.onChangePrintTitle} placeholder={'แผนที่ไม่มีชื่อ'}/>
+                                    <input id='print-title' style={{ textAlign: 'center', border: 'none', width: '400px' }} type="text" onKeyUp={this.onChangePrintTitle} placeholder={'แผนที่ไม่มีชื่อ'}/>
+                                    <div id='print-title-behind'></div>
                                 </div>
                                 <div id="address"></div>
                             </div>
                             <div className="logo right">
-                                <img src={gistdaLogo} width={'100%'} />
+                                <img src={gistdaLogo} width={'100%'} style={{ marginTop:'1vh'}}/>
                             </div>
                         </div>
                         <div id="main-map-section">
@@ -345,11 +377,12 @@ class PrintStandardComponent extends React.Component {
                             <div id="prtstd-remark">
                                 <label>รายละเอียด</label>
                                 <textarea></textarea>
+                                <div style={{ display: 'none'}} id='text-behind'></div>
                             </div>
                             <div id="prtstd-symbol">
                                 <div id="legend">
                                     <label>&nbsp;&nbsp;สัญลักษณ์</label>
-                                    <div>
+                                    <div style={{ marginLeft:'5px'}}>
                                         {
                                             this.props.layers.map((layer) => {
                                                 if (layer.type === "wms") {
@@ -404,7 +437,9 @@ class PrintStandardComponent extends React.Component {
                                     </span>
                                 </div>
                             </div>
-                            <div id="base-map-name" className="footer-div"></div>
+                            <div id="base-map-name" className="footer-div">
+                                แผนที่
+                            </div>
                         </div>
                     </div>
                 </div>
