@@ -318,7 +318,7 @@ class PrintStandardComponent extends React.Component {
                                 mapType={this.props.mapType}
                             />
                         </div>
-                        <div>
+                        <div id="prtstd-info">
                             <div id="prtstd-remark">
                                 <label>รายละเอียด</label>
                                 <textarea></textarea>
