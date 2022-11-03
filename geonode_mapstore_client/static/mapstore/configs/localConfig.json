@@ -971,10 +971,6 @@
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "PrintScreen"
-                                },
-                                {
-                                    "type": "plugin",
                                     "name": "PrintStandard"
                                 }
                             ]
@@ -983,7 +979,7 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
-                            "name": "CaptureScreen"
+                            "name": "PrintScreen"
                         },
                         {
                             "type": "plugin",
@@ -1090,9 +1086,6 @@
             },
             {
                 "name": "Measure"
-            },
-            {
-                "name": "CaptureScreen"
             },
             {
                 "name": "FullScreen"
@@ -1404,14 +1397,6 @@
                 }
             },
             {
-                "name": "CaptureScreen",
-                "override": {
-                    "Toolbar": {
-                        "alwaysVisible": true
-                    }
-                }
-            },
-            {
                 "name": "Notifications"
             },
             {
@@ -1585,6 +1570,10 @@
                         }
                     ],
                     "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "PrintScreen"
+                        },
                         {
                             "type": "plugin",
                             "name": "FullScreen"
@@ -1828,10 +1817,6 @@
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "PrintScreen"
-                                },
-                                {
-                                    "type": "plugin",
                                     "name": "PrintStandard"
                                 }
                             ]
@@ -1840,7 +1825,7 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
-                            "name": "CaptureScreen"
+                            "name": "PrintScreen"
                         },
                         {
                             "type": "plugin",
@@ -1910,9 +1895,6 @@
             },
             {
                 "name": "Measure"
-            },
-            {
-                "name": "CaptureScreen"
             },
             {
                 "name": "FullScreen"
@@ -2226,14 +2208,6 @@
                 }
             },
             {
-                "name": "CaptureScreen",
-                "override": {
-                    "Toolbar": {
-                        "alwaysVisible": true
-                    }
-                }
-            },
-            {
                 "name": "LayerSettings"
             },
             {
@@ -2422,6 +2396,10 @@
                         }
                     ],
                     "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "PrintScreen"
+                        },
                         {
                             "type": "plugin",
                             "name": "FullScreen"
