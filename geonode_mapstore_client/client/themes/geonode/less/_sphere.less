@@ -1,75 +1,88 @@
 @import "_variables.less";
 @import "_animate.less";
 @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500&display=swap");
 
 .font-kanit {
   font-family: Kanit, sans-serif !important;
 }
-#wrap{
+
+.gn-grid-container {
+  font-weight: 200;
+  font-family: Kanit, sans-serif !important;
+  .gn-resource-card .gn-featured-card-title {
+    font-weight: 400 !important;
+  }
+}
+.gn-catalogue {
+  font-weight: 200;
+  font-family: Kanit, sans-serif !important;
+}
+
+#wrap {
   min-height: 100vh !important;
 }
 // Header bar
-.hide-sphere-header{
-    display: none;
-}
-#sphere-sidebar{
+.hide-sphere-header {
   display: none;
 }
-#sphere-header-mobile{
+#sphere-sidebar {
   display: none;
-  li{
+}
+#sphere-header-mobile {
+  display: none;
+  li {
     padding: 5px;
   }
-  a{
+  a {
     font-size: 20px;
-    color: #FFF;
+    color: #fff;
   }
 }
 #sphere-sidebar.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 9999;
-    top: 0;
-    left: 0;
-    background-color: @sphere-main-bg;
-    border-color: #1e1e1e;
-    // box-shadow: 0 8px 10px -5px rgb(0 0 0 / 20%), 0 16px 24px 2px rgb(0 0 0 / 14%), 0 6px 30px 5px rgb(0 0 0 / 12%);
-    overflow-x: hidden;
-    transition: 0.2s;
-    .user-profile{
-      border-bottom: 1px solid hsla(0,0%,100%,.12);
-      padding: 65px 0 30px 0;
-    }
-    .menu-list {
-      margin-top: 4px !important;
-      margin-bottom: 4px !important;
-      text-align: center;
-      padding: 8px 8px 8px 32px;
-      text-decoration: none;
-      font-size: 1.125rem;
-      color: #FFF;
-      display: block;
-      transition: 0.3s;
-    }
-    a{
-      color: #FFF;
-    }
-    .menu-list:hover {
-      color: #f1f1f1;
-    }
-    .closebtn {
-      position: absolute;
-      top: 0;
-      right: 25px;
-      font-size: 36px;
-      margin-left: 50px;
-    }
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  background-color: @sphere-main-bg;
+  border-color: #1e1e1e;
+  // box-shadow: 0 8px 10px -5px rgb(0 0 0 / 20%), 0 16px 24px 2px rgb(0 0 0 / 14%), 0 6px 30px 5px rgb(0 0 0 / 12%);
+  overflow-x: hidden;
+  transition: 0.2s;
+  .user-profile {
+    border-bottom: 1px solid hsla(0, 0%, 100%, 0.12);
+    padding: 65px 0 30px 0;
   }
-
+  .menu-list {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+    text-align: center;
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 1.125rem;
+    color: #fff;
+    display: block;
+    transition: 0.3s;
+  }
+  a {
+    color: #fff;
+  }
+  .menu-list:hover {
+    color: #f1f1f1;
+  }
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+}
 
 #sphere-header {
-   font-family: Kanit, sans-serif !important;
+  font-family: Kanit, sans-serif !important;
   .text-lg {
     font-size: 1.125rem !important;
   }
@@ -353,14 +366,14 @@
     caret-color: #ffa940 !important;
   }
 }
-#sphere-map-header.navbar-default{
+#sphere-map-header.navbar-default {
   background-color: @sphere-main-bg;
   border: none;
   height: 70px;
   border-radius: 0 !important;
-  margin-bottom: 0 !important
+  margin-bottom: 0 !important;
 }
-.banner-action{
+.banner-action {
   margin-right: 15px;
 }
 // Menu
@@ -369,10 +382,10 @@
     color: @gn-primary-contrast !important;
   }
 }
-.navbar-map-header{
+.navbar-map-header {
   font-size: 20px !important;
-  a{
-    color: #FFF !important;
+  a {
+    color: #fff !important;
   }
 }
 .sphere-search-bar {
@@ -382,19 +395,19 @@
     height: 40px;
   }
 }
-.sphere-catalogue-navbar{
-    font-family: Kanit, sans-serif !important;
-    font-weight: 300;
-    a{
-        font-size: 16px;
-        color: @gn-primary-contrast !important;
-    }
-    a:hover{
-        background: none !important;
-    }
-    a:focus{
-        background: none !important;
-    }
+.sphere-catalogue-navbar {
+  font-family: Kanit, sans-serif !important;
+  font-weight: 300;
+  a {
+    font-size: 16px;
+    color: @gn-primary-contrast !important;
+  }
+  a:hover {
+    background: none !important;
+  }
+  a:focus {
+    background: none !important;
+  }
 }
 // Jumbotron hero
 .sphere-hero {
@@ -403,13 +416,13 @@
   background-size: cover;
   background-size: cover;
 }
-.profile-image{
-    color: #FFF;
-    cursor: pointer;
+.profile-image {
+  color: #fff;
+  cursor: pointer;
 }
-.profile-image:hover{
-    color: #FFF;
-    cursor: pointer;
+.profile-image:hover {
+  color: #fff;
+  cursor: pointer;
 }
 .sphere-dropdown {
   padding: 0 !important;
@@ -426,6 +439,117 @@
 .user-profile-img {
   width: 40px;
   height: 40px;
+}
+.gn-resource-action-buttons{
+  z-index: 9999 !important;
+}
+.sphere-featured-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  height: 350px;
+
+  border-radius: 4px; /* Styling */
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.56s ease-in-out; /* Animation */
+  /* background-color: rgba(0,0,0,.2); /* for debugging */
+}
+/* Shows an outer shadow */
+.sphere-featured-card:hover {
+  /* Just for styling */
+  cursor: pointer;
+  box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+}
+/* Cards titles styling
+------------------------------------------ */
+.sphere-featured-card .card__title {
+  /* Just for styling */
+  align-self: flex-end;
+  padding: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 600;
+  a{
+    color: #fff;
+  }
+  .card__description{
+    margin-top: 10px;
+    font-weight: 200;
+    font-size: 0.9rem;
+    width: 95%;
+  }
+}
+
+/* Styles for:
+** - Using IMG tag inside a container
+------------------------------------------ */
+/* The image container */
+.sphere-featured-card .card__thumbnail {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center; /* horizontal center */
+  align-items: center; /* vertical center */
+
+  width: 100%; /* Thumbnail dimensions. */
+  height: 100%; /*** Change the height to make the image smaller ***/
+  /* background-color: rgba(0,0,0,.2);  /* for debugging */
+}
+/* Sets the image dimensions */
+.sphere-featured-card .card__thumbnail > img {
+  /* Tip: use 1:1 ratio images */
+  height: 100%; /* or width when img.width > img.height */
+}
+/* Styles the title inside the img container */
+.sphere-featured-card .card__thumbnail > .card__title {
+  /* Just for styling */
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.sphere-featured-card .has-bg-img {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.sphere-btn-modern {
+  margin: 10px;
+  background-color: #ffffff;
+  border: 0;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  color: #9a9ab0;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.25rem;
+  height: 60px;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  text-decoration: none #d1d5db solid;
+  text-decoration-thickness: auto;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.sphere-btn-modern:hover {
+  background-color: rgb(249, 250, 251);
+}
+
+.sphere-btn-modern:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.sphere-btn-modern:focus-visible {
+  box-shadow: none;
 }
 
 // Footer
@@ -457,6 +581,16 @@
   .text-sm-right {
     text-align: right;
   }
+}
+
+.add-resource-shortcut {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 40px;
+}
+.sphere-home-tab {
+  cursor: pointer;
 }
 #sphere-map-footer {
   background-color: @sphere-main-bg;
@@ -491,16 +625,23 @@
 }
 
 @media only screen and (max-width: 960px) {
-  #sphere-sidebar{
+  #sphere-sidebar {
     display: block;
   }
-  #sphere-header-mobile{
+  #sphere-header-mobile {
     display: block;
   }
-  .landing-header{
+  .landing-header {
     display: none !important;
   }
   .sphere-search {
     display: none;
+  }
+  .add-resource-shortcut {
+    display: none;
+  }
+  .sphere-btn-modern {
+    display: block !important;
+    width: 100%;
   }
 }

@@ -8,6 +8,7 @@
 
 import React, { useEffect } from 'react';
 import ResourceCard from '@js/components/ResourceCard';
+import ResourceCardModern from '../ResourceCard/ResourceCardModern';
 import { withResizeDetector } from 'react-resize-detector';
 import { getResourceStatuses } from '@js/utils/ResourceUtils';
 
@@ -75,7 +76,22 @@ const Cards = ({
                         key={resource?.pk}
                         style={(gridLayoutSpace(idx))}
                     >
-                        <ResourceCard
+                        <ResourceCardModern 
+                          active={isCardActive(resource)}
+                          data={resource}
+                          formatHref={formatHref}
+                          options={options}
+                          buildHrefByTemplate={buildHrefByTemplate}
+                          layoutCardsStyle="grid"
+                          loading={isProcessing}
+                          readOnly={isProcessing}
+                          featured
+                          actions={actions}
+                          onAction={onAction}
+                          onDownload={onDownload}
+                          downloading={downloading?.find((download) => download.pk === resource.pk) ? true : false}
+                          ></ResourceCardModern>
+                        {/* <ResourceCard
                             active={isCardActive(resource)}
                             data={resource}
                             formatHref={formatHref}
@@ -89,7 +105,7 @@ const Cards = ({
                             onAction={onAction}
                             onDownload={onDownload}
                             downloading={downloading?.find((download) => download.pk === resource.pk) ? true : false}
-                        />
+                        /> */}
                     </li>
                 );
             })}
