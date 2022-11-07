@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useRef, useEffect, useState} from 'react';
+import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import url from "url";
@@ -17,12 +17,11 @@ import { buildHrefByTemplate } from "@js/utils/MenuUtils";
 import { searchResources, loadFeaturedResources } from "@js/actions/gnsearch";
 import FeaturedList from "@js/components/FeaturedList";
 
-import {
-  hashLocationToHref
-} from "@js/utils/SearchUtils";
+import { hashLocationToHref } from "@js/utils/SearchUtils";
 import { withResizeDetector } from "react-resize-detector";
 
 import { getThemeLayoutSize } from "@js/utils/AppUtils";
+import Message from "@mapstore/framework/components/I18N/Message";
 
 import ConnectedCardGrid from "@js/routes/catalogue/ConnectedCardGrid";
 import { getFeaturedResults, getTotalResources } from "@js/selectors/search";
@@ -34,12 +33,11 @@ import { processResources, downloadResource } from "@js/actions/gnresource";
 import { setControlProperty } from "@mapstore/framework/actions/controls";
 import { featuredResourceDownload } from "@js/selectors/resourceservice";
 
-import { getCategories } from '@js/api/geonode/v2';
+import { getCategories, getTotalCountsAll } from "@js/api/geonode/v2";
 
 function loadCategories() {
-  console.log('Func call')
   return {
-      type: 'FETCH_CATEGORIES_DATA'
+    type: "FETCH_CATEGORIES_DATA",
   };
 }
 
@@ -93,10 +91,10 @@ function Home({
   config,
   user,
   width,
+  totalResources,
   fetchFeaturedResources = () => {},
   enabled,
 }) {
-
   const cataloguePage = "/catalogue/";
 
   const { cardOptionsItemsAllowed } = config;
@@ -105,8 +103,16 @@ function Home({
 
   function handleUpdate(newParams, pathname) {
     const { query } = url.parse(location.search, true);
-    onSearch({...query,...newParams},pathname
-    );
+    onSearch({ ...query, ...newParams }, pathname);
+  }
+
+  function showMoreData() {
+    const { query } = url.parse(location.search, true);
+    if (!query.f) {
+      window.location.href = `/catalogue/#/`;
+      return;
+    }
+    window.location.href = `/catalogue/#/?f=${query.f}`;
   }
 
   function searchData(e) {
@@ -120,7 +126,7 @@ function Home({
     };
     const newParams = "";
     const pathname = "";
-    onSearch({...query,...newParams,},pathname);
+    onSearch({ ...query, ...newParams }, pathname);
     e.target.parentNode.classList.add("active");
   }
   function handleFormatHref(options) {
@@ -133,36 +139,202 @@ function Home({
     );
   }
 
-  const [categories,setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [totalCount, setTotalCount] = useState({});
 
   const { query } = url.parse(location.search, true);
 
   useEffect(() => {
-   getCategories({
-    with_response: 'all'
-   }, 'filter{category.identifier.in}').then((categories) => {
-        setCategories(categories.results)
-    })
-
-  }, [])
+    getTotalCountsAll({}).then((data) => {
+      setTotalCount(data);
+    });
+    getCategories(
+      {
+        with_response: "all",
+      },
+      "filter{category.identifier.in}"
+    ).then((categories) => {
+      setCategories(categories.results);
+    });
+    try {
+      document.getElementById('datasets').click()
+    } catch (error) {
+      console.log("Can't click dataset")
+    }
+  }, []);
 
   const categoriesStyle = (str) => {
     return {
-      width: '100px',
-      height: '100px',
-      textAlign: 'center',
-      padding: '15px 0',
+      width: "100px",
+      height: "100px",
+      textAlign: "center",
+      padding: "15px 0",
       lineHeight: 1.42,
-      borderRadius: '50%',
-      backgroundColor: "#FFFF",
-      fontSize: 'xxx-large'
-  }
-  }
+      borderRadius: "50%",
+      backgroundColor: "#185787",
+      color: "#FFF",
+      fontSize: "2.7rem",
+    };
+  };
 
   return (
     <div className="gn-container">
       <div className="gn-row gn-home-section">
         <div className="gn-grid-container">
+          {enabled ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                padding: "10px",
+                backgroundColor: "white",
+                marginTop: "20px",
+              }}
+            >
+              <div className="btn-group">
+                <a
+                  href="/catalogue/#/upload/dataset"
+                  className="btn btn btn-lg btn-shortcut-marine"
+                >
+                  Upload dataset
+                </a>
+                <a
+                  href="/catalogue/#/upload/document"
+                  className="btn btn btn-lg btn-shortcut-marine"
+                >
+                  Upload document
+                </a>
+                <a
+                  href="/catalogue/#/map/new"
+                  className="btn btn btn-lg btn-shortcut-marine"
+                >
+                  Create map
+                </a>
+                <a
+                  href="/catalogue/#/"
+                  className="btn btn btn-lg btn-shortcut-marine"
+                >
+                  Other
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div></div>
+          )}
+
+          <div
+            className="gn-card-grid marine-list"
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <div
+              className="gn-card-grid-container marine-summary"
+              style={{ 
+                marginTop: "55px",
+                height:'200px',
+                borderBottom:'1px solid rgb(241 241 241)'
+              }}
+            >
+              <div className="row">
+                <div className="col-md-1"></div>
+                <div className="col-md-2">
+                  <div
+                    className="category"
+                    data-toggle="tooltip"
+                    data-placement="auto"
+                    title=""
+                  >
+                    <p>
+                      <a href="/catalogue/#/search/?f=dataset">
+                        <i className="fa fa-square-o" style={{transform: 'rotate(45deg)'}}></i>
+                      </a>
+                    </p>
+                    <h2>
+                      <a href="/catalogue/#/search/?f=dataset">
+                        {totalCount.resources || 0} Dataset
+                      </a>
+                    </h2>
+                  </div>
+                </div>
+                <div className="col-md-2">
+                  <div
+                    className="category"
+                    data-toggle="tooltip"
+                    data-placement="auto"
+                    title=""
+                  >
+                    <p>
+                      <a href="/catalogue/#/search/?f=map">
+                        <i className="fa fa-map-marker"></i>
+                      </a>
+                    </p>
+                    <h2>
+                      <a href="/catalogue/#/search/?f=map">
+                        {totalCount.maps || 0} Maps
+                      </a>
+                    </h2>
+                  </div>
+                </div>
+                <div className="col-md-2">
+                  <div
+                    className="category"
+                    data-toggle="tooltip"
+                    data-placement="auto"
+                    title=""
+                  >
+                    <p>
+                      <a href="/catalogue/#/?f=geostory&f=dashboard">
+                        <i className="fa fa-dashboard"></i>
+                      </a>
+                    </p>
+                    <h2>
+                      <a href="/catalogue/#/?f=geostory&f=dashboard">
+                        {totalCount.geoapp || 0} Geo-apps
+                      </a>
+                    </h2>
+                  </div>
+                </div>
+                <div className="col-md-2">
+                  <div
+                    className="category"
+                    data-toggle="tooltip"
+                    data-placement="auto"
+                    title=""
+                  >
+                    <p>
+                      <a href="/catalogue/#/?f=document">
+                        <i className="fa fa-newspaper-o"></i>
+                      </a>
+                    </p>
+                    <h2>
+                      <a href="/catalogue/#/?f=document">
+                        {totalCount.documents || 0} Documents
+                      </a>
+                    </h2>
+                  </div>
+                </div>
+                <div className="col-md-2">
+                  <div
+                    className="category"
+                    data-toggle="tooltip"
+                    data-placement="auto"
+                    title=""
+                  >
+                    <p>
+                      <a href="/people">
+                        <i className="fa fa-users"></i>
+                      </a>
+                    </p>
+                    <h2>
+                      <a href="/people">{totalCount.users || 0} Users</a>
+                    </h2>
+                  </div>
+                </div>
+                <div className="col-md-1"></div>
+              </div>
+            </div>
+          </div>
           <ConnectedFeatureList
             query={query}
             formatHref={handleFormatHref}
@@ -176,6 +348,61 @@ function Home({
       </div>
       <div className="gn-row">
         <div className="gn-grid-container marine-list">
+          <div className="gn-card-grid marine-list">
+            <div style={{ display: "flex", width: "100%" }}>
+              <div style={{ flex: "1 1 0%", width: "100%" }}>
+                <div className="gn-card-grid-container">
+                  <h3 style={{ fontSize: "1.5rem" }}>
+                    <span>Layer by categories</span>
+                  </h3>
+                  <div id="layer-categories" style={{ margin: "10px" }}>
+                    <div className="row">
+                      {categories.length > 0
+                        ? categories.map((categorie, index) => {
+                            return (
+                              <div className="col-xs-6 col-md-3">
+                                <div
+                                  style={{
+                                    display: "block",
+                                    width: "100%",
+                                    textAlign: "center",
+                                    marginTop: "15px",
+                                    marginBottom: "15px",
+                                  }}
+                                >
+                                  <a
+                                    href={
+                                      "/catalogue/#/?filter%7Bcategory.identifier.in%7D=" +
+                                      categorie.identifier
+                                    }
+                                    style={categoriesStyle()}
+                                    className="btn btn-lg"
+                                  >
+                                    <i
+                                      className={"fa " + categorie.fa_class}
+                                    ></i>
+                                  </a>
+                                  <div
+                                    style={{ color: "grey", marginTop: "5px" }}
+                                  >
+                                    {categorie.gn_description?.length > 30
+                                      ? categorie.gn_description.substring(
+                                          0,
+                                          20
+                                        )
+                                      : categorie.gn_description}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })
+                        : ""}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <ConnectedCardGrid
             user={user}
             query={query}
@@ -186,32 +413,12 @@ function Home({
             formatHref={handleFormatHref}
             onLoad={(value) => {
               handleUpdate({
-                page: value,
+                page: 1,
               });
             }}
           >
-            {enabled ? (
-              <div style={{ display: "flex", justifyContent: "center" ,padding:'10px'}}>
-                <div className="btn-group">
-                  <a href="/catalogue/#/upload/dataset" className="btn btn btn-lg" style={{ border: '1px solid currentColor'}}>
-                    Upload dataset
-                  </a>
-                  <a href="/catalogue/#/upload/document" className="btn btn btn-lg" style={{ border: '1px solid currentColor',marginLeft:'5px'}}>
-                    Upload document
-                  </a>
-                  <a href="/catalogue/#/map/new" className="btn btn btn-lg" style={{ border: '1px solid currentColor',marginLeft:'5px'}}>
-                    Create map
-                  </a>
-                  <a href="/catalogue/#/" className="btn btn btn-lg" style={{ border: '1px solid currentColor',marginLeft:'5px'}}>
-                    Other
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <div></div>
-            )}
             <div>
-              <h3 style={{ fontSize:'1.5rem'}}>
+              <h3 style={{ fontSize: "1.5rem" }}>
                 <span>Resources</span>
               </h3>
               <ul
@@ -220,7 +427,7 @@ function Home({
                 style={{ marginLeft: "15px" }}
               >
                 <li className="resouce-tab">
-                  <a data-search="dataset" onClick={searchData}>
+                  <a data-search="dataset" id="datasets" onClick={searchData}>
                     Datasets
                   </a>
                 </li>
@@ -242,42 +449,45 @@ function Home({
               </ul>
             </div>
           </ConnectedCardGrid>
-        </div>
-        <div className="gn-card-grid marine-list">
-              <div style={{display:'flex',width: '100%'}}>
-                <div style={{flex: '1 1 0%',width: '100%'}}>
-                  <div className="gn-card-grid-container">
-                    <h3 style={{ fontSize:'1.5rem'}}><span>Layer by categories</span></h3>
-                    <div id='layer-categories' style={{ margin: '10px'}}>
-                      <div class="row">
-                        {
-                          categories.length > 0 ? categories.map((categorie,index) => {
-                              return (
-                                <div class="col-xs-6 col-md-3"><div style={{display:'block',width:'100%',textAlign:'center',marginTop:'15px',marginBottom:'15px'}}>
-                                  <a href={'/catalogue/#/?filter%7Bcategory.identifier.in%7D='+categorie.identifier} style={categoriesStyle()} class="btn btn-lg">
-                                    <i className={'fa '+categorie.fa_class}></i>
-                                  </a>
-                                  <div style={{color:'grey',marginTop:'5px'}}>
-                                    {
-                                      categorie.gn_description?.length > 30 ? categorie.gn_description.substring(0,20) : categorie.gn_description
-                                    }
-                                  </div>
-                                  </div>
-                                </div>
-                              )
-                            }) : ''
-                        }
-                      </div>
+          {totalResources > 12 ? (
+            <div
+              className="gn-card-grid"
+              style={{ marginTop: "-50px", marginBottom: "20px" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                }}
+              >
+                <div style={{ flex: 1, width: "100%" }}>
+                  <div
+                    className="gn-card-grid-container"
+                    style={{ minHeight: "5vh" }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <a style={{ fontSize: "1.5rem" }} onClick={showMoreData}>
+                        <Message msgId={"showMore"} />
+                      </a>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
       <DeleteResourcePlugin redirectTo={false} />
       <SaveAsPlugin closeOnSave labelId="gnviewer.clone" />
       <NotificationsPlugin />
-      
     </div>
   );
 }
@@ -292,13 +502,13 @@ Home.propTypes = {
   totalResources: PropTypes.object,
   fetchFeaturedResources: PropTypes.func,
   enabled: PropTypes.bool,
-  categories: PropTypes.object
+  categories: PropTypes.object,
 };
 
 Home.defaultProps = {
   onSearch: () => {},
   fetchFeaturedResources: () => {},
-  categories: {}
+  categories: {},
 };
 
 const DEFAULT_PARAMS = {};
@@ -319,12 +529,12 @@ const ConnectedHome = connect(
       config,
       totalResources,
       loading,
-      enabled: canAddResource
+      enabled: canAddResource,
     })
   ),
   {
     onSearch: searchResources,
-    fetchFeaturedResources: loadFeaturedResources
+    fetchFeaturedResources: loadFeaturedResources,
   }
 )(withResizeDetector(Home));
 
