@@ -1,38 +1,91 @@
-@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap");
 
-body{
-    font-family: 'Bai Jamjuree', sans-serif !important;
+body {
+  font-family: "Bai Jamjuree", sans-serif !important;
 }
-.font-promt{
-    font-family: 'Prompt' sans-serif !important;
+.font-promt {
+  font-family: "Prompt" sans-serif !important;
 }
-#wrap{
-    min-height: 100vh !important;
+#wrap {
+  min-height: 100vh !important;
 }
-.gn-home-section{
-    background-color: rgb(241, 241, 241);
-}
-
-.marine-tab a{
-    cursor: pointer;
+.gn-home-section {
+  background-color: rgb(241, 241, 241);
 }
 
-.brand-marine-text{
-    color:#FFF !important;
-    font-size:1.5rem !important;
-    font-family: 'Bai Jamjuree'
+.marine-tab a {
+  cursor: pointer;
+}
+
+.brand-marine-text {
+  color: #fff !important;
+  font-size: 1.5rem !important;
+  font-family: "Bai Jamjuree";
 }
 // Overide geonode
-.marine-list .gn-card-grid-container{
-    min-height: auto !important;
+.marine-list .gn-card-grid-container {
+  min-height: auto !important;
+}
+
+.marine-summary {
+  i {
+    font-size: 6rem;
+  }
+}
+/* CSS */
+.btn-shortcut-marine {
+  align-items: center;
+  background-color: #185787;
+  border: 0;
+  border-radius: 100px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 18px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 20px;
+  max-width: 480px;
+  min-height: 40px;
+  min-width: 0px;
+  overflow: hidden;
+  padding: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  touch-action: manipulation;
+  transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+    color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+}
+
+.btn-shortcut-marine:hover,
+.btn-shortcut-marine:focus {
+  background-color: #ffffff;
+  color: #ffffff;
+}
+
+.btn-shortcut-marine:active {
+  background: #ffffff;
+  color: rgb(255, 255, 255, 0.7);
+}
+
+.btn-shortcut-marine:disabled {
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 @media only screen and (max-width: 600px) {
-    .brand-marine-text{
-        display: none;
-    }
-    .marine-header h1{
-        font-size: 2.5rem;
-    }
+  .brand-marine-text {
+    display: none;
+  }
+  .marine-header h1 {
+    font-size: 2.5rem;
+  }
 }

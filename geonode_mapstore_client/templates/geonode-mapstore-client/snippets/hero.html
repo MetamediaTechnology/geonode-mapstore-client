@@ -23,14 +23,21 @@
         padding-top: 100px;
         padding-bottom: 50px;
         color: #FFF;
-        background-size: cover;
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/static/mapstore/img/marine-hero.jpg');
+        background-size: contain;
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(24, 87, 135)), url('/static/mapstore/img/marine-hero.jpg');
         background-size: cover;
     }
 
     .marine-header p{
         font-size: 24px !important;
     }
+
+      @keyframes AnimateBG { 
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+      }
+
     @media only screen and (max-width: 986px) {
         .marine-header p{
             font-size: 14px !important;
@@ -38,7 +45,6 @@
     }
 </style>
 {% endblock %}
-
 <div id="gn-hero" class="marine-header">
     <div class="jumbotron text-center font-kanit">
         <h1>Marine GI Portal</h1>
