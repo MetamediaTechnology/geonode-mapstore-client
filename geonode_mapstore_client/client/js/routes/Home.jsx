@@ -253,7 +253,7 @@ function Home({
                     </p>
                     <h2>
                       <a href="/catalogue/#/search/?f=dataset">
-                        {totalCount.resources || 0} Dataset
+                        {totalCount.resources || 0} Datasets
                       </a>
                     </h2>
                   </div>
