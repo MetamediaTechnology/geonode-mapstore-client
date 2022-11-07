@@ -183,6 +183,7 @@ function Home({
         <div className="gn-grid-container">
           {enabled ? (
             <div
+              className="btn-shortcut"
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -231,8 +232,8 @@ function Home({
             <div
               className="gn-card-grid-container marine-summary"
               style={{ 
+                paddingBottom:'50px',
                 marginTop: "55px",
-                height:'200px',
                 borderBottom:'1px solid rgb(241 241 241)'
               }}
             >
