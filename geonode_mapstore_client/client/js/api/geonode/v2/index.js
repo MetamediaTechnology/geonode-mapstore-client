@@ -281,6 +281,42 @@ export const getDocumentsByDocType = (docType = 'image', {
         });
 };
 
+export const getTotalCountsAll = ({}) => {
+    
+    const resources = axios.get(parseDevHostname(`${endpoints[DATASETS]}?page_size=1`)).then(({data}) => {
+        return data.total || 0
+    }) 
+    const maps = axios.get(parseDevHostname(`${endpoints[MAPS]}?page_size=1`)).then(({data}) => {
+        return data.total || 0
+    })
+    const geoapp = axios.get(parseDevHostname(`${endpoints[GEOAPPS]}?page_size=1`)).then(({data}) => {
+        return data.total || 0
+    })
+    const documents = axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}?page_size=1`)).then(({data}) => {
+        return data.total || 0
+    })
+    const users = axios.get(parseDevHostname(`${endpoints[USERS]}?page_size=1`)).then(({data}) => {
+        return data.total || 0
+    })
+
+
+    return Promise.all([
+        resources,
+        maps,
+        geoapp,
+        documents,
+        users
+    ]).then((val) => {
+        return {
+            resources: val[0],
+            maps: val[1],
+            geoapp: val[2],
+            documents: val[3],
+            users: val[4]
+        }
+    })
+}
+
 export const setMapThumbnail = (pk, body) => {
     return axios.post(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/set_thumbnail_from_bbox`), body)
         .then(({ data }) => (data));
