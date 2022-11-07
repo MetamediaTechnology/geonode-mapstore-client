@@ -13,7 +13,7 @@ let defaultQueryKeys = [
     'page'
 ];
 
-let defaultPageSize = 20;
+let defaultPageSize = 12;
 
 let filters = {};
 
