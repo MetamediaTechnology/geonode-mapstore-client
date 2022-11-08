@@ -139,7 +139,7 @@ function ActionNavbarPlugin(
     }
 
     const bannerBtnCtrl = () => {
-        if(user?.is_staff || user?.is_admin) {
+        if(user || user?.is_staff || user?.is_admin) {
             if(!file) {
                 return (
                     <ul className="nav navbar-nav navbar-right banner-action">
