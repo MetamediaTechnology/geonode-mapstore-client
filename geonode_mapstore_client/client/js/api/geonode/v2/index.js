@@ -295,7 +295,7 @@ export const getTotalCountsAll = ({}) => {
     const documents = axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}?page_size=1`)).then(({data}) => {
         return data.total || 0
     })
-    const users = axios.get(parseDevHostname(`${endpoints[USERS]}?page_size=1`)).then(({data}) => {
+    const users = axios.get(parseDevHostname(`${endpoints[OWNERS]}?page_size=1`)).then(({data}) => {
         return data.total || 0
     })
 
