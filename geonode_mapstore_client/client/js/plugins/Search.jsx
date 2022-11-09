@@ -222,7 +222,7 @@ const SearchPlugin = connect((state) => ({
     });
 export const searchEpic = (action$, { getState = () => { } }) =>
     action$.ofType(TEXT_SEARCH_STARTED)
-        .debounceTime(250)
+        .debounceTime(500)
         .switchMap(action =>
             Rx.Observable.from(
                 (action.services || [{ type: "nominatim", priority: 5 }])
