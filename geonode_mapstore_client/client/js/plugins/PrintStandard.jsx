@@ -345,7 +345,7 @@ class PrintStandardComponent extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div style={{ zoom: this.props.paperZoom }} id="printContainer" className={`layout-a4-${isPortrait ? 'portrait' : 'landscape'}`}>
+                    <div style={{ transform: `scale(${this.props.paperZoom > 1 ? 1 : this.props.paperZoom})` }} id="printContainer" className={`layout-a4-${isPortrait ? 'portrait' : 'landscape'}`}>
                         <div id="prtstd-header">
                             <div className="logo left">
                                 <img src={gistdaLogo} width={'100%'} style={{ marginTop:'1vh'}} />
