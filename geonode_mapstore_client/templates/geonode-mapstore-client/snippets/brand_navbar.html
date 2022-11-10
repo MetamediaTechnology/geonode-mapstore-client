@@ -34,14 +34,14 @@
             <div class="mx-2 mx-lg-4"><a class="navigation-link" target="_blank" href="https://sphere.gistda.or.th/?section=pricing">
                     Pricing
                 </a></div>
-            <div class="locale-switch d-flex">
+            {% comment %} <div class="locale-switch d-flex">
                 <span class="cursor-pointer">TH</span>
                     <hr
                     role="separator"
                     class="mx-1 v-divider v-divider--vertical theme--light"
                     style="border-color: white;">
                 <span class="font-weight-semi-bold secondary--text">EN</span>
-            </div>
+            </div> {% endcomment %}
             {% for menu_item in USER_MENU %}
                 {% if menu_item.type == 'link' %}
                     {% if menu_item.label == 'Register'%}
