@@ -1677,6 +1677,7 @@
                 "syncOnMap": "Sync map with filter",
                 "enableTimeSync": "Synchronize with the selected time or time interval",
                 "disableTimeSync": "Do not synchronize with the selected time or interval",
+                "createNewChart": "Create a chart for the selected layer",
                 "enableSnapping": "Activate snapping",
                 "disableSnapping": "Deactivate snapping",
                 "snapToLayer": "Snap to the layer",

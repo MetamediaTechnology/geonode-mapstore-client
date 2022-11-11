@@ -344,7 +344,7 @@
             "tooltip": "Download GeoJson"
         },
         "layerProperties": {
-            "refreshIntervalLayer": "Refrash Interval (seconds)"
+            "refreshIntervalLayer": "Refresh Interval (seconds)"
         }
     }
 }
