@@ -410,12 +410,31 @@
   }
 }
 // Jumbotron hero
+.btn-sphere-tutorial{
+  color: #FFF;
+}
+.btn-sphere-primary:hover{
+  
+  color: #FFF !important;
+}
+.btn-sphere-primary{
+  font-family: Kanit;
+  border-radius: 8px!important;
+  width: 192px;
+  background-color: #e85f5b;
+}
 .sphere-hero {
+  min-height: 400px;
   font-family: "Kanit", sans-serif;
   color: #fff;
   background-size: cover;
   background-size: cover;
 }
+.sphere-hero .gn-hero-description {
+  position: relative;
+  z-index: 50;
+}
+
 .profile-image {
   color: #fff;
   cursor: pointer;
@@ -625,6 +644,10 @@
 }
 
 @media only screen and (max-width: 960px) {
+  .sphere-hero{
+    background-size: auto !important;
+    padding: 10px !important;
+  }
   #sphere-sidebar {
     display: block;
   }

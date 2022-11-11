@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Glyphicon } from 'react-bootstrap';
@@ -103,6 +103,16 @@ function Home({
     window.location = `${cataloguePage}#/search/filter/${location.search}`;
   };
 
+
+  function showMoreData() {
+    const { query } = url.parse(location.search, true);
+    if (!query.f) {
+      window.location.href = `/catalogue/#/`;
+      return;
+    }
+    window.location.href = `/catalogue/#/?f=${query.f}`;
+  }
+
   function handleUpdate(newParams, pathname) {
     const { query } = url.parse(location.search, true);
     onSearch(
@@ -113,6 +123,14 @@ function Home({
       pathname
     );
   }
+
+  useEffect(() => {
+    try {
+      document.getElementById('datasets').click()
+    } catch (error) {
+      console.log("Can't click dataset")
+    }
+  }, []);
 
   function searchData(e) {
     const resouceList = document.querySelectorAll(".resouce-tab");
@@ -229,11 +247,11 @@ function Home({
           >
             <div style={{ marginBottom: "30px" }}>
               <h3 style={{ fontSize: "1.5rem" }}>
-                <span>Resources</span>
+                <span >Resources</span>
               </h3>
-              <ul className="nav nav-tabs sphere-home-tab" id="resouce_list">
+              <ul className="nav nav-tabs sphere-home-tab" id="resouce_list" style={{ marginLeft:'15px'}}>
                 <li className="resouce-tab">
-                  <a data-search="dataset" onClick={searchData}>
+                  <a data-search="dataset" id="datasets" onClick={searchData}>
                     Datasets
                   </a>
                 </li>
@@ -271,7 +289,7 @@ function Home({
           {totalResources > 12 ? (
             <div
               className="gn-card-grid"
-              style={{ marginTop: "-50px", marginBottom: "20px" }}
+              style={{marginBottom: "20px" }}
             >
               <div
                 style={{
@@ -285,8 +303,8 @@ function Home({
                     style={{ minHeight: "5vh" }}
                   >
                     <div style={{ display: "flex", justifyContent: "center" }}>
-                      <a style={{ fontSize: "1.5rem" }} href="/catalogue/#/">
-                        Show all resources.
+                      <a style={{ fontSize: "1.5rem",cursor:'pointer' }} onClick={showMoreData}>
+                        Show more.
                       </a>
                     </div>
                   </div>

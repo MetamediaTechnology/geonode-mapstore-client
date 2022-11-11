@@ -222,7 +222,7 @@ const SearchPlugin = connect((state) => ({
     });
 export const searchEpic = (action$, { getState = () => { } }) =>
     action$.ofType(TEXT_SEARCH_STARTED)
-        .debounceTime(500)
+        .debounceTime(250)
         .switchMap(action =>
             Rx.Observable.from(
                 (action.services || [{ type: "nominatim", priority: 5 }])
@@ -260,11 +260,13 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                                 serviceInstance(action.searchText, service.options)
                                     .then( (response = []) => response.map(result => ({...result, __SERVICE__: service, __PRIORITY__: service.priority || 0}))
                                     ))
-                            .retryWhen(errors => errors.delay(200).scan((count, err) => {
-                                if ( count >= 2) {
-                                    throw err;
-                                }
-                                return count + 1;
+                            .retryWhen(errors => errors.delay(500).scan((count, err) => {
+                                console.log(err)
+                                throw err;
+                                // if ( count >= 2) {
+                                //     throw err;
+                                // }
+                                // return count + 1;
                             }, 0));
                     }) // Map
             )

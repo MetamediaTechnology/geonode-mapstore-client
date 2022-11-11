@@ -13,19 +13,26 @@
             background-color: rgb(156, 156, 156);
             background-blend-mode: multiply;
         }
+}
     </style>
 {% endif %}
 {% block extra_style %}
 {% endblock %}
-<div id="gn-hero" class="gn-hero sphere-hero" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 54, 99)), url('/static/mapstore/img/bg-satellite-data.jpg');">
+<div id="gn-hero" class="gn-hero sphere-hero" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 54, 99)), url('/static/mapstore/img/landing-bg@3x.1c519082.jpg');background-size: cover;">
+    <div id="particles-js" style="position:absolute;width:100%;height:420px"></div> 
     <div class="jumbotron" style="max-width: 900px;">
         <div class="gn-hero-description">
-            <h2 class="animate__animated animate__fadeInUp">sphere <span style="color: #FFA940"> Open portal</span></h2>
+            <h2 class="animate__animated animate__fadeInUp"><span class="animate__animated animate__pulse animate__infinite infinite animate__slower">sphere</span> <span style="color: #FFA940"> Open portal</span></h2>
             <h6 class="animate__animated animate__fadeInUp">ระบบภูมิสารสนเทศกลางเพื่อการบริการแผนที่ออนไลน์</h6>
             <p class="animate__animated animate__fadeInUp">
                 แหล่งรวบรวมข้อมูลและเชื่อมโยงข้อมูลภูมิสารสนเทศ<br>เพื่อให้ผู้ใช้สามารถเข้าถึงข้อมูล
                 และนำมาสร้างแอปพลิเคชันได้ด้วยตนเอง
             </p>
+            <a class="btn-sphere-tutorial" href="https://raw.githubusercontent.com/GISTDAsphere/sphere-portal-tutorial/main/sphere-portal-tutorial.pdf" target="_blank">
+            <button class="btn btn-sphere-primary btn-lg">
+                Tutorial
+            </button>
+            </a>
         </div>
         <p class="gn-hero-tools">
         </p>
@@ -82,3 +89,18 @@
     </div>
 </div>
 {% endif %}
+
+<script>
+    window.addEventListener('scroll', () => {
+        var e = document.querySelector('#gn-hero');
+        if (!e) {
+            return false;
+        }
+        e.style.backgroundSize = 'cover';
+        var h = parseFloat(e.clientHeight) * 4;
+        var y = parseFloat(window.scrollY);
+        var a = y / h * 100.0;
+        e.style.backgroundPosition = '0% ' + a + '%';
+    });
+    
+</script>

@@ -81,19 +81,17 @@ def get_base_right_topbar_menu(context):
 
     is_mobile = _is_mobile_device(context)
 
-    if is_mobile:
-        return []
 
-    home = {
-        "type": "link",
-        "href": "/",
-        "label": "Home"
-    }
     user = context.get('request').user
-    about = {
-            "label": "About",
+    Menu = {
+            "label": "Menu",
             "type": "dropdown",
             "items": [
+                {
+                    "type": "link",
+                    "href": "/",
+                    "label": "Home"
+                },
                 {
                     "type": "link",
                     "href": "/people/",
@@ -103,31 +101,42 @@ def get_base_right_topbar_menu(context):
                     "type": "link",
                     "href": "/groups/",
                     "label": "Groups"
-                }
+                },
+                {
+                "type": "divider"
+                },
+                {
+                    "type": "link",
+                    "href": "https://raw.githubusercontent.com/GISTDAsphere/sphere-portal-tutorial/main/sphere-portal-tutorial.pdf",
+                    "label": "Tutorial",
+                    "target": "_blank"
+                },
             ]
         }
-    if user.is_authenticated and not Configuration.load().read_only:
-        about['items'].extend([
-            {
-                "type": "divider"
-            },
-            {
-                "type": "link",
-                "href": "/invitations/geonode-send-invite/",
-                "label": "Invite users"
-            },
-            {
-                "type": "link",
-                "href": "/admin/people/profile/add/",
-                "label": "Add user"
-            } if user.is_superuser else None,
-            {
-                "type": "link",
-                "href": "/groups/create/",
-                "label": "Create group"
-            }if user.is_superuser else None,
-        ])
-    return [home, about]
+    # if user.is_authenticated and not Configuration.load().read_only:
+    #     Menu['items'].extend([
+    #         {
+    #             "type": "divider"
+    #         },
+    #         {
+    #             "type": "link",
+    #             "href": "/invitations/geonode-send-invite/",
+    #             "label": "Invite users"
+    #         },
+    #         {
+    #             "type": "link",
+    #             "href": "/admin/people/profile/add/",
+    #             "label": "Add user"
+    #         } 
+    #         if user.is_superuser else None,
+    #         {
+    #             "type": "link",
+    #             "href": "/groups/create/",
+    #             "label": "Create group"
+    #         }
+    #         if user.is_superuser else None,
+    #     ])
+    return [Menu]
 
 
 @register.simple_tag(takes_context=True)
