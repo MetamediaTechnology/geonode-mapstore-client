@@ -125,8 +125,7 @@ class MergeLayerComponent extends React.Component {
                 {/* เอาไว้ debug ดู layer ทั้งหมด */}
                 {/* {console.log('ALL_LAYERS: ', this.props.allLayers)} */}
                 <div key="header" role="header">
-                    <Glyphicon glyph="folder-open" />
-                    &nbsp;<Message msgId="mergeLayerPlugin.title" />
+                    <Message msgId="mergeLayerPlugin.title" />
                     <button key="close" onClick={this.onClose} className="close">
                         <Glyphicon glyph="1-close" />
                     </button>
@@ -152,7 +151,9 @@ class MergeLayerComponent extends React.Component {
                     <br />
                     <div
                         style={{
-                            display: "flex"
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "right"
                         }}
                     >
                         {this.props.loading ? (
@@ -179,8 +180,7 @@ class MergeLayerComponent extends React.Component {
                             key="clear-mergelayer"
                             className="btn btn-outline"
                             style={{
-                                minWidth: "90px",
-                                marginRight: "5px"
+                                minWidth: "100px"
                             }}
                             onClick={this.onReset}
                         >

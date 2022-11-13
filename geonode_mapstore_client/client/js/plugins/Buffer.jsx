@@ -144,8 +144,6 @@ class BufferDialog extends React.Component {
                 start={this?.start}
             >
                 <div key="header" role="header">
-                    <Glyphicon glyph="folder-open" />
-                    &nbsp;
                     <Message msgId="bufferPlugin.title" />
                     <button
                         key="close"
@@ -198,7 +196,9 @@ class BufferDialog extends React.Component {
                     <br />
                     <div
                         style={{
-                            display: "flex"
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "right"
                         }}
                     >
                         <br />
@@ -227,8 +227,7 @@ class BufferDialog extends React.Component {
                             onClick={this.onReset}
                             className="btn btn-outline"
                             style={{
-                                minWidth: "90px",
-                                marginRight: "5px"
+                                minWidth: "100px"
                             }}
                         >
                             <Message msgId="bufferPlugin.resetButton" />

@@ -246,7 +246,7 @@ class RoutingDialog extends React.Component {
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <div>
                         <Button className="square-button no-events">
-                            <Glyphicon glyph="record" />
+                            <Glyphicon glyph="road" />
                         </Button>
                     </div>
                     <div
@@ -256,7 +256,7 @@ class RoutingDialog extends React.Component {
                             textAlign: "center"
                         }}
                     >
-                        <h4>Routes</h4>
+                        <h4>Direction</h4>
                     </div>
                     <div>
                         <Button
