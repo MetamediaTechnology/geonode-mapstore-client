@@ -1789,7 +1789,8 @@
                             "items": [
                                 {
                                     "type": "plugin",
-                                    "name": "MapImport"
+                                    "name": "MapImport",
+                                    "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !state('isNewResource')}"
                                 },
                                 {
                                     "type": "plugin",
@@ -1801,11 +1802,13 @@
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "Buffer"
+                                    "name": "Buffer",
+                                    "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !state('isNewResource')}"
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "MergeLayer"
+                                    "name": "MergeLayer",
+                                    "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !state('isNewResource')}"
                                 },
                                 {
                                     "type": "plugin",
