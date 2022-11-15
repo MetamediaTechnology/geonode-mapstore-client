@@ -48,14 +48,17 @@ const FeaturedList = withResizeDetector(({
     };
 
     return (
-        <div className="gn-card-grid" style={resources.length === 0 ? { display: 'none' } : {}}>
+        <div className="gn-card-grid marine-featured" style={resources.length === 0 ? { display: 'none' } : {}}>
             {header}
             <div style={{
                 display: 'flex', width: '100%'
             }}>
                 <div style={{ flex: 1, width: '100%' }}>
                     <div className="gn-card-grid-container" style={containerStyle}>
-                        <h3 style={{ fontSize:'1.5rem'}}><HTML msgId={`gnhome.featuredList`}/></h3>
+                        <h3 style={{ fontSize:'1.5rem',textAlign:'center' }}>
+                            {/* <HTML msgId={`gnhome.featuredList`}/> */}
+                            แผนที่หรือชั้นข้อมูลที่น่าสนใจ
+                        </h3>
                         <Cards
                             featured
                             resources={resources}

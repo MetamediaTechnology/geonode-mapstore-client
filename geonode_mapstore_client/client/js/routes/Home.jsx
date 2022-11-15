@@ -171,8 +171,7 @@ function Home({
       padding: "15px 0",
       lineHeight: 1.42,
       borderRadius: "50%",
-      backgroundColor: "#185787",
-      color: "#FFF",
+      color: "#185787",
       fontSize: "2.7rem",
     };
   };
@@ -336,32 +335,19 @@ function Home({
               </div>
             </div>
           </div>
-          <ConnectedFeatureList
-            query={query}
-            formatHref={handleFormatHref}
-            buildHrefByTemplate={buildHrefByTemplate}
-            onLoad={fetchFeaturedResources}
-            containerStyle={{
-              minHeight: "auto",
-            }}
-          />
-        </div>
-      </div>
-      <div className="gn-row">
-        <div className="gn-grid-container marine-list">
           <div className="gn-card-grid marine-list">
             <div style={{ display: "flex", width: "100%" }}>
               <div style={{ flex: "1 1 0%", width: "100%" }}>
                 <div className="gn-card-grid-container">
-                  <h3 style={{ fontSize: "1.5rem" }}>
-                    <span>Layer by categories</span>
+                  <h3 style={{ fontSize: "1.5rem",textAlign:'center' }}>
+                    <span>หมวดหมู่ของชั้นข้อมูลทางทะเล</span>
                   </h3>
                   <div id="layer-categories" style={{ margin: "10px" }}>
                     <div className="row">
                       {categories.length > 0
                         ? categories.map((categorie, index) => {
                             return (
-                              <div className="col-xs-6 col-md-3">
+                              <div className="col-xs-4 col-md-3">
                                 <div
                                   style={{
                                     display: "block",
@@ -404,6 +390,19 @@ function Home({
               </div>
             </div>
           </div>
+          <ConnectedFeatureList
+            query={query}
+            formatHref={handleFormatHref}
+            buildHrefByTemplate={buildHrefByTemplate}
+            onLoad={fetchFeaturedResources}
+            containerStyle={{
+              minHeight: "auto",
+            }}
+          />
+        </div>
+      </div>
+      <div className="gn-row">
+        <div className="gn-grid-container marine-list">
           <ConnectedCardGrid
             user={user}
             query={query}
