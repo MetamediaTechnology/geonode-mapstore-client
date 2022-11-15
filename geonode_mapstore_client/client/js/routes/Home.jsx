@@ -172,7 +172,7 @@ function Home({
       lineHeight: 1.42,
       borderRadius: "50%",
       color: "#185787",
-      fontSize: "2.7rem",
+      fontSize: "2.9rem",
     };
   };
 
@@ -336,7 +336,7 @@ function Home({
             </div>
           </div>
           <div className="gn-card-grid marine-list">
-            <div style={{ display: "flex", width: "100%" }}>
+            <div style={{ display: "flex", width: "100%",paddingBottom:'40px' }}>
               <div style={{ flex: "1 1 0%", width: "100%" }}>
                 <div className="gn-card-grid-container">
                   <h3 style={{ fontSize: "1.5rem",textAlign:'center' }}>
@@ -347,7 +347,7 @@ function Home({
                       {categories.length > 0
                         ? categories.map((categorie, index) => {
                             return (
-                              <div className="col-xs-4 col-md-2">
+                              <div className="col-xs-2 col-md-2">
                                 <div
                                   style={{
                                     display: "block",
