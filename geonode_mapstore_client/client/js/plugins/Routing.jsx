@@ -156,7 +156,7 @@ class RoutingDialog extends React.Component {
             document.getElementById("find-route").innerHTML = "ค้นหาเส้นทาง";
             return;
         }
-        document.getElementById("find-route").innerHTML = "กำลังค้นหา...";
+        document.getElementById("find-route").innerHTML = "Searching...";
         this.props.onSearch(this.props.pointList, routeMode, routeType, this.props.mapApiKey || MAP_API_KEY);
 
     };
@@ -197,9 +197,9 @@ class RoutingDialog extends React.Component {
         // var secs = ~~time % 60;
         var ret = "";
         if (hrs > 0) {
-            ret += "" + hrs + " ชั่วโมง " + (mins < 10 ? "0" : "");
+            ret += "" + hrs + " Hours " + (mins < 10 ? "0" : "");
         }
-        ret += "" + mins + " นาที ";
+        ret += "" + mins + " Minute ";
         return ret;
     };
 
@@ -214,10 +214,10 @@ class RoutingDialog extends React.Component {
                         <Row>
                             <Col md={6}>{this.renderEastimateTime(time)}</Col>
                             <Col md={6} style={{ textAlign: "right" }}>
-                                ระยะทาง:{" "}
+                                Distance:{" "}
                                 {totalDistance > 1000
-                                    ? (totalDistance / 1000).toFixed(2) + " กม."
-                                    : totalDistance + " เมตร"}
+                                    ? (totalDistance / 1000).toFixed(2) + " km."
+                                    : totalDistance + "m."}
                             </Col>
                         </Row>
                     </div>
@@ -274,7 +274,7 @@ class RoutingDialog extends React.Component {
     render() {
         const pointList = [];
         for (const [index, value] of this.props.pointList.entries()) {
-            const placeholderText = `${index === 0 ? "กำหนดจุดเริ่มต้น" : "เลือกจุดหมาย"
+            const placeholderText = `${index === 0 ? "Choose starting point." : "Choose destination..."
             }`;
             const keyword = value.keyword;
             const results = value.searchResult.data || [];
@@ -407,7 +407,7 @@ class RoutingDialog extends React.Component {
                                         this.props.displaySetting ? (<div className="route-option" style={{ textAlign: 'center', paddingLeft: '10%', marginBottom: '5%' }}>
                                             <Row>
                                                 <Col md={6} style={{ textAlign: 'left' }}>
-                                                    <label>โหมดการเดินทาง</label>
+                                                    <label>Route options</label>
                                                     <div onChange={this.onChangeRouteMode}>
                                                         <div className="radio">
                                                             <label><input type="radio" name="routeMode" value="t" />ระยะเวลาน้อยสุด</label>
@@ -490,7 +490,7 @@ class RoutingDialog extends React.Component {
                                                     marginRight: "5px"
                                                 }}
                                             >
-                                                ล้าง
+                                                Clear
                                             </button>
                                             <button
                                                 key="search-routing"
@@ -499,7 +499,7 @@ class RoutingDialog extends React.Component {
                                                 style={{ minWidth: "100px" }}
                                                 id="find-route"
                                             >
-                                                ค้นหาเส้นทาง
+                                                Route
                                             </button>
                                         </div>
                                     </div>
