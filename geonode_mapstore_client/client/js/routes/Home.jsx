@@ -347,7 +347,7 @@ function Home({
                       {categories.length > 0
                         ? categories.map((categorie, index) => {
                             return (
-                              <div className="col-xs-4 col-md-3">
+                              <div className="col-xs-4 col-md-2">
                                 <div
                                   style={{
                                     display: "block",
