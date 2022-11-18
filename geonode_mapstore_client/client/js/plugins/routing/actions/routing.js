@@ -250,11 +250,11 @@ export const searchPointForRouting = function(index, value, center, mapApiKey) {
             redirect: 'follow',
             referrerPolicy: 'unsafe-url'
         };
-        const url = `${SEARCH_API_URL}?lat=${center.y}&lon=${center.x}keyword=${value}&locale=th&key=${mapApiKey || MAP_API_KEY}`;
+        const url = `${SEARCH_API_URL}?lat=${center.y}&lon=${center.x}&keyword=${value}&locale=th&key=${mapApiKey || MAP_API_KEY}`;
         return fetch(url, requestOptions)
             .then(response => response.text())
             .then(result => {
-                const resultData = JSON.parse(result.data);
+                const resultData = JSON.parse(result).data;
                 dispatch(searchLoaded(index, resultData));
             });
 

@@ -248,7 +248,7 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                         }
                         return Rx.Observable.defer(() =>
                             service.type === 'nominatim' ? getSearchData(action.searchText).then(response => response.text()).then(result => {
-                                const resultData = JSON.parse(result.data);
+                                const resultData = JSON.parse(result).data;
                                 var geoJson = [];
                                 resultData.map((searchResult) => {
                                     geoJson.push({
