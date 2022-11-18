@@ -90,13 +90,14 @@ def get_base_right_topbar_menu(context):
             "items": [
                 {
                     "type": "link",
-                    "href": "sphere.gistda.or.th",
-                    "label": "Main"
+                    "href": "/",
+                    "label": "Home"
                 },
                 {
                     "type": "link",
-                    "href": "/",
-                    "label": "Home"
+                    "href": settings.SPHERE_MAIN_WEB+"storage",
+                    "label": "Storage",
+                    "target": "_blank"
                 },
                 {
                     "type": "link",
@@ -104,6 +105,12 @@ def get_base_right_topbar_menu(context):
                     "label": "Tutorial",
                     "target": "_blank"
                 },
+                {
+                    "type": "link",
+                    "href": settings.SPHERE_MAIN_WEB+"dashboard",
+                    "label": "sphere Dashboard",
+                    "target": "_blank"
+                }
             ]
     }
     if user.is_superuser and not Configuration.load().read_only:
@@ -113,12 +120,12 @@ def get_base_right_topbar_menu(context):
                 },
                 {
                     "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"/admin-user",
+                    "href": settings.SPHERE_MAIN_WEB+"admin-user",
                     "label": "People"
                 },
                 {
                     "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"/admin-settings/general",
+                    "href": settings.SPHERE_MAIN_WEB+"admin-settings/general",
                     "label": "Groups"
                 },
                 
