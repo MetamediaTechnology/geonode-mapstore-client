@@ -15,11 +15,13 @@ def _handle_single_item(menu_item):
         m_item['target'] = '_blank'
     return m_item
 
+
 def _is_mobile_device(context):
     if context and 'request' in context:
         req = context['request']
         return req.user_agent.is_mobile
     return False
+
 
 @register.simple_tag(takes_context=True)
 def get_base_left_topbar_menu(context):
@@ -81,7 +83,6 @@ def get_base_right_topbar_menu(context):
 
     is_mobile = _is_mobile_device(context)
 
-
     user = context.get('request').user
     Menu = {
             "label": "Menu",
@@ -89,21 +90,13 @@ def get_base_right_topbar_menu(context):
             "items": [
                 {
                     "type": "link",
+                    "href": "sphere.gistda.or.th",
+                    "label": "Main"
+                },
+                {
+                    "type": "link",
                     "href": "/",
                     "label": "Home"
-                },
-                {
-                    "type": "link",
-                    "href": "/people/",
-                    "label": "People"
-                },
-                {
-                    "type": "link",
-                    "href": "/groups/",
-                    "label": "Groups"
-                },
-                {
-                "type": "divider"
                 },
                 {
                     "type": "link",
@@ -112,7 +105,24 @@ def get_base_right_topbar_menu(context):
                     "target": "_blank"
                 },
             ]
-        }
+    }
+    if user.is_superuser and not Configuration.load().read_only:
+        Menu["items"].extend([
+                {
+                "type": "divider"
+                },
+                {
+                    "type": "link",
+                    "href": settings.SPHERE_MAIN_WEB+"/admin-user",
+                    "label": "People"
+                },
+                {
+                    "type": "link",
+                    "href": settings.SPHERE_MAIN_WEB+"/admin-settings/general",
+                    "label": "Groups"
+                },
+                
+        ])
     # if user.is_authenticated and not Configuration.load().read_only:
     #     Menu['items'].extend([
     #         {
@@ -127,7 +137,7 @@ def get_base_right_topbar_menu(context):
     #             "type": "link",
     #             "href": "/admin/people/profile/add/",
     #             "label": "Add user"
-    #         } 
+    #         }
     #         if user.is_superuser else None,
     #         {
     #             "type": "link",
