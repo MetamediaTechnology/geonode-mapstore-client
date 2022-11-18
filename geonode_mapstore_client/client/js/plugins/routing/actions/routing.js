@@ -229,21 +229,34 @@ export const searchRouting = (pointList, routeMode, routeType, mapApiKey) => {
 };
 export const searchPointForRouting = function(index, value, center, mapApiKey) {
     return (dispatch) => {
-        return instance
-            .get(
-                SEARCH_API_URL,
-                {
-                    params: {
-                        lat: center.y,
-                        lon: center.x,
-                        keyword: value,
-                        locale: "th",
-                        key: mapApiKey || MAP_API_KEY
-                    }
-                }
-            )
-            .then((response) => {
-                dispatch(searchLoaded(index, response.data));
+        // return instance
+        //     .get(
+        //         SEARCH_API_URL,
+        //         {
+        //             params: {
+        //                 lat: center.y,
+        //                 lon: center.x,
+        //                 keyword: value,
+        //                 locale: "th",
+        //                 key: mapApiKey || MAP_API_KEY
+        //             }
+        //         }
+        //     )
+        //     .then((response) => {
+        //         dispatch(searchLoaded(index, response.data));
+        //     });
+        const requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            referrerPolicy: 'unsafe-url'
+        };
+        const url = `${SEARCH_API_URL}?lat=${center.y}&lon=${center.x}keyword=${value}&locale=th&key=${mapApiKey || MAP_API_KEY}`;
+        return fetch(url, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                const resultData = JSON.parse(result.data);
+                dispatch(searchLoaded(index, resultData));
             });
+
     };
 };

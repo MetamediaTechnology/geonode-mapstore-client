@@ -229,12 +229,17 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                     .map((service) => {
                         const mapApiKey = getState().gnresource?.data?.map_key || false;
                         const serviceInstance = API.Utils.getService(service.type);
-                        const config = {
-                            headers: {
-                                "Referrer-Policy": "origin"
-                            },
+
+                        // const getSearchData = (searchText = '') => { return instance.get(`${SEARCH_API_URL}?keyword=${searchText}&key=${mapApiKey || SEARCH_API_KEY}`, config);};
+                        const requestOptions = {
+                            method: 'GET',
+                            redirect: 'follow',
+                            referrerPolicy: 'unsafe-url'
                         };
-                        const getSearchData = (searchText = '') => { return instance.get(`${SEARCH_API_URL}?keyword=${searchText}&key=${mapApiKey || SEARCH_API_KEY}`, config);};
+                        const getSearchData = (searchText = '') => {
+                            return fetch(`${SEARCH_API_URL}?keyword=${searchText}&key=${mapApiKey || SEARCH_API_KEY}`, requestOptions);
+                        };
+
                         if (!serviceInstance) {
                             const err = new Error("Service Missing");
                             err.msgId = "search.service_missing";
@@ -242,10 +247,10 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                             return Rx.Observable.of(err).do((e) => {throw e; });
                         }
                         return Rx.Observable.defer(() =>
-                            service.type === 'nominatim' ? getSearchData(action.searchText).then(({ data } ) => {
-                                var response = data.data;
+                            service.type === 'nominatim' ? getSearchData(action.searchText).then(response => response.text()).then(result => {
+                                const resultData = JSON.parse(result.data);
                                 var geoJson = [];
-                                response.map((searchResult) => {
+                                resultData.map((searchResult) => {
                                     geoJson.push({
                                         properties: {
                                             place_id: searchResult.id,
