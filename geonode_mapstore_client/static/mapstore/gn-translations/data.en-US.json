@@ -261,7 +261,7 @@
 
             "missingFiles": "Missing files",
             "invalidUploadMessageError": "Error",
-            "invalidUploadMessageErrorTooltip": "The upload process failed. Please check the validity of the file and try to upload it again",
+            "invalidUploadMessageErrorTooltip": "The upload process failed or storage usage exceed limit. Please check the validity of the file and try to upload it again",
             "completeUpload": "Complete the upload",
             "selectFiles": "Select files...",
             "supportedFiles": "Supported file extensions",
