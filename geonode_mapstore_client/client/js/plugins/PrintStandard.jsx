@@ -184,6 +184,7 @@ class PrintStandardComponent extends React.Component {
     }
 
     onPreparePrint = () => {
+        document.getElementById('printContainer').style.transform = ''
         const textArea = document.querySelector('#prtstd-remark > textarea');
         const divTextArea =  document.getElementById('text-behind')
 
@@ -223,6 +224,7 @@ class PrintStandardComponent extends React.Component {
     }
 
     onAfterPrint = () => {
+        document.getElementById('printContainer').style.transform = `scale(${this.props.paperZoom})`
         const textArea = document.querySelector('#prtstd-remark > textarea');
         const divTextArea =  document.getElementById('text-behind')
 
@@ -438,7 +440,7 @@ class PrintStandardComponent extends React.Component {
                                 </div>
                             </div>
                             <div id="base-map-name" className="footer-div">
-                                แผนที่
+                                วันที่จัดทำ: { new Date().toLocaleDateString('th-TH')}
                             </div>
                         </div>
                     </div>
