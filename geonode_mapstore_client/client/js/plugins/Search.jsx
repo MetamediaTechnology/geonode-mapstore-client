@@ -229,7 +229,12 @@ export const searchEpic = (action$, { getState = () => { } }) =>
                     .map((service) => {
                         const mapApiKey = getState().gnresource?.data?.map_key || false;
                         const serviceInstance = API.Utils.getService(service.type);
-                        const getSearchData = (searchText = '') => { return instance.get(`${SEARCH_API_URL}?keyword=${searchText}&key=${mapApiKey || SEARCH_API_KEY}`);};
+                        const config = {
+                            headers: {
+                                "Referrer-Policy": "origin"
+                            },
+                        };
+                        const getSearchData = (searchText = '') => { return instance.get(`${SEARCH_API_URL}?keyword=${searchText}&key=${mapApiKey || SEARCH_API_KEY}`, config);};
                         if (!serviceInstance) {
                             const err = new Error("Service Missing");
                             err.msgId = "search.service_missing";
