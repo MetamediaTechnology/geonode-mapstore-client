@@ -153,7 +153,7 @@ class RoutingDialog extends React.Component {
         const routeMode = this.props.routeMode;
         const routeType = this.props.routeType;
         if (pointEmptyValidate && !pointEmptyValidate.lat) {
-            document.getElementById("find-route").innerHTML = "ค้นหาเส้นทาง";
+            document.getElementById("find-route").innerHTML = "Route";
             return;
         }
         document.getElementById("find-route").innerHTML = "Searching...";

@@ -120,7 +120,7 @@ export const searchRouting = (pointList, routeMode, routeType, mapApiKey) => {
             }, 2000);
         });
         geoJsonData.then(response => response.text()).then(result => JSON.parse(result)).then((value) => {
-            let routeGeoJson = value.data.features;
+            let routeGeoJson = value.features;
             let routeLengthObj = routeGeoJson.length;
             let lastRouteCoordinates =
                 routeGeoJson[routeLengthObj - 1].geometry.coordinates.length;
@@ -154,7 +154,7 @@ export const searchRouting = (pointList, routeMode, routeType, mapApiKey) => {
                 });
                 dispatch(featureLoaded(routeGeoJson));
                 document.getElementById("find-route").innerHTML =
-                    "ค้นหาเส้นทาง";
+                    "Route";
             } else {
                 routeGeoJson.push({
                     type: "Feature",
@@ -205,15 +205,15 @@ export const searchRouting = (pointList, routeMode, routeType, mapApiKey) => {
 
                     getMoreGeoJsonData.then(response => response.text()).then(result => JSON.parse(result)).then((v) => {
                         let lastCoordinates =
-                            v.data.features[v.data.features.length - 1]
+                            v.features[v.features.length - 1]
                                 .geometry.coordinates.length;
                         let lastLon =
-                            v.data.features[v.data.features.length - 1]
+                            v.features[v.features.length - 1]
                                 .geometry.coordinates[
                                     lastCoordinates - 1
                                 ][0];
                         let lastLat =
-                            v.data.features[v.data.features.length - 1]
+                            v.features[v.features.length - 1]
                                 .geometry.coordinates[
                                     lastCoordinates - 1
                                 ][1];
@@ -225,11 +225,11 @@ export const searchRouting = (pointList, routeMode, routeType, mapApiKey) => {
                                 coordinates: [lastLon, lastLat]
                             }
                         });
-                        routeGeoJson.push(...v.data.features);
+                        routeGeoJson.push(...v.features);
                         if (i + 1 === pointList.length) {
                             dispatch(featureLoaded(routeGeoJson));
                             document.getElementById("find-route").innerHTML =
-                                "ค้นหาเส้นทาง";
+                                "Route";
                         }
                     });
                 }
