@@ -254,8 +254,7 @@ export const searchPointForRouting = function(index, value, center, mapApiKey) {
         return fetch(url, requestOptions)
             .then(response => response.text())
             .then(result => {
-                const resultData = JSON.parse(result).data;
-                dispatch(searchLoaded(index, resultData));
+                dispatch(searchLoaded(index, JSON.parse(result)));
             });
 
     };
