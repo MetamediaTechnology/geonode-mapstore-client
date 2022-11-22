@@ -7,6 +7,11 @@ import { routePointStyle } from "../styles/pointStyle";
 const ROUTE_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').routeApiUrl;
 const SEARCH_API_URL = ConfigUtils.getConfigProp('geoNodeSettings').searchApiUrl;
 const MAP_API_KEY = ConfigUtils.getConfigProp('geoNodeSettings').sphereApiKey;
+const requestOptions = {
+    method: 'GET',
+    redirect: 'follow',
+    referrerPolicy: 'unsafe-url'
+};
 
 // ROUTING ACTION
 export const addPoint = function() {
@@ -94,25 +99,27 @@ export const searchRouting = (pointList, routeMode, routeType, mapApiKey) => {
         const routeTypeTotal = routeType.length === 0 ? null : routeType.reduce((type, a) => (Number.parseInt(type, 10) + Number.parseInt(a, 10)), 0);
         let geoJsonData = new Promise((resolve) => {
             setTimeout(() => {
-                let getRoutePath = instance.get(
-                    ROUTE_API_URL,
-                    {
-                        params: {
-                            flon: pointList[0].lon,
-                            flat: pointList[0].lat,
-                            tlon: pointList[1].lon,
-                            tlat: pointList[1].lat,
-                            locale: "th",
-                            mode: routeMode,
-                            type: routeTypeTotal,
-                            key: mapApiKey || MAP_API_KEY
-                        }
-                    }
-                );
+                // let getRoutePath = instance.get(
+                //     ROUTE_API_URL,
+                //     {
+                //         params: {
+                //             flon: pointList[0].lon,
+                //             flat: pointList[0].lat,
+                //             tlon: pointList[1].lon,
+                //             tlat: pointList[1].lat,
+                //             locale: "th",
+                //             mode: routeMode,
+                //             type: routeTypeTotal,
+                //             key: mapApiKey || MAP_API_KEY
+                //         }
+                //     }
+                // );
+                const url = `${ROUTE_API_URL}?flon=${pointList[0].lon}&flat=${pointList[0].lat}&tlon=${pointList[1].lon}&tlat=${pointList[1].lat}&mode=${routeMode}&type=${routeTypeTotal}&locale=th&key=${mapApiKey || MAP_API_KEY}`;
+                let getRoutePath = fetch(url, requestOptions)
                 resolve(getRoutePath);
             }, 2000);
         });
-        geoJsonData.then((value) => {
+        geoJsonData.then(response => response.text()).then(result => JSON.parse(result)).then((value) => {
             let routeGeoJson = value.data.features;
             let routeLengthObj = routeGeoJson.length;
             let lastRouteCoordinates =
@@ -174,26 +181,29 @@ export const searchRouting = (pointList, routeMode, routeType, mapApiKey) => {
                     const getMoreGeoJsonData = new Promise(
                         (resolve) => {
                             setTimeout(() => {
-                                let getRoutePath = instance.get(
-                                    ROUTE_API_URL,
-                                    {
-                                        params: {
-                                            flon: lon,
-                                            flat: lat,
-                                            tlon: pointList[i].lon,
-                                            tlat: pointList[i].lat,
-                                            locale: "th",
-                                            mode: routeMode,
-                                            type: routeTypeTotal,
-                                            key: mapApiKey || MAP_API_KEY
-                                        }
-                                    }
-                                );
+                                // let getRoutePath = instance.get(
+                                //     ROUTE_API_URL,
+                                //     {
+                                //         params: {
+                                //             flon: lon,
+                                //             flat: lat,
+                                //             tlon: pointList[i].lon,
+                                //             tlat: pointList[i].lat,
+                                //             locale: "th",
+                                //             mode: routeMode,
+                                //             type: routeTypeTotal,
+                                //             key: mapApiKey || MAP_API_KEY
+                                //         }
+                                //     }
+                                // );
+                                const url = `${ROUTE_API_URL}?flon=${lon}&flat=${lat}&tlon=${pointList[i].lon}&tlat=${pointList[i].lat}&mode=${routeMode}&type=${routeTypeTotal}&locale=th&key=${mapApiKey || MAP_API_KEY}`;
+                                let getRoutePath = fetch(url, requestOptions)
                                 resolve(getRoutePath);
                             }, 2000);
                         }
                     );
-                    getMoreGeoJsonData.then((v) => {
+
+                    getMoreGeoJsonData.then(response => response.text()).then(result => JSON.parse(result)).then((v) => {
                         let lastCoordinates =
                             v.data.features[v.data.features.length - 1]
                                 .geometry.coordinates.length;
@@ -245,11 +255,6 @@ export const searchPointForRouting = function(index, value, center, mapApiKey) {
         //     .then((response) => {
         //         dispatch(searchLoaded(index, response.data));
         //     });
-        const requestOptions = {
-            method: 'GET',
-            redirect: 'follow',
-            referrerPolicy: 'unsafe-url'
-        };
         const url = `${SEARCH_API_URL}?lat=${center.y}&lon=${center.x}&keyword=${value}&locale=th&key=${mapApiKey || MAP_API_KEY}`;
         return fetch(url, requestOptions)
             .then(response => response.text())
