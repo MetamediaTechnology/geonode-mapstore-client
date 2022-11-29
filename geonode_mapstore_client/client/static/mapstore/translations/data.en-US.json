@@ -181,6 +181,7 @@
             "permissions": "Permissions",
             "anonymous": "Anyone",
             "registered-members": "Registered members",
+            "#Default": "Registered members",
             "permissionsEntriesNoResults": "No Results...",
             "shareThisResource": "Share with people and groups",
             "embed": "Embed",
