@@ -185,7 +185,7 @@ function Home({
                   <button className="sphere-btn-modern">
                       <div style={{ display:'flex'}}>
                         <img style={{ width:'20px',marginRight:'5px'}} src="/static/mapstore/img/icon/new-dataset.svg" alt="" />
-                        <div>New Dataset</div>
+                        <div>Upload Dataset</div>
                       </div>
                   </button>
                 </a>

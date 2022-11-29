@@ -9,7 +9,7 @@
 <div id="sphere-header">
     <div class="landing-header font-kanit">
         <div class="py-4 d-none d-md-flex">
-            <a href="/" aria-current="page" style="padding-bottom: 6px">
+            <a href="https://sphere.gistda.or.th/" aria-current="page" style="padding-bottom: 6px">
                 <img height="85" contain=""
                 src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}" alt="sphere"
                 class="ml-lg-15 mt-2">
@@ -46,11 +46,11 @@
                 {% if menu_item.type == 'link' %}
                     {% if menu_item.label == 'Register'%}
                         <div class="login-panel d-flex align-center">
-                            <a href="/account/login/" type="button" style="color: rgb(255, 255, 255);"
+                            <a href="/account/keycloak/login/?process=login" type="button" style="color: rgb(255, 255, 255);"
                                 class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
                                 <span class="v-btn__content"> Log in </span>
                             </a>
-                            <a href="/account/signup/" type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255);
+                            <a href="/account/keycloak/login/?process=signup" type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255);
                                 caret-color: rgb(255, 255, 255);">
                                 <span class="v-btn__content">Sign up </span>
                             </a>

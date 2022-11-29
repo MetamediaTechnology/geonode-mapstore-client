@@ -384,17 +384,23 @@ class PrintStandardComponent extends React.Component {
                             <div id="prtstd-symbol">
                                 <div id="legend">
                                     <label>&nbsp;&nbsp;สัญลักษณ์</label>
-                                    <div style={{ marginLeft:'5px'}}>
+                                    <div>
+                                        <ul style={{ listStyle:'none',marginLeft:'-15px'}}>
                                         {
                                             this.props.layers.map((layer) => {
                                                 if (layer.type === "wms") {
-                                                    return (<Legend
+                                                    return (
+                                                        <li>
+                                                            <Legend
                                                         style={{ maxHeight: '56mm', maxWidth: '100%' }}
                                                         layer={layer}
-                                                    />);
+                                                    />
+                                                        </li>
+                                                    );
                                                 }
                                             })
                                         }
+                                        </ul>
                                         
                                     </div>
                                 </div>

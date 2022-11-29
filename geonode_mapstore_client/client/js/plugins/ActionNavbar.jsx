@@ -145,7 +145,8 @@ function ActionNavbarPlugin(
                     <ul className="nav navbar-nav navbar-right banner-action">
                         <li>
                             <a onClick={onClickUploadBanner} className='btn btn-xs'>
-                                <i className="glyphicon glyphicon-pencil"></i>
+                                <i className="glyphicon glyphicon-cloud-upload"></i>
+                                &nbsp; Upload Banner
                             </a>
                         </li>
                     </ul>
@@ -187,7 +188,7 @@ function ActionNavbarPlugin(
                     <li>
                         <a href="#">
                             <i style={{marginRight: '10px',marginLeft:'10px'}} className="glyphicon glyphicon-backward"></i>
-                            {resource?.title || 'Create new map'}
+                            {resource?.title || 'Create new application'}
                         </a>
                     </li>
                 </ul>
