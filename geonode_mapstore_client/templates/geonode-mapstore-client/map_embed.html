@@ -20,7 +20,14 @@
 
         {% block extra_style %}
         {% endblock %}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZXKXJDN6ZZ"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
 
+          gtag('config', 'G-ZXKXJDN6ZZ');
+        </script>
     </head>
     <body class="msgapi ms2" data-ms2-container="ms2" >
         <div class="gn-page-wrapper {% if request.user_agent.is_mobile %}gn-mobile{% else %}gn-desktop{% endif %}">
