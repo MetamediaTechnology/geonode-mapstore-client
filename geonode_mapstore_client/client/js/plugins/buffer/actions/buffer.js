@@ -36,10 +36,11 @@ export const doBuffer = function(layerSelected) {
     };
 };
 
-export const addAsLayer = function(bufferedFtCollection) {
+export const addAsLayer = function(bufferedResult) {
     return {
         type: BUFFER_ADD_AS_LAYER,
-        bufferedFtCollection
+        bbox : bufferedResult.bbox,
+        features : bufferedResult.featuresCollectionGeoJson
     };
 };
 
