@@ -81,55 +81,43 @@ def get_base_left_topbar_menu(context):
 @register.simple_tag(takes_context=True)
 def get_base_right_topbar_menu(context):
 
-    is_mobile = _is_mobile_device(context)
+    # is_mobile = _is_mobile_device(context)
 
-    user = context.get('request').user
-    Menu = {
-            "label": "Menu",
-            "type": "dropdown",
-            "items": [
-                {
-                    "type": "link",
-                    "href": "/",
-                    "label": "Home"
-                },
-                {
-                    "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"storage",
-                    "label": "Storage",
-                    "target": "_blank"
-                },
-                {
-                    "type": "link",
-                    "href": "https://raw.githubusercontent.com/GISTDAsphere/sphere-portal-tutorial/main/sphere-portal-tutorial.pdf",
-                    "label": "Tutorial",
-                    "target": "_blank"
-                },
-                {
-                    "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"dashboard",
-                    "label": "sphere Dashboard",
-                    "target": "_blank"
-                }
-            ]
-    }
-    if user.is_superuser and not Configuration.load().read_only:
-        Menu["items"].extend([
-                {
-                "type": "divider"
-                },
-                {
-                    "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"admin-user",
-                    "label": "People"
-                },
-                {
-                    "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"admin-settings/general",
-                    "label": "Groups"
-                },
+    # user = context.get('request').user
+    # Menu = {
+    #         "label": "Menu",
+    #         "type": "dropdown",
+    #         "items": [
+    #             {
+    #                 "type": "link",
+    #                 "href": "/",
+    #                 "label": "Home"
+    #             },
+    #             {
+    #                 "type": "link",
+    #                 "href": "https://raw.githubusercontent.com/GISTDAsphere/sphere-portal-tutorial/main/sphere-portal-tutorial.pdf",
+    #                 "label": "Tutorial",
+    #                 "target": "_blank"
+    #             }
+    #         ]
+    # }
+    # if user.is_superuser and not Configuration.load().read_only:
+    #     Menu["items"].extend([
+    #             {
+    #             "type": "divider"
+    #             },
+    #             {
+    #                 "type": "link",
+    #                 "href": settings.SPHERE_MAIN_WEB+"admin-user",
+    #                 "label": "People"
+    #             },
+    #             {
+    #                 "type": "link",
+    #                 "href": settings.SPHERE_MAIN_WEB+"admin-settings/general",
+    #                 "label": "Groups"
+    #             },
                 
-        ])
+    #     ])
     # if user.is_authenticated and not Configuration.load().read_only:
     #     Menu['items'].extend([
     #         {
@@ -153,28 +141,46 @@ def get_base_right_topbar_menu(context):
     #         }
     #         if user.is_superuser else None,
     #     ])
-    return [Menu]
+    return [
+        {
+            "type": "link",
+            "href": "/",
+            "label": "Home"
+        },
+        {
+            "type": "link",
+            "href": "https://raw.githubusercontent.com/GISTDAsphere/sphere-portal-tutorial/main/sphere-portal-tutorial.pdf",
+            "label": "Tutorial",
+            "target": "_blank"
+        },
+        {
+            "type": "link",
+            "href": "https://www.youtube.com/playlist?list=PLysNI2uEMzi8db9nvODptoNjgC9cEU6lu",
+            "label": "Video Tutorial",
+            "target": "_blank"
+        }
+    ]
 
 
 @register.simple_tag(takes_context=True)
 def get_user_menu(context):
 
-    is_mobile = _is_mobile_device(context)
+    # is_mobile = _is_mobile_device(context)
     user = context.get('request').user
 
-    if not user.is_authenticated:
-        return [
-            {
-                "label": "Register",
-                "type": "link",
-                "href": "/account/signup/?next=/"
-            } if settings.ACCOUNT_OPEN_SIGNUP and not Configuration.load().read_only else None,
-            {
-                "label": "Sign in",
-                "type": "link",
-                "href": "/account/login/?next=/"
-            },
-        ]
+    # if not user.is_authenticated:
+    #     return [
+    #         {
+    #             "label": "Register",
+    #             "type": "link",
+    #             "href": "/account/signup/?next=/"
+    #         } if settings.ACCOUNT_OPEN_SIGNUP and not Configuration.load().read_only else None,
+    #         {
+    #             "label": "Sign in",
+    #             "type": "link",
+    #             "href": "/account/login/?next=/"
+    #         },
+    #     ]
 
     devider = {
         "type": "divider"
@@ -193,23 +199,23 @@ def get_user_menu(context):
         "label": "Log out"
     }
 
-    if is_mobile:
-        return [
-            {
-                # get src of user avatar
-                "image": avatar_url(user),
-                "firstname": user.first_name,
-                "name": user.username,
-                "superuser": user.is_superuser,
-                "type": "dropdown",
-                "className": "gn-user-menu-dropdown",
-                "items": [
-                    profile_link,
-                    devider,
-                    logout
-                ]
-            }
-        ]
+    # if is_mobile:
+    #     return [
+    #         {
+    #             # get src of user avatar
+    #             "image": avatar_url(user),
+    #             "firstname": user.first_name,
+    #             "name": user.username,
+    #             "superuser": user.is_superuser,
+    #             "type": "dropdown",
+    #             "className": "gn-user-menu-dropdown",
+    #             "items": [
+    #                 profile_link,
+    #                 devider,
+    #                 logout
+    #             ]
+    #         }
+    #     ]
     profile = {
         # get src of user avatar
         "firstname": user.first_name,
@@ -220,53 +226,91 @@ def get_user_menu(context):
         "className": "gn-user-menu-dropdown",
         "items": [
             profile_link,
+            # {
+            #     "type": "link",
+            #     "href": "/social/recent-activity",
+            #     "label": "Recent activity"
+            # },
+            # {
+            #     "type": "link",
+            #     "href": "/catalogue/#/search/?f=favorite",
+            #     "label": "Favorites"
+            # },
+            # {
+            #     "type": "link",
+            #     "href": "/messages/inbox/",
+            #     "label": "Inbox"
+            # },
             {
                 "type": "link",
-                "href": "/social/recent-activity",
-                "label": "Recent activity"
+                "href": settings.SPHERE_MAIN_WEB+"dashboard",
+                "label": "sphere Dashboard",
+                "target": "_blank"
             },
             {
                 "type": "link",
-                "href": "/catalogue/#/search/?f=favorite",
-                "label": "Favorites"
-            },
-            {
-                "type": "link",
-                "href": "/messages/inbox/",
-                "label": "Inbox"
+                "href": settings.SPHERE_MAIN_WEB+"storage",
+                "label": "Storage",
+                "target": "_blank"
             },
             devider,
         ]
     }
     general = [
-        {
-            "type": "link",
-            "href": "/help/",
-            "label": "Help"
-        },
-        devider,
+        # {
+        #     "type": "link",
+        #     "href": "/help/",
+        #     "label": "Help"
+        # },
+        # devider,
         logout
     ]
     monitoring = []
-    if settings.MONITORING_ENABLED:
-        monitoring = [
-            devider,
-            {
-                "type": "link",
-                "href": "/monitoring/",
-                "label": "Monitoring & Analytics"
-            }
-        ]
+    # if settings.MONITORING_ENABLED:
+    #     monitoring = [
+    #         devider,
+    #         {
+    #             "type": "link",
+    #             "href": "/monitoring/",
+    #             "label": "Monitoring & Analytics"
+    #         }
+    #     ]
     admin_only = [
         {
             "type": "link",
             "href": "/admin/",
-            "label": "Admin"
+            "label": "Admin Page",
+            "target": "_blank"
+        },
+        {
+            "type": "link",
+            "href": "/admin/auth/group/",
+            "label": "Manage portal Groups",
+            "target": "_blank"
+        },
+        {
+            "type": "link",
+            "href": settings.SPHERE_MAIN_WEB+"admin-settings/general",
+            "label": "Manage portal Group Permissions",
+            "target": "_blank"
+        },
+        {
+            "type": "link",
+            "href": settings.SPHERE_MAIN_WEB+"admin-user",
+            "label": "Manage Users",
+            "target": "_blank"
+        },
+        {
+            "type": "link",
+            "href": "/keycloaksync/synchronize_all",
+            "label": "Synchronize portal Groups & Users",
+            "target": "_blank"
         },
         {
             "type": "link",
             "href": "/geoserver/",
-            "label": "GeoServer"
+            "label": "GeoServer",
+            "target": "_blank"
         }
     ] + monitoring + [devider] + general
 
