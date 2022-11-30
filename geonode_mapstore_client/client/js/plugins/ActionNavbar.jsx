@@ -187,8 +187,9 @@ function ActionNavbarPlugin(
         const imageUrl = file ? file : banner_url
         setBannerDefault(banner_url)
         const bannerStyle = {
+            backgroundPosition: 'center',
             backgroundImage: `url(${imageUrl})`,
-            backgroundSize: 'conver'
+            backgroundSize: 'cover'
         }
         return (
             <nav id="sphere-map-header" style={bannerStyle} className="navbar navbar-default navbar-map-header">
