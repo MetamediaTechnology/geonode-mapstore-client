@@ -11,15 +11,16 @@
         <div class="py-4 d-none d-md-flex">
             <a href="https://sphere.gistda.or.th/" aria-current="page" style="padding-bottom: 6px">
                 <img height="85" contain=""
-                src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}" alt="sphere"
-                class="ml-lg-15 mt-2">
+                    src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}" alt="sphere"
+                    class="ml-lg-15 mt-2">
             </a>
         </div>
         <div class="landing-navigation d-none d-md-flex align-center text-lg">
             <div class="mx-lg-4"><a class="navigation-link" href="https://sphere.gistda.or.th/about">
                     About
                 </a></div>
-            <div class="mx-2 mx-lg-4"><a class="navigation-link" target="_blank" href="https://sphere.gistda.or.th/?section=api">
+            <div class="mx-2 mx-lg-4"><a class="navigation-link" target="_blank"
+                    href="https://sphere.gistda.or.th/?section=api">
                     APIs
                 </a></div>
             <div class="mx-2 mx-lg-4" style="border-bottom: 2px solid #e85f5b;"><a class="navigation-link active">
@@ -28,82 +29,83 @@
             <div class="mx-2 mx-lg-4"><a class="navigation-link" target="_blank" href="https://datacube.gistda.or.th/">
                     Data Cube
                 </a></div>
-            <div class="mx-2 mx-lg-4"><a class="navigation-link" target="_blank" href="https://sphere.gistda.or.th/?section=showcase">
+            <div class="mx-2 mx-lg-4"><a class="navigation-link" target="_blank"
+                    href="https://sphere.gistda.or.th/?section=showcase">
                     Solutions
                 </a></div>
-            <div class="mx-2 mx-lg-4"><a class="navigation-link" target="_blank" href="https://sphere.gistda.or.th/?section=pricing">
+            <div class="mx-2 mx-lg-4"><a class="navigation-link" target="_blank"
+                    href="https://sphere.gistda.or.th/?section=pricing">
                     Pricing
                 </a></div>
             {% comment %} <div class="locale-switch d-flex">
                 <span class="cursor-pointer">TH</span>
-                    <hr
-                    role="separator"
-                    class="mx-1 v-divider v-divider--vertical theme--light"
+                <hr role="separator" class="mx-1 v-divider v-divider--vertical theme--light"
                     style="border-color: white;">
                 <span class="font-weight-semi-bold secondary--text">EN</span>
             </div> {% endcomment %}
             {% for menu_item in USER_MENU %}
-                {% if menu_item.type == 'link' %}
-                    {% if menu_item.label == 'Register'%}
-                        <div class="login-panel d-flex align-center">
-                            <a href="/account/keycloak/login/?process=login" type="button" style="color: rgb(255, 255, 255);"
-                                class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
-                                <span class="v-btn__content"> Log in </span>
-                            </a>
-                            <a href="/account/keycloak/login/?process=signup" type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255);
+            {% if menu_item.type == 'link' %}
+            {% if menu_item.label == 'Register'%}
+            <div class="login-panel d-flex align-center">
+                <a href="/account/keycloak/login/?process=login" type="button" style="color: rgb(255, 255, 255);"
+                    class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
+                    <span class="v-btn__content"> Log in </span>
+                </a>
+                <a href="/account/keycloak/login/?process=signup" type="button"
+                    class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255);
                                 caret-color: rgb(255, 255, 255);">
-                                <span class="v-btn__content">Sign up </span>
-                            </a>
-                    {% endif %}
+                    <span class="v-btn__content">Sign up </span>
+                </a>
+                {% endif %}
                 {% endif %}
                 {% if menu_item.type == 'dropdown' %}
-                    <div class="login-panel d-flex align-center">
-                        <li class="dropdown sphere-dropdown">
-                            <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown">
-                                {% if menu_item.image %}
-                                    <img  class="img-circle user-profile-img" src="{{ menu_item.image }}">
-                                {% endif %}
-                                {% if menu_item.name %}
-                                    {% trans menu_item.name %}
-                                    {% if menu_item.superuser %}
-                                    {% endif %}
-                                {% endif %}
-                                 <b class="caret"></b>
+                <div class="login-panel d-flex align-center">
+                    <li class="dropdown sphere-dropdown">
+                        <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown">
+                            {% if menu_item.image %}
+                            <img class="img-circle user-profile-img" src="{{ menu_item.image }}">
+                            {% endif %}
+                            {% if menu_item.name %}
+                            {% trans menu_item.name %}
+                            {% if menu_item.superuser %}
+                            {% endif %}
+                            {% endif %}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            {% for child_item in menu_item.items %}
+                            {% if child_item.type == 'link' %}
+                            <li>
+                                <a href="{{ child_item.href }}" target="{{ child_item.target }}">
+                                    {% trans child_item.label %}
                                 </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            {% for child_item in menu_item.items %}
-                                                {% if child_item.type == 'link' %}
-                                                <li>
-                                                    <a href="{{ child_item.href }}" target="{{ child_item.target }}">
-                                                        {% trans child_item.label %}
-                                                    </a>
-                                                </li>
-                                                {% endif %}
-                                                {% if child_item.type == 'divider' %}
-                                                    <li role="separator" class="divider"></li>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </ul>
-                        </li>
-                    </div>
+                            </li>
+                            {% endif %}
+                            {% if child_item.type == 'divider' %}
+                            <li role="separator" class="divider"></li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </div>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
-{% block extra_script %}
+    {% block extra_script %}
     <script type="text/javascript">
-        (function() {
+        (function () {
             function manageUrlChange() {
                 var signInElement = document.getElementById("sign-in");
-                if (signInElement){
-                    if (window.location.pathname === '/account/login/'){
+                if (signInElement) {
+                    if (window.location.pathname === '/account/login/') {
                         signInElement.setAttribute("href", window.location.href)
                     }
                     else {
                         var href = signInElement.getAttribute("href").split("next=")[0];
                         var url_parts = window.location.href.split(window.location.pathname);
-                        var path_name = encodeURIComponent(window.location.pathname + url_parts[url_parts.length-1]);
+                        var path_name = encodeURIComponent(window.location.pathname + url_parts[url_parts.length - 1]);
                         signInElement.setAttribute("href", href.concat("next=".concat(path_name)));
                     }
                 }
@@ -112,4 +114,5 @@
             window.addEventListener('hashchange', manageUrlChange, false);
         })();
     </script>
-{% endblock extra_script %}
+    {% endblock extra_script %}
+</div>

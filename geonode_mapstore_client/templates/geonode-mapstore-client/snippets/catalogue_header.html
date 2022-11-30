@@ -8,82 +8,85 @@
 {% endblock %}
 
 <div id="{{ id|default:'' }}">
-<nav id="sphere-header" class="gn-menu gn-menu-symmetric">
-    <div class="gn-menu-container">
-        <div class="gn-menu-content">
-            <div class="gn-menu-content-left">
-                {% block left_menu %}
-                <ul class="gn-menu-list">
-                    <li>
-                        <a href="/">
-                            {% if custom_theme.logo and custom_theme.logo.url %}
+    <nav id="sphere-header" class="gn-menu gn-menu-symmetric">
+        <div class="gn-menu-container">
+            <div class="gn-menu-content">
+                <div class="gn-menu-content-left">
+                    {% block left_menu %}
+                    <ul class="gn-menu-list">
+                        <li>
+                            <a href="/">
+                                {% if custom_theme.logo and custom_theme.logo.url %}
                                 <img src="{{ custom_theme.logo.url }}">
-                            {% else %}
-                                <img style="height:3.5rem" src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}">
-                            {% endif %}
-                        </a>
-                    </li>
-                </ul>
-                {% endblock %}
-            </div>
-            <div class="gn-menu-content-center">
-                {% block center_menu %}
+                                {% else %}
+                                <img style="height:3.5rem"
+                                    src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}">
+                                {% endif %}
+                            </a>
+                        </li>
+                    </ul>
+                    {% endblock %}
+                </div>
+                <div class="gn-menu-content-center">
+                    {% block center_menu %}
                     {% include './search_bar.html' with search_bar_id='gn-search-bar' %}
-                {% endblock %}
-            </div>
-            <div class="gn-menu-content-right">
-                {% block right_menu %}
-                <ul class="gn-menu-list">
-                    {% for menu_item in USER_MENU %}
+                    {% endblock %}
+                </div>
+                <div class="gn-menu-content-right">
+                    {% block right_menu %}
+                    <ul class="gn-menu-list">
+                        {% for menu_item in USER_MENU %}
                         {% if menu_item.type == 'link' %}
                         {% if menu_item.label == 'Register'%}
-                            <div class="login-panel d-flex align-center">
-                                <a href="/account/keycloak/login/?process=login" type="button" style="color: rgb(255, 255, 255);"
-                                    class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
-                                    <span class="v-btn__content"> Log in </span>
-                                </a>
-                                <a href="/account/keycloak/login/?process=signup" type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255); 
+                        <div class="login-panel d-flex align-center">
+                            <a href="/account/keycloak/login/?process=login" type="button"
+                                style="color: rgb(255, 255, 255);"
+                                class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
+                                <span class="v-btn__content"> Log in </span>
+                            </a>
+                            <a href="/account/keycloak/login/?process=signup" type="button"
+                                class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255); 
                                     caret-color: rgb(255, 255, 255);">
-                                    <span class="v-btn__content">Sign up </span>
-                                </a>
-                        {% endif %}
-                        {% endif %}
-                        {% if menu_item.type == 'dropdown' %}
+                                <span class="v-btn__content">Sign up </span>
+                            </a>
+                            {% endif %}
+                            {% endif %}
+                            {% if menu_item.type == 'dropdown' %}
                             <div class="login-panel d-flex align-center">
                                 <li class="dropdown sphere-dropdown">
                                     <a class="dropdown-toggle profile-image" data-toggle="dropdown">
                                         {% if menu_item.image %}
-                                            <img  class="img-circle user-profile-img" src="{{ menu_item.image }}">
+                                        <img class="img-circle user-profile-img" src="{{ menu_item.image }}">
                                         {% endif %}
                                         {% if menu_item.name %}
-                                            {% trans menu_item.name %}
-                                            {% if menu_item.superuser %}
-                                            {% endif %}
+                                        {% trans menu_item.name %}
+                                        {% if menu_item.superuser %}
+                                        {% endif %}
                                         {% endif %}
                                         <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            {% for child_item in menu_item.items %}
-                                                {% if child_item.type == 'link' %}
-                                                <li>
-                                                    <a href="{{ child_item.href }}" target="{{ child_item.target }}">
-                                                        {% trans child_item.label %}
-                                                    </a>
-                                                </li>
-                                                {% endif %}
-                                                {% if child_item.type == 'divider' %}
-                                                    <li role="separator" class="divider"></li>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </ul>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        {% for child_item in menu_item.items %}
+                                        {% if child_item.type == 'link' %}
+                                        <li>
+                                            <a href="{{ child_item.href }}" target="{{ child_item.target }}">
+                                                {% trans child_item.label %}
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        {% if child_item.type == 'divider' %}
+                                        <li role="separator" class="divider"></li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
                                 </li>
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-                {% endblock %}
+                            {% endif %}
+                            {% endfor %}
+                    </ul>
+                    {% endblock %}
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 </div>
