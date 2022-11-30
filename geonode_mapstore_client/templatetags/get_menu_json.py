@@ -168,19 +168,19 @@ def get_user_menu(context):
     # is_mobile = _is_mobile_device(context)
     user = context.get('request').user
 
-    # if not user.is_authenticated:
-    #     return [
-    #         {
-    #             "label": "Register",
-    #             "type": "link",
-    #             "href": "/account/signup/?next=/"
-    #         } if settings.ACCOUNT_OPEN_SIGNUP and not Configuration.load().read_only else None,
-    #         {
-    #             "label": "Sign in",
-    #             "type": "link",
-    #             "href": "/account/login/?next=/"
-    #         },
-    #     ]
+    if not user.is_authenticated:
+        return [
+            {
+                "label": "Sign up",
+                "type": "link",
+                "href": "/account/keycloak/login/?process=signup"
+            } if settings.ACCOUNT_OPEN_SIGNUP and not Configuration.load().read_only else None,
+            {
+                "label": "Log in",
+                "type": "link",
+                "href": "/account/keycloak/login/?process=login"
+            },
+        ]
 
     devider = {
         "type": "divider"
