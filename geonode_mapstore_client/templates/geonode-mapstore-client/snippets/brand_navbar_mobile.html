@@ -9,18 +9,18 @@
         <div class="gn-menu-content">
             <div class="gn-menu-content-left">
                 {% block left_menu %}
-                <ul class="gn-menu-list">
-                    <li onclick="openSidebar()">
-                        <a href="#" class="sphere-side-menu-trigger"><i
-                                class="glyphicon glyphicon-menu-hamburger"></i></a>
-                    </li>
-                </ul>
+                    <ul class="gn-menu-list">
+                        <li onclick="openSidebar()">
+                            <a href="#" class="sphere-side-menu-trigger"><i class="glyphicon glyphicon-menu-hamburger"></i></a>
+                        </li>
+                    </ul>
                 {% endblock %}
             </div>
             <div class="gn-menu-content-center">
                 <a href="{% block logo_href %}{% catalogue_home %}{% endblock %}">
-                    <img height="50" src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}"
-                        alt="sphere" class="">
+                    <img height="50"
+                         src="{% block logo_src %}/static/mapstore/img/logo-sphere-alt.png{% endblock %}" alt="sphere"
+                         class="">
                 </a>
             </div>
             <div class="gn-menu-content-right">
@@ -31,84 +31,82 @@
 <div id="sphere-sidebar" class="sidenav">
     <div class="user-profile">
         {% for menu_item in USER_MENU %}
-        {% if menu_item.type == 'link' %}
-        {% if menu_item.label == 'Register'%}
-        <div class="login-panel d-flex align-center">
-            <a href="/account/keycloak/login/?process=login" type="button" style="color: rgb(255, 255, 255);"
-                class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
-                <span class="v-btn__content"> Log in </span>
-            </a>
-            <a href="/account/keycloak/login/?process=signup" type="button"
-                class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255);
+            {% if menu_item.type == 'link' %}
+                {% if menu_item.label == 'Sign up'%}
+                    <div class="login-panel d-flex align-center">
+                    <a href="/account/keycloak/login/?process=login" type="button" style="color: rgb(255, 255, 255);"
+                       class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
+                        <span class="v-btn__content"> Log in </span>
+                    </a>
+                    <a href="/account/keycloak/login/?process=signup" type="button" class="ml-6 v-btn v-btn--outlined theme--light v-size--default" style="color: rgb(255, 255, 255);
                                 caret-color: rgb(255, 255, 255);">
-                <span class="v-btn__content">Sign up </span>
-            </a>
-            {% endif %}
+                        <span class="v-btn__content">Sign up </span>
+                    </a>
+                {% endif %}
             {% endif %}
             {% if menu_item.type == 'dropdown' %}
-            <div class="login-panel d-flex align-center" style="text-align:center">
-                <li class="dropdown sphere-dropdown">
-                    <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown">
-                        {% if menu_item.image %}
-                        <img class="img-circle user-profile-img" src="{{ menu_item.image }}">
-                        {% endif %}
-                        {% if menu_item.name %}
-                        {% trans menu_item.name %}
-                        {% if menu_item.superuser %}
-                        {% endif %}
-                        {% endif %}
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        {% for child_item in menu_item.items %}
-                        {% if child_item.type == 'link' %}
-                        <li>
-                            <a href="{{ child_item.href }}" target="{{ child_item.target }}">
-                                {% trans child_item.label %}
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% if child_item.type == 'divider' %}
-                        <li role="separator" class="divider"></li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
-                </li>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="menu-list">
-            <a href="https://sphere.gistda.or.th/about">About</a>
-        </div>
-        <div class="menu-list">
-            <a href="https://sphere.gistda.or.th/?section=api" target="_blank">
-                APIs
-            </a>
-        </div>
-        <div class="menu-list">
-            <a href="#">Map Maker</a>
-        </div>
-        <div class="menu-list">
-            <a href="https://sphere.gistda.or.th/?section=cube">Data Cube</a>
-        </div>
-        <div class="menu-list">
-            <a href="https://sphere.gistda.or.th/?section=showcase">Solutions</a>
-        </div>
-        <div class="menu-list">Pricing</div>
+                <div class="login-panel d-flex align-center" style="text-align:center">
+                    <li class="dropdown sphere-dropdown">
+                        <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown">
+                            {% if menu_item.image %}
+                                <img  class="img-circle user-profile-img" src="{{ menu_item.image }}">
+                            {% endif %}
+                            {% if menu_item.name %}
+                                {% trans menu_item.name %}
+                                {% if menu_item.superuser %}
+                                {% endif %}
+                            {% endif %}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            {% for child_item in menu_item.items %}
+                                {% if child_item.type == 'link' %}
+                                    <li>
+                                        <a href="{{ child_item.href }}" target="{{ child_item.target }}">
+                                            {% trans child_item.label %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if child_item.type == 'divider' %}
+                                    <li role="separator" class="divider"></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+            {% endif %}
+        {% endfor %}
     </div>
-
-    {% block extra_script %}
-    <script type="text/javascript">
-        function openSidebar() {
-            document.getElementById("sphere-sidebar").style.width = "256px";
-        }
-        document.addEventListener('mouseup', function (e) {
-            const container = document.getElementById('sphere-sidebar');
-            if (!container.contains(e.target)) {
-                container.style.width = "0";
-            }
-        });
-    </script>
-    {% endblock extra_script %}
+    </div>
+    <div class="menu-list">
+        <a href="https://sphere.gistda.or.th/about">About</a>
+    </div>
+    <div class="menu-list">
+        <a href="https://sphere.gistda.or.th/?section=api" target="_blank">
+            APIs
+        </a>
+    </div>
+    <div class="menu-list">
+        <a href="#">Map Maker</a>
+    </div>
+    <div class="menu-list">
+        <a href="https://sphere.gistda.or.th/?section=cube">Data Cube</a>
+    </div>
+    <div class="menu-list">
+        <a href="https://sphere.gistda.or.th/?section=showcase">Solutions</a>
+    </div>
+    <div class="menu-list">Pricing</div>
 </div>
+
+{% block extra_script %}
+    <script type="text/javascript">
+            function openSidebar() {
+                document.getElementById("sphere-sidebar").style.width = "256px";
+            }
+            document.addEventListener('mouseup', function(e) {
+                const container = document.getElementById('sphere-sidebar');
+                if (!container.contains(e.target)) {
+                    container.style.width = "0";
+                }
+            });
+    </script>
+{% endblock extra_script %}

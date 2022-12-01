@@ -45,7 +45,7 @@
             </div> {% endcomment %}
             {% for menu_item in USER_MENU %}
             {% if menu_item.type == 'link' %}
-            {% if menu_item.label == 'Register'%}
+            {% if menu_item.label == 'Sign up'%}
             <div class="login-panel d-flex align-center">
                 <a href="/account/keycloak/login/?process=login" type="button" style="color: rgb(255, 255, 255);"
                     class="text-white ml-8 v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default secondary-variant">
@@ -93,26 +93,26 @@
             </div>
         </div>
     </div>
-    {% block extra_script %}
-    <script type="text/javascript">
-        (function () {
-            function manageUrlChange() {
-                var signInElement = document.getElementById("sign-in");
-                if (signInElement) {
-                    if (window.location.pathname === '/account/login/') {
-                        signInElement.setAttribute("href", window.location.href)
-                    }
-                    else {
-                        var href = signInElement.getAttribute("href").split("next=")[0];
-                        var url_parts = window.location.href.split(window.location.pathname);
-                        var path_name = encodeURIComponent(window.location.pathname + url_parts[url_parts.length - 1]);
-                        signInElement.setAttribute("href", href.concat("next=".concat(path_name)));
-                    }
+</div>
+{% block extra_script %}
+<script type="text/javascript">
+    (function () {
+        function manageUrlChange() {
+            var signInElement = document.getElementById("sign-in");
+            if (signInElement) {
+                if (window.location.pathname === '/account/login/') {
+                    signInElement.setAttribute("href", window.location.href)
+                }
+                else {
+                    var href = signInElement.getAttribute("href").split("next=")[0];
+                    var url_parts = window.location.href.split(window.location.pathname);
+                    var path_name = encodeURIComponent(window.location.pathname + url_parts[url_parts.length - 1]);
+                    signInElement.setAttribute("href", href.concat("next=".concat(path_name)));
                 }
             }
-            window.addEventListener('DOMContentLoaded', manageUrlChange);
-            window.addEventListener('hashchange', manageUrlChange, false);
-        })();
-    </script>
-    {% endblock extra_script %}
-</div>
+        }
+        window.addEventListener('DOMContentLoaded', manageUrlChange);
+        window.addEventListener('hashchange', manageUrlChange, false);
+    })();
+</script>
+{% endblock extra_script %}

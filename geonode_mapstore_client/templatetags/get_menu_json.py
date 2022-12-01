@@ -216,6 +216,7 @@ def get_user_menu(context):
     #             ]
     #         }
     #     ]
+
     profile = {
         # get src of user avatar
         "firstname": user.first_name,
