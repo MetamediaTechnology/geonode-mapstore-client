@@ -174,7 +174,6 @@ class BufferDialog extends React.Component {
                                 }}
                                 required
                                 type="text"
-                                onKeyPress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"
                                 className="form-control"
                                 id="buffer-size"
                                 onChange={(e) => this.onChangeRadius(e.nativeEvent.target.value)}
@@ -185,7 +184,6 @@ class BufferDialog extends React.Component {
                             <DropdownList
                                 id="bufferUnitValues"
                                 data={this.props.bufferUnitValues}
-                                dataKey="value"
                                 textField="label"
                                 valueField="value"
                                 defaultValue={this.props.bufferUnitValues[0]}

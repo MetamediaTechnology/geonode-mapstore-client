@@ -11,6 +11,11 @@ import PropTypes from 'prop-types';
 import { connect, createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import { createSelector } from 'reselect';
 import { userSelector } from '@mapstore/framework/selectors/security';
+
+import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
+import Button from '@js/components/Button';
+import FaIcon from '@js/components/FaIcon';
+
 import {
     editBannerResource,
     setResourceBanner
@@ -139,15 +144,25 @@ function ActionNavbarPlugin(
     }
 
     const bannerBtnCtrl = () => {
+        const UploadBannerBtn = tooltip(Button);
         if(resourcePerms.includes('change_resourcebase')) {
             if(!file) {
                 return (
                     <ul className="nav navbar-nav navbar-right banner-action">
                         <li>
-                            <a onClick={onClickUploadBanner} className='btn btn-xs'>
+                            <UploadBannerBtn
+                                onClick={onClickUploadBanner}
+                                variant="link"
+                                tooltipPosition="left"
+                                tooltip="Recommended banner size: 1280 x 70"
+                            >
+                                <FaIcon name="cloud-upload" />
+                                &nbsp; Upload Banner
+                            </UploadBannerBtn>
+                            {/* <a onClick={onClickUploadBanner} className='btn btn-xs'>
                                 <i className="glyphicon glyphicon-cloud-upload"></i>
                                 &nbsp; Upload Banner
-                            </a>
+                            </a> */}
                         </li>
                     </ul>
                 )
@@ -155,10 +170,10 @@ function ActionNavbarPlugin(
                 return (
                     <ul className="nav navbar-nav navbar-right banner-action">
                         <li>
-                            <a onClick={handleResourceBannerUpdate} className='btn btn-xs'>Save</a>
+                            <button onClick={handleResourceBannerUpdate} className='btn btn-link btn-xs'>Save</button>
                         </li>
                         <li>
-                            <a onClick={handleCancelUpload} className={'btn btn-xs'}>Cancel</a>
+                            <button onClick={handleCancelUpload} className={'btn btn-link btn-xs'}>Cancel</button>
                         </li>
                     </ul>
                 )
@@ -172,6 +187,7 @@ function ActionNavbarPlugin(
         const imageUrl = file ? file : banner_url
         setBannerDefault(banner_url)
         const bannerStyle = {
+            backgroundPosition: 'center',
             backgroundImage: `url(${imageUrl})`,
             backgroundSize: 'cover'
         }

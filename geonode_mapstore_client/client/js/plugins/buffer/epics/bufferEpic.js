@@ -104,7 +104,10 @@ const loadFeature = function(layerSelected) {
             let result = bufferWithTurf(featuresCollectionGeoJson);
             if (result === undefined) return;
 
-            dispatch(addAsLayer(result));
+            dispatch(addAsLayer({
+                bbox: layerSelected.bbox,
+                featuresCollectionGeoJson: result
+            }));
             dispatch(fetchGeoJsonFailure("succeed"));
             dispatch(setLayer(-1)); dispatch(loading(false)); dispatch(setRadius(1));
 
@@ -132,7 +135,10 @@ const loadFeature = function(layerSelected) {
                     let result = bufferWithTurf(featuresCollectionData);
                     if (result === undefined) return;
 
-                    dispatch(addAsLayer(result));
+                    dispatch(addAsLayer({
+                        bbox: layerSelected.bbox,
+                        featuresCollectionGeoJson: result
+                    }));
                     dispatch(fetchGeoJsonFailure("succeed"));
                     dispatch(setLayer(-1)); dispatch(loading(false)); dispatch(setRadius(1));
                 })
@@ -158,14 +164,15 @@ export const doBufferEpic = (action$, { getState = () => { } }) =>
 // epic ที่ buffer แล้วมาเพิ่มใน layers panel ด้านซ้ายกับวาดลงแผนที่
 export const addAsBufferedLayerEpic = (action$) =>
     action$.ofType(BUFFER_ADD_AS_LAYER)
-        .switchMap(({ bufferedFtCollection }) => {
+        .switchMap(({ bbox, features}) => {
             return Rx.Observable.of(
                 addLayer({
+                    bbox: bbox,
                     type: "vector",
                     id: uuidv1(),
                     name: "BufferedLayer",
                     hideLoading: true,
-                    features: [...bufferedFtCollection.features],
+                    features: [...features.features],
                     visibility: true,
                     title: "Buffered_" + layerTitle
                 })
