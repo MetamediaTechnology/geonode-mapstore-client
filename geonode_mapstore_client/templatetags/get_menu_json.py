@@ -214,6 +214,12 @@ def get_user_menu(context):
         },
         {
             "type": "link",
+            "href": "/admin/auth/group/",
+            "label": "Portal Group Permissions",
+            "target": "_blank"
+        },
+        {
+            "type": "link",
             "href": settings.SPHERE_MAIN_WEB+"admin-user",
             "label": "sphere Users",
             "target": "_blank"
