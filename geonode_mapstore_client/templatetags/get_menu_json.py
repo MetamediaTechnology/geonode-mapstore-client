@@ -81,79 +81,25 @@ def get_base_left_topbar_menu(context):
 @register.simple_tag(takes_context=True)
 def get_base_right_topbar_menu(context):
 
-    is_mobile = _is_mobile_device(context)
-
-    user = context.get('request').user
-    Menu = {
-            "label": "Menu",
-            "type": "dropdown",
-            "items": [
-                {
-                    "type": "link",
-                    "href": "/",
-                    "label": "Home"
-                },
-                {
-                    "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"storage",
-                    "label": "Storage",
-                    "target": "_blank"
-                },
-                {
-                    "type": "link",
-                    "href": "https://raw.githubusercontent.com/GISTDAsphere/sphere-portal-tutorial/main/sphere-portal-tutorial.pdf",
-                    "label": "Tutorial",
-                    "target": "_blank"
-                },
-                {
-                    "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"dashboard",
-                    "label": "sphere Dashboard",
-                    "target": "_blank"
-                }
-            ]
-    }
-    if user.is_superuser and not Configuration.load().read_only:
-        Menu["items"].extend([
-                {
-                "type": "divider"
-                },
-                {
-                    "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"admin-user",
-                    "label": "People"
-                },
-                {
-                    "type": "link",
-                    "href": settings.SPHERE_MAIN_WEB+"admin-settings/general",
-                    "label": "Groups"
-                },
-                
-        ])
-    # if user.is_authenticated and not Configuration.load().read_only:
-    #     Menu['items'].extend([
-    #         {
-    #             "type": "divider"
-    #         },
-    #         {
-    #             "type": "link",
-    #             "href": "/invitations/geonode-send-invite/",
-    #             "label": "Invite users"
-    #         },
-    #         {
-    #             "type": "link",
-    #             "href": "/admin/people/profile/add/",
-    #             "label": "Add user"
-    #         }
-    #         if user.is_superuser else None,
-    #         {
-    #             "type": "link",
-    #             "href": "/groups/create/",
-    #             "label": "Create group"
-    #         }
-    #         if user.is_superuser else None,
-    #     ])
-    return [Menu]
+    return [
+        {
+            "type": "link",
+            "href": "/",
+            "label": "Home"
+        },
+        {
+            "type": "link",
+            "href": "https://raw.githubusercontent.com/GISTDAsphere/sphere-portal-tutorial/main/sphere-portal-tutorial.pdf",
+            "label": "Tutorial",
+            "target": "_blank"
+        },
+        {
+            "type": "link",
+            "href": "https://www.youtube.com/playlist?list=PLysNI2uEMzi8db9nvODptoNjgC9cEU6lu",
+            "label": "Video Tutorial",
+            "target": "_blank"
+        }
+    ]
 
 
 @register.simple_tag(takes_context=True)
@@ -167,12 +113,12 @@ def get_user_menu(context):
             {
                 "label": "Register",
                 "type": "link",
-                "href": "/account/signup/?next=/"
+                "href": "/account/keycloak/login/?process=signup&next=/"
             } if settings.ACCOUNT_OPEN_SIGNUP and not Configuration.load().read_only else None,
             {
                 "label": "Sign in",
                 "type": "link",
-                "href": "/account/login/?next=/"
+                "href": "/account/keycloak/login/?process=login&next=/"
             },
         ]
 
@@ -222,46 +168,61 @@ def get_user_menu(context):
             profile_link,
             {
                 "type": "link",
-                "href": "/social/recent-activity",
-                "label": "Recent activity"
+                "href": settings.SPHERE_MAIN_WEB+"dashboard",
+                "label": "sphere Dashboard",
+                "target": "_blank"
             },
             {
                 "type": "link",
-                "href": "/catalogue/#/search/?f=favorite",
-                "label": "Favorites"
-            },
-            {
-                "type": "link",
-                "href": "/messages/inbox/",
-                "label": "Inbox"
+                "href": settings.SPHERE_MAIN_WEB+"storage",
+                "label": "Storage",
+                "target": "_blank"
             },
             devider,
         ]
     }
     general = [
-        {
-            "type": "link",
-            "href": "/help/",
-            "label": "Help"
-        },
-        devider,
+        # {
+        #     "type": "link",
+        #     "href": "/help/",
+        #     "label": "Help"
+        # },
+        # devider,
         logout
     ]
     monitoring = []
     if settings.MONITORING_ENABLED:
         monitoring = [
-            devider,
-            {
-                "type": "link",
-                "href": "/monitoring/",
-                "label": "Monitoring & Analytics"
-            }
+            # devider,
+            # {
+            #     "type": "link",
+            #     "href": "/monitoring/",
+            #     "label": "Monitoring & Analytics"
+            # }
         ]
     admin_only = [
         {
             "type": "link",
             "href": "/admin/",
             "label": "Admin"
+        },
+        {
+            "type": "link",
+            "href": settings.SPHERE_MAIN_WEB+"admin-settings/general",
+            "label": "Portal Groups",
+            "target": "_blank"
+        },
+        {
+            "type": "link",
+            "href": settings.SPHERE_MAIN_WEB+"admin-user",
+            "label": "sphere Users",
+            "target": "_blank"
+        },
+        {
+            "type": "link",
+            "href": "/keycloaksync/synchronize_all",
+            "label": "Sync sphere Users",
+            "target": "_blank"
         },
         {
             "type": "link",
