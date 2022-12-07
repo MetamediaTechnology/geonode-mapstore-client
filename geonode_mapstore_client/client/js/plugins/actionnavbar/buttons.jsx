@@ -15,9 +15,14 @@ import {
 import {
     toggleFullscreen
 } from '@mapstore/framework/actions/fullscreen';
+
 import {
     togglePrintScreenTool
 } from '@js/plugins/PrintScreen'
+
+import {
+    togglePrintingTool
+} from '@js/plugins/PrintStandard'
 
 import Message from '@mapstore/framework/components/I18N/Message';
 import Button from '@js/components/Button';
@@ -279,19 +284,24 @@ export const MergeLayerActionButton = connect(
     );
 });
 
-export const PrintStandardActionButton = connect(
-    () => ({}),
-    { onClick: setControlProperty.bind(null, 'prtstd', 'enabled', true) }
+export const PrintStandardActionButton = connect(createSelector([
+    state => state?.controls?.prtstd?.enabled || false
+], (enabled) => ({
+    enabled
+})), {
+    onClick: (enabled) => togglePrintingTool(enabled)
+}
 )(({
     onClick,
     variant,
-    size
+    size,
+    enabled
 }) => {
     return (
         <Button
             variant={variant}
             size={size}
-            onClick={() => onClick()}
+            onClick={() => onClick(!enabled)}
         >
             <Message msgId="printStandardPlugin.title" />
         </Button>
