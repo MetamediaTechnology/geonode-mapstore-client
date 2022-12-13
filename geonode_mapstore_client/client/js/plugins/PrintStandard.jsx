@@ -26,6 +26,7 @@ import {
 
 import compassImages from "./print/assets/img/compass.jpg";
 import gistdaLogo from "./print/assets/img/gistda_logo.png";
+import sphereLogo from "./print/assets/img/logo-sphere-alt.png";
 
 createControlEnabledSelector("prtstd");
 
@@ -494,11 +495,14 @@ class PrintStandardComponent extends React.Component {
                         className={`layout-a4-${isPortrait ? "portrait" : "landscape"}`}
                     >
                         <div id="prtstd-header">
-                            <div className="logo left">
+                            <div className="logo left" style={{ backgroundColor: "#003663" }}>
                                 <img
-                                    src={gistdaLogo}
-                                    width={"100%"}
-                                    style={{ marginTop: "1vh" }}
+                                    src={sphereLogo}
+                                    style={{
+                                        width: "calc(100% - 10px)",
+                                        margin: "50% 5px",
+                                        transform: "translate(0%, -50%)"
+                                    }}
                                 />
                             </div>
                             <div className="title">
