@@ -61,6 +61,7 @@ def resource_urls(request):
         'SPHERE_API_KEY': getattr(settings, "SPHERE_API_KEY", "test2022"),
         'MAP_API_URL': getattr(settings, "MAP_API_URL", "https://api.sphere-dev.gistda.or.th/map/"),
         'ROUTE_API_URL': getattr(settings, "ROUTE_API_URL", "https://api.sphere-dev.gistda.or.th/services/route/route"),
-        'SEARCH_API_URL': getattr(settings, "SEARCH_API_URL", "https://api.sphere-dev.gistda.or.th/services/search/search")
+        'SEARCH_API_URL': getattr(settings, "SEARCH_API_URL", "https://api.sphere-dev.gistda.or.th/services/search/search"),
+        'BASE_MAP_EXTENT': getattr(settings, "BASE_MAP_EXTENT", False),
     }
     return defaults
