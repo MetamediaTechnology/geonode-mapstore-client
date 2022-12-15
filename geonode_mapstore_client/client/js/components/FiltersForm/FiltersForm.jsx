@@ -18,12 +18,14 @@ import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import withDebounceOnCallback from '@mapstore/framework/components/misc/enhancers/withDebounceOnCallback';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
+import ConfigUtils from '@mapstore/framework/utils/ConfigUtils';
 import { FormControl as FormControlRB } from 'react-bootstrap';
 const FormControl = localizedProps('placeholder')(FormControlRB);
 function InputControl({ onChange, value, ...props }) {
     return <FormControl {...props} value={value} onChange={event => onChange(event.target.value)}/>;
 }
 const InputControlWithDebounce = withDebounceOnCallback('onChange', 'value')(InputControl);
+const geoNodeSettings = ConfigUtils.getConfigProp('geoNodeSettings')
 
 /**
  * FilterForm component allows to configure a list of field that can be used to apply filter on the page
@@ -95,10 +97,19 @@ function FilterForm({
                             values={query}
                             onChange={handleFieldChange}
                         />
-                        <FilterByExtent
+                        {/* <FilterByExtent
                             id={id}
                             extent={query.extent}
                             layers={extentProps?.layers}
+                            vectorLayerStyle={extentProps?.style}
+                            onChange={(({ extent }) =>{
+                                extentChange(extent);
+                            })}
+                        /> */}
+                        <FilterByExtent
+                            id={id}
+                            extent={query.extent}
+                            layers={geoNodeSettings.baseMapExtent ? [geoNodeSettings.baseMapExtent] : extentProps?.layers}
                             vectorLayerStyle={extentProps?.style}
                             onChange={(({ extent }) =>{
                                 extentChange(extent);

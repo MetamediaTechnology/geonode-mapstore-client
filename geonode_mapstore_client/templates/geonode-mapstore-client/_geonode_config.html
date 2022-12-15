@@ -41,6 +41,7 @@
         const geoNodeSettings = getJSONScriptVariable('GEONODE_SETTINGS', {});
 
         const baseLayers = geoNodeSettings.MAP_BASELAYERS || [];
+
         const baseLayersSources = geoNodeSettings.MAP_BASELAYERS_SOURCES || {};
         const defaultMapCRS = geoNodeSettings.DEFAULT_MAP_CRS || 'EPSG:3857';
         const defaultMapCenterX = geoNodeSettings.DEFAULT_MAP_CENTER_X || 0;
@@ -67,6 +68,7 @@
         const mapApiUrl = geoNodeSettings.MAP_API_URL;
         const routeApiUrl = geoNodeSettings.ROUTE_API_URL;
         const searchApiUrl = geoNodeSettings.SEARCH_API_URL;
+        const baseMapExtent = geoNodeSettings.BASE_MAP_EXTENT;
 
         const isEmbed = checkBoolean('{{ is_embed }}') || false;
         const pluginsConfigKey = '{{ plugins_config_key }}';
@@ -140,7 +142,8 @@
                     sphereApiKey: sphereApiKey,
                     mapApiUrl: mapApiUrl,
                     routeApiUrl: routeApiUrl,
-                    searchApiUrl: searchApiUrl
+                    searchApiUrl: searchApiUrl,
+                    baseMapExtent: baseMapExtent
                 },
                 geoNodeConfiguration: {
                     cardsMenu: {
