@@ -25,7 +25,6 @@ function InputControl({ onChange, value, ...props }) {
     return <FormControl {...props} value={value} onChange={event => onChange(event.target.value)}/>;
 }
 const InputControlWithDebounce = withDebounceOnCallback('onChange', 'value')(InputControl);
-const geoNodeSettings = ConfigUtils.getConfigProp('geoNodeSettings')
 
 /**
  * FilterForm component allows to configure a list of field that can be used to apply filter on the page
@@ -46,6 +45,7 @@ function FilterForm({
     suggestionsRequestTypes,
     timeDebounce
 }) {
+    const { baseMapExtent = false } = ConfigUtils.getConfigProp('geoNodeSettings')
 
     const handleFieldChange = (newParam) => {
         onChange(newParam);
@@ -109,7 +109,7 @@ function FilterForm({
                         <FilterByExtent
                             id={id}
                             extent={query.extent}
-                            layers={geoNodeSettings.baseMapExtent ? [geoNodeSettings.baseMapExtent] : extentProps?.layers}
+                            layers={baseMapExtent ? [baseMapExtent] : extentProps?.layers}
                             vectorLayerStyle={extentProps?.style}
                             onChange={(({ extent }) =>{
                                 extentChange(extent);
