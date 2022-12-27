@@ -6,12 +6,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React,{useState} from 'react'
 import PropTypes from 'prop-types';
 import { connect, createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import { createSelector } from 'reselect';
 import ActionNavbar from '@js/components/ActionNavbar';
 
+import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
+import Button from '@js/components/Button';
+import FaIcon from '@js/components/FaIcon';
 import usePluginItems from '@js/hooks/usePluginItems';
 import {
     getResourcePerms,
@@ -21,6 +24,10 @@ import {
     getSelectedLayerPermissions,
     isNewResource
 } from '@js/selectors/resource';
+import {
+    editBannerResource,
+    setResourceBanner
+} from '@js/actions/gnresource';
 import { hasPermissionsTo, reduceArrayRecursive } from '@js/utils/MenuUtils';
 
 function checkResourcePerms(menuItem, resourcePerms) {
@@ -43,7 +50,9 @@ function ActionNavbarPlugin(
         isDirtyState,
         selectedLayerPermissions,
         titleItems,
-        disableTitle
+        disableTitle,
+        onEditBanner,
+        onResourceBanner
     },
     context
 ) {
@@ -101,16 +110,122 @@ function ActionNavbarPlugin(
         (menuItem) => checkResourcePerms(menuItem, resourcePerms)
     );
 
+
+    const [file, setFile] = useState();
+    const [bannerDefault,setBannerDefault] = useState();
+
+    const onClickUploadBanner = () => {
+        document.getElementById('banner-input').click()
+    }
+    const handleResourceBannerUpdate = () => {
+        onEditBanner(file)
+        onResourceBanner()
+        setFile('')
+    };
+    const handleCancelUpload = () => {
+        setFile(bannerDefault)
+        setFile('')
+    }
+
+    function getFilesFromEvent(e) {
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+        toBase64(e.target.files[0]).then((image) => {
+            setFile(image)
+        })
+    }
+
+
+    const bannerBtnCtrl = () => {
+        const UploadBannerBtn = tooltip(Button);
+        if(resourcePerms.includes('change_resourcebase')) {
+            if(!file) {
+                return (
+                    <ul className="nav navbar-nav navbar-right banner-action">
+                        <li>
+                            <UploadBannerBtn
+                                onClick={onClickUploadBanner}
+                                variant="link"
+                                tooltipPosition="left"
+                                tooltip="Recommended banner size: 1280 x 70"
+                            >
+                                <FaIcon name="cloud-upload" />
+                                &nbsp; Upload Banner
+                            </UploadBannerBtn>
+                        </li>
+                    </ul>
+                )
+            } else {
+                return (
+                    <ul className="nav navbar-nav navbar-right banner-action-confirm">
+                        <li>
+                            <button onClick={handleResourceBannerUpdate} className='btn btn-link btn-xs'>Save</button>
+                        </li>
+                        <li>
+                            <button onClick={handleCancelUpload}  className={'btn btn-link btn-xs'}>Cancel</button>
+                        </li>
+                    </ul>
+                )
+            }
+        } else {
+            return (<a></a>)
+        }
+    }
+
+    const TopBanner = ({banner_url}) => {
+        const imageUrl = file ? file : banner_url
+        setBannerDefault(banner_url)
+
+        const bannerStyle = {
+            backgroundPosition: 'center',
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: 'cover'
+        }
+
+        return (
+            <nav style={bannerStyle} class="navbar marine-banner-default">
+            <input
+                    style={{ display: 'none' }}
+                    id={'banner-input'}
+                    type="file"
+                    multiple
+                    onChange={getFilesFromEvent}
+            />
+            <div class="container-fluid">
+                <div class="navbar-header">
+                <a class="navbar-brand" href=""> 
+                    <i className="glyphicon glyphicon-backward"></i>
+                </a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a style={{ marginTop: '4px' }}>
+                        {resource?.title || 'Create new application'}
+                        </a>
+                    </li>
+                </ul>
+                {bannerBtnCtrl()}
+            </div>
+        </nav>)
+    }
+
     return (
-        <ActionNavbar
-            leftItems={leftItems}
-            rightItems={rightItems}
-            variant="primary"
-            size="sm"
-            resource={resource}
-            titleItems={titleNavbarItems}
-            disableTitle={disableTitle}
-        />
+        <div>
+            <TopBanner banner_url={resource?.banner_url}></TopBanner>
+            <ActionNavbar
+                leftItems={leftItems}
+                rightItems={rightItems}
+                variant="primary"
+                size="sm"
+                resource={resource}
+                titleItems={titleNavbarItems}
+                disableTitle={disableTitle}
+            />
+        </div>
     );
 }
 
@@ -118,6 +233,9 @@ ActionNavbarPlugin.propTypes = {
     items: PropTypes.array,
     leftMenuItems: PropTypes.array,
     rightMenuItems: PropTypes.array,
+    onResourceBanner: PropTypes.func,
+    onEditBanner: PropTypes.func,
+    user: PropTypes.object,
     titleItems: PropTypes.array
 };
 
@@ -125,7 +243,10 @@ ActionNavbarPlugin.defaultProps = {
     items: [],
     leftMenuItems: [],
     rightMenuItems: [],
-    titleItems: []
+    titleItems: [],
+    user: {},
+    onResourceBanner:() => {},
+    onEditBanner: () => {},
 };
 
 const ConnectedActionNavbarPlugin = connect(
@@ -152,7 +273,10 @@ const ConnectedActionNavbarPlugin = connect(
             selectedLayerPermissions,
             disableTitle: newResource
         })
-    )
+    ),{
+        onEditBanner: editBannerResource,
+        onResourceBanner: setResourceBanner
+    }
 )(ActionNavbarPlugin);
 
 export default createPlugin('ActionNavbar', {
