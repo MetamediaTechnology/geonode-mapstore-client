@@ -17,7 +17,8 @@ import {
     getDocumentByPk,
     getMapByPk,
     getCompactPermissionsByPk,
-    setResourceThumbnail
+    setResourceThumbnail,
+    setResourceBanner
 } from '@js/api/geonode/v2';
 import { configureMap } from '@mapstore/framework/actions/config';
 import { mapSelector } from '@mapstore/framework/selectors/map';
@@ -43,6 +44,7 @@ import {
     setResourceCompactPermissions,
     updateResourceProperties,
     SET_RESOURCE_THUMBNAIL,
+    SET_RESOURCE_BANNER,
     updateResource
 } from '@js/actions/gnresource';
 
@@ -452,6 +454,30 @@ export const gnViewerSetNewResourceThumbnail = (action$, store) =>
                 });
         });
 
+export const gnViewerSetNewResourceBanner = (action$, store) =>
+        action$.ofType(SET_RESOURCE_BANNER)
+            .switchMap(() => {
+                const state = store.getState();
+                const bannerImageUrl = state?.gnresource?.data?.banner_url || false;
+                const resourceIDBanner = state?.gnresource?.id;
+                const currentResource = state.gnresource?.data || {};
+
+                const body = {
+                    banner_file: bannerImageUrl
+                };
+                
+                return Observable.defer(() => setResourceBanner(resourceIDBanner, body))
+                    .switchMap((res) => {
+                        return Observable.of(updateResourceProperties({ ...currentResource, banner_url: res.banner_url, thumbnailChanged: false, updatingThumbnail: false }), updateResource({ ...currentResource, banner_url: res.banner_url }),
+                            successNotification({ title: "Success", message: "Banner updated." }));
+                    }).catch((error) => {
+                        return Observable.of(
+                            saveError(error.data || error.message),
+                            errorNotification({ title: "map.mapError.errorTitle", message: "map.mapError.errorDefault" })
+                        );
+                    });
+            });
+
 export const closeInfoPanelOnMapClick = (action$, store) => action$.ofType(CLICK_ON_MAP)
     .filter(() => store.getState().controls?.rightOverlay?.enabled === 'DetailViewer' || store.getState().controls?.rightOverlay?.enabled === 'Share')
     .switchMap(() => Observable.of(setControlProperty('rightOverlay', 'enabled', false)));
@@ -460,5 +486,6 @@ export default {
     gnViewerRequestNewResourceConfig,
     gnViewerRequestResourceConfig,
     gnViewerSetNewResourceThumbnail,
+    gnViewerSetNewResourceBanner,
     closeInfoPanelOnMapClick
 };
