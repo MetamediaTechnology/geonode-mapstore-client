@@ -327,6 +327,11 @@ export const setResourceThumbnail = (pk, body) => {
         .then(({ data }) => data);
 };
 
+export const setResourceBanner = (pk,body) => {
+    return axios.put(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/set_banner`), body)
+        .then(({ data }) => data);
+}
+
 export const setFavoriteResource = (pk, favorite) => {
     const request = favorite ? axios.post : axios.delete;
     return request(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/favorite`))
