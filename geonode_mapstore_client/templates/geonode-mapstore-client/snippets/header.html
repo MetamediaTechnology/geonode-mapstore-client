@@ -1,4 +1,5 @@
 {% load static %}
+<div id="marine-navbar">
 <header class="gn-main-header">
     {% include './brand_navbar.html'  with id='gn-brand-navbar' %}
 </header>
@@ -13,6 +14,7 @@
         </div>
     </div>
 {% endif %}
+</div>
 
 {% if show_hero is not True %}
 {% include './topbar.html' with id='gn-topbar' %}
