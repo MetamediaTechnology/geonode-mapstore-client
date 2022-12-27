@@ -100,6 +100,7 @@ function ViewerRoute({
         const mainHeader = document.querySelector('.gn-main-header');
         const mainHeaderPlaceholder = document.querySelector('.gn-main-header-placeholder');
         const topbar = document.querySelector('#gn-topbar');
+        const marineNavbar = document.querySelector('#marine-navbar')
         function resize() {
             if (mainHeaderPlaceholder && mainHeader) {
                 mainHeaderPlaceholder.style.height = mainHeader.clientHeight + 'px';
@@ -112,11 +113,13 @@ function ViewerRoute({
         if (!loading) {
             document.getElementById('gn-topbar')?.classList.add('hide-navigation');
             document.getElementById('gn-brand-navbar-bottom')?.classList.add('hide-search-bar');
+            marineNavbar.style.display = 'none';
             resize();
         }
         return () => {
             document.getElementById('gn-topbar')?.classList.remove('hide-navigation');
             document.getElementById('gn-brand-navbar-bottom')?.classList.remove('hide-search-bar');
+            marineNavbar.style.display = '';
             resize();
         };
     }, [loading]);
