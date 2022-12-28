@@ -933,10 +933,6 @@
                         },
                         {
                             "type": "plugin",
-                            "name": "Print"
-                        },
-                        {
-                            "type": "plugin",
                             "name": "FilterLayer"
                         },
                         {
@@ -1404,6 +1400,7 @@
             {
                 "name": "Legend"
             }
+
         ],
         "dataset_edit_data_viewer": [
             {
@@ -1757,10 +1754,6 @@
                         },
                         {
                             "type": "plugin",
-                            "name": "Print"
-                        },
-                        {
-                            "type": "plugin",
                             "name": "Measure"
                         },
                         {
@@ -1859,10 +1852,10 @@
                 "name": "Measure"
             },
             {
-                "name": "PrintScreen"
+                "name": "FullScreen"
             },
             {
-                "name": "FullScreen"
+                "name": "PrintScreen"
             },
             {
                 "name": "Print",
@@ -2355,6 +2348,10 @@
                 "cfg": {
                     "containerPosition": "rightOverlay"
                 }
+            },
+            {
+                "type": "plugin",
+                "name": "FullScreen"
             },
             {
                 "name": "DeleteResource"

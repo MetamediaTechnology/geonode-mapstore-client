@@ -933,10 +933,6 @@
                         },
                         {
                             "type": "plugin",
-                            "name": "Print"
-                        },
-                        {
-                            "type": "plugin",
                             "name": "FilterLayer"
                         },
                         {
@@ -1755,10 +1751,6 @@
                         {
                             "type": "divider",
                             "authenticated": true
-                        },
-                        {
-                            "type": "plugin",
-                            "name": "Print"
                         },
                         {
                             "type": "plugin",
