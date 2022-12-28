@@ -972,6 +972,10 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
+                            "name": "PrintScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "FullScreen"
                         }
                     ]
@@ -1078,6 +1082,9 @@
             },
             {
                 "name": "FullScreen"
+            },
+            {
+                "name": "PrintScreen"
             },
             {
                 "name": "Print",
@@ -1549,6 +1556,10 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
+                            "name": "PrintScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "FullScreen"
                         }
                     ]
@@ -1638,6 +1649,9 @@
             },
             {
                 "name": "FullScreen"
+            },
+            {
+                "name": "PrintScreen"
             }
         ],
         "map_viewer": [
@@ -1773,6 +1787,10 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
+                            "name": "PrintScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "FullScreen"
                         }
                     ]
@@ -1839,6 +1857,9 @@
             },
             {
                 "name": "Measure"
+            },
+            {
+                "name": "PrintScreen"
             },
             {
                 "name": "FullScreen"
@@ -2334,10 +2355,6 @@
                 "cfg": {
                     "containerPosition": "rightOverlay"
                 }
-            },
-            {
-                "type": "plugin",
-                "name": "FullScreen"
             },
             {
                 "name": "DeleteResource"

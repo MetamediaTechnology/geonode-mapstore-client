@@ -972,6 +972,10 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
+                            "name": "PrintScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "FullScreen"
                         }
                     ]
@@ -1078,6 +1082,9 @@
             },
             {
                 "name": "FullScreen"
+            },
+            {
+                "name": "PrintScreen"
             },
             {
                 "name": "Print",
@@ -1397,6 +1404,7 @@
             {
                 "name": "Legend"
             }
+
         ],
         "dataset_edit_data_viewer": [
             {
@@ -1549,6 +1557,10 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
+                            "name": "PrintScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "FullScreen"
                         }
                     ]
@@ -1638,6 +1650,9 @@
             },
             {
                 "name": "FullScreen"
+            },
+            {
+                "name": "PrintScreen"
             }
         ],
         "map_viewer": [
@@ -1773,6 +1788,10 @@
                     "rightMenuItems": [
                         {
                             "type": "plugin",
+                            "name": "PrintScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "FullScreen"
                         }
                     ]
@@ -1842,6 +1861,9 @@
             },
             {
                 "name": "FullScreen"
+            },
+            {
+                "name": "PrintScreen"
             },
             {
                 "name": "Print",
