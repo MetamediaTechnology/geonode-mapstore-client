@@ -178,10 +178,9 @@ def get_user_menu(context):
     if user.is_superuser:
         profile['items'].extend(admin_only)
     else:
-        profile['items'].extend(logout)
+        profile['items'].extend([logout])
 
     return [profile]
-
 
 @register.simple_tag
 def get_menu_json(placeholder_name):
