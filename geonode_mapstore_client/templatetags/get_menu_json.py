@@ -149,25 +149,6 @@ def get_user_menu(context):
             devider,
         ]
     }
-    general = [
-        # {
-        #     "type": "link",
-        #     "href": "/help/",
-        #     "label": "Help"
-        # },
-        # devider,
-        logout
-    ]
-    monitoring = []
-    if settings.MONITORING_ENABLED:
-        monitoring = [
-            # devider,
-            # {
-            #     "type": "link",
-            #     "href": "/monitoring/",
-            #     "label": "Monitoring & Analytics"
-            # }
-        ]
     admin_only = [
         {
             "type": "link",
@@ -177,13 +158,13 @@ def get_user_menu(context):
         {
             "type": "link",
             "href": "/admin/auth/group/",
-            "label": "Portal Group Permissions",
+            "label": "Group Permissions",
             "target": "_blank"
         },
         {
             "type": "link",
             "href": "/keycloaksync/synchronize_all",
-            "label": "Sync sphere Users",
+            "label": "Sync Keycloak Users",
             "target": "_blank"
         },
         {
@@ -192,13 +173,12 @@ def get_user_menu(context):
             "label": "GeoServer"
         },
         devider,
-        logout
-    ] + monitoring + [devider] + general
+    ] + [logout]
 
     if user.is_superuser:
         profile['items'].extend(admin_only)
     else:
-        profile['items'].extend(general)
+        profile['items'].extend(logout)
 
     return [profile]
 

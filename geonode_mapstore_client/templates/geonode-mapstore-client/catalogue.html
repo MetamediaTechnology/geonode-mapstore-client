@@ -1,6 +1,7 @@
 {% load static %}
 {% load client_lib_tags %}
 {% load client_version %}
+{% google_api_key as GOOGLE_API_KEY %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +22,7 @@
         {% block extra_style %}
         {% endblock %}
 
-        <script src="https://maps.googleapis.com/maps/api/js?v=3&key=YOUR_KEY"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3&key={{ GOOGLE_API_KEY }}"></script>
     </head>
 
     <body class="msgapi ms2" data-ms2-container="ms2" >
