@@ -73,6 +73,7 @@ export const canViewResource = (state) => {
 };
 
 export const canAddResource = (state) => {
+    console.log("DEBUG CanAddResource Func.",state)
     return state?.security?.user?.perms?.includes("add_resource");
 };
 
