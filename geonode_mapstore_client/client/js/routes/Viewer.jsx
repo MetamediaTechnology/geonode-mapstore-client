@@ -113,13 +113,17 @@ function ViewerRoute({
         if (!loading) {
             document.getElementById('gn-topbar')?.classList.add('hide-navigation');
             document.getElementById('gn-brand-navbar-bottom')?.classList.add('hide-search-bar');
-            marineNavbar.style.display = 'none';
+            if(marineNavbar) {
+                marineNavbar.style.display = 'none';
+            }
             resize();
         }
         return () => {
             document.getElementById('gn-topbar')?.classList.remove('hide-navigation');
             document.getElementById('gn-brand-navbar-bottom')?.classList.remove('hide-search-bar');
-            marineNavbar.style.display = '';
+            if(marineNavbar) {
+                marineNavbar.style.display = '';
+            }
             resize();
         };
     }, [loading]);
