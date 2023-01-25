@@ -24,6 +24,13 @@
 {% endblock %}
 
 {% block extra_script %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HVDJ2WQHYZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-HVDJ2WQHYZ');
+    </script>
     <script type="text/javascript">
         // enable dropdown functionalities
         $('.dropdown-toggle').dropdown();

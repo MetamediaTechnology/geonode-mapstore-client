@@ -41,6 +41,13 @@
 
                 {% block ms_scripts %}
                     <script id="gn-script" src="{% static 'mapstore/dist/js/gn-map.js' %}?{% client_version %}"></script>
+                    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HVDJ2WQHYZ"></script>
+                    <script>
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-HVDJ2WQHYZ');
+                    </script>
                 {% endblock %}
             </div>
         </div>
