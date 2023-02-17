@@ -397,6 +397,19 @@
                                     "value": "add_resource"
                                 }
                             ]
+                        },
+                        {
+                            "labelId": "gnhome.remoteServices",
+                            "value": "remote",
+                            "type": "link",
+                            "href": "/services/?limit=5",
+                            "authenticated": true,
+                            "perms": [
+                                {
+                                    "type": "user",
+                                    "value": "add_resource"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -521,6 +534,12 @@
             },
             {
                 "name": "Notifications"
+            },
+            {
+                "name": "Timeline"
+            },
+            {
+                "name": "Playback"
             }
         ],
         "map_preview": [
@@ -581,6 +600,12 @@
             },
             {
                 "name": "FitBounds"
+            },
+            {
+                "name": "Timeline"
+            },
+            {
+                "name": "Playback"
             }
         ],
         "dataset_embed": [
@@ -661,6 +686,12 @@
             },
             {
                 "name": "Notifications"
+            },
+            {
+                "name": "Timeline"
+            },
+            {
+                "name": "Playback"
             }
         ],
         "map_embed": [
@@ -755,7 +786,14 @@
                         "width": 350
                     }
                 }
+            },
+            {
+                "name": "Timeline"
+            },
+            {
+                "name": "Playback"
             }
+            
         ],
         "geostory_embed": [
             {
