@@ -422,19 +422,11 @@ describe('Test Resource Utils', () => {
         expect(pasrsedStyleName).toBe('test:testName');
     });
 
-    it('should test canCopyResource with different resource type', () => {
+    it('should test canCopyResource', () => {
+        const resource = { is_copyable: true };
         const user = { perms: ['add_resource'] };
-        expect(canCopyResource({ resource_type: 'dataset', perms: ['download_resourcebase'], is_copyable: true }, user)).toBe(true);
-        expect(canCopyResource({ resource_type: 'document', perms: ['download_resourcebase'], is_copyable: true }, user)).toBe(true);
-        expect(canCopyResource({ resource_type: 'map', perms: [], is_copyable: true }, user)).toBe(true);
-        expect(canCopyResource({ resource_type: 'geostory', perms: [], is_copyable: true }, user)).toBe(true);
-        expect(canCopyResource({ resource_type: 'dashboard', perms: [], is_copyable: true }, user)).toBe(true);
 
-        expect(canCopyResource({ resource_type: 'dataset', perms: [], is_copyable: true }, user)).toBe(false);
-        expect(canCopyResource({ resource_type: 'document', perms: [], is_copyable: true }, user)).toBe(false);
-        expect(canCopyResource({ resource_type: 'map', perms: [] }, user)).toBe(false);
-        expect(canCopyResource({ resource_type: 'geostory', perms: [] }, user)).toBe(false);
-        expect(canCopyResource({ resource_type: 'dashboard', perms: [] }, user)).toBe(false);
+        expect(canCopyResource(resource, user)).toEqual(true);
     });
 
     it('should test excludeDeletedResources', () => {

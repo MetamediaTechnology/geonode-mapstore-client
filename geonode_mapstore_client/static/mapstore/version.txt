@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-geonode-mapstore-client-v4.0.0-b35d4bccaf7c9f328c5b7794a8ef0704ef06f6af
-=======
-geonode-mapstore-client-v4.0.0-32943d2403b7997020fa9478ca55747d29f1f116
->>>>>>> parent of b35d4bcc (comply)
+geonode-mapstore-client-v4.0.0-c8ba80209df696f82080834fb08402a0239a9ebb

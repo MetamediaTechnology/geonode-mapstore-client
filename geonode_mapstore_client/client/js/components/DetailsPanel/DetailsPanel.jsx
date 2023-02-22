@@ -36,17 +36,13 @@ Map.displayName = 'Map';
 const MapThumbnailButtonToolTip = tooltip(Button);
 const CopyToClipboard = tooltip(CopyToClipboardCmp);
 
-const EditTitle = ({ title, onEdit, disabled }) => {
-    const [textValue, setTextValue] = React.useState(title);
+const EditTitle = ({ title, onEdit, tagName, disabled }) => {
     return (
         <div className="editContainer">
-            <input
-                className="editContainer-input"
-                onChange={(evt) => {
-                    setTextValue(evt.target.value);
-                    onEdit(evt.target.value);
-                }}
-                value={textValue}
+            <TextEditable
+                tagName={tagName}
+                onEdit={onEdit}
+                text={title}
                 disabled={disabled}
             />
         </div>);
@@ -260,14 +256,12 @@ function DetailsPanel({
         formatEmbedUrl = res => res?.embed_url,
         formatDetailUrl = res => res?.detail_url,
         canPreviewed,
-        hasPermission,
         icon,
         name
     } = resource && (types[resource.subtype] || types[resource.resource_type]) || {};
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
     const resourceCanPreviewed = resource?.pk && canPreviewed && canPreviewed(resource);
-    const canView = resource?.pk && hasPermission && hasPermission(resource);
     const downloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href
         : (resource?.download_url && canDownload) ? resource?.download_url : undefined;
     const metadataDetailUrl = resource?.pk && getMetadataDetailUrl(resource);
@@ -547,7 +541,7 @@ function DetailsPanel({
 
                     <div className="gn-details-panel-content-text">
                         <div className="gn-details-panel-title" >
-                            <span className="gn-details-panel-title-icon" >{!downloading ? <FaIcon name={icon} /> : <Spinner />} </span> <EditTitle disabled={!activeEditMode}  title={resource?.title} onEdit={editTitle} >
+                            <span className="gn-details-panel-title-icon" >{!downloading ? <FaIcon name={icon} /> : <Spinner />} </span> <EditTitle disabled={!activeEditMode} tagName="h1"  title={resource?.title} onEdit={editTitle} >
 
                             </EditTitle>
 
@@ -586,7 +580,7 @@ function DetailsPanel({
                                     }
                                     {detailUrl && !editThumbnail && <Button
                                         variant="primary"
-                                        href={(resourceCanPreviewed || canView) ? detailUrl : metadataDetailUrl}
+                                        href={(resourceCanPreviewed) ? detailUrl : metadataDetailUrl}
                                         rel="noopener noreferrer">
                                         <Message msgId={`gnhome.view${((resourceCanPreviewed) ? name : 'Metadata')}`} />
                                     </Button>}

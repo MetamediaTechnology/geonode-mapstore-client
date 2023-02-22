@@ -22,9 +22,7 @@ import {
 } from '@js/api/geonode/v2';
 import { configureMap } from '@mapstore/framework/actions/config';
 import { mapSelector } from '@mapstore/framework/selectors/map';
-import { isMapInfoOpen } from '@mapstore/framework/selectors/mapInfo';
 import { getSelectedLayer } from '@mapstore/framework/selectors/layers';
-import { isLoggedIn } from '@mapstore/framework/selectors/security';
 import {
     browseData,
     selectNode
@@ -63,8 +61,7 @@ import {
 
 import {
     setControlProperty,
-    resetControls,
-    SET_CONTROL_PROPERTY
+    resetControls
 } from '@mapstore/framework/actions/controls';
 import {
     resourceToLayerConfig,
@@ -82,7 +79,6 @@ import { STYLE_OWNER_NAME } from '@mapstore/framework/utils/StyleEditorUtils';
 import { styleServiceSelector } from '@mapstore/framework/selectors/styleeditor';
 import { updateStyleService } from '@mapstore/framework/api/StyleEditor';
 import { CLICK_ON_MAP, resizeMap } from '@mapstore/framework/actions/map';
-import { purgeMapInfoResults, closeIdentify } from '@mapstore/framework/actions/mapInfo';
 import { saveError } from '@js/actions/gnsave';
 import {
     error as errorNotification,
@@ -390,7 +386,7 @@ export const gnViewerRequestResourceConfig = (action$, store) =>
                     loadingResourceConfig(true),
                     setResourceType(action.resourceType)
                 ),
-                ...((!isSamePreviousResource && !!isLoggedIn(state))
+                ...(!isSamePreviousResource
                     ? [
                         Observable.defer(() => getCompactPermissionsByPk(action.pk))
                             .switchMap((compactPermissions) => {
@@ -486,47 +482,10 @@ export const closeInfoPanelOnMapClick = (action$, store) => action$.ofType(CLICK
     .filter(() => store.getState().controls?.rightOverlay?.enabled === 'DetailViewer' || store.getState().controls?.rightOverlay?.enabled === 'Share')
     .switchMap(() => Observable.of(setControlProperty('rightOverlay', 'enabled', false)));
 
-
-// Check which control is enabled between annotations and datasetsCatlog
-const oneOfTheOther = (control) => {
-    if (control === 'rightOverlay') return null;
-    return {
-        control,
-        alternate: control === 'annotations' ? 'datasetsCatalog' : 'annotations'
-    };
-};
-
-/**
- * Close open panels on new panel open
- */
-export const closeOpenPanels = (action$, store) => action$.ofType(SET_CONTROL_PROPERTY)
-    .filter((action) => !!action.value)
-    .switchMap((action) => {
-        const state = store.getState();
-        const getActions = () => {
-            const setActions = [];
-            if (isMapInfoOpen(state)) {
-                setActions.push(purgeMapInfoResults(), closeIdentify());
-            }
-            const control = oneOfTheOther(action.control);
-            if (control?.control) {
-                if (state.controls?.rightOverlay?.enabled === 'DetailViewer' || state.controls?.rightOverlay?.enabled === 'Share') {
-                    setActions.push(setControlProperty('rightOverlay', 'enabled', false));
-                } else if (!!state.controls?.[`${control.alternate}`]?.enabled) {
-                    setActions.push(setControlProperty(`${control.alternate}`, 'enabled', false));
-                }
-            }
-            return setActions;
-        };
-        const actions = getActions();
-        return actions.length > 0 ? Observable.of(...actions) : Observable.empty();
-    });
-
 export default {
     gnViewerRequestNewResourceConfig,
     gnViewerRequestResourceConfig,
     gnViewerSetNewResourceThumbnail,
     gnViewerSetNewResourceBanner,
-    closeInfoPanelOnMapClick,
-    closeOpenPanels
+    closeInfoPanelOnMapClick
 };

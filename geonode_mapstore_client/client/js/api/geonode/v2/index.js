@@ -362,11 +362,7 @@ export const getDatasetByPk = (pk) => {
 };
 
 export const getDocumentByPk = (pk) => {
-    return axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}/${pk}`), {
-        params: {
-            include: ['executions']
-        }
-    })
+    return axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}/${pk}`))
         .then(({ data }) => data.document);
 };
 
@@ -825,7 +821,6 @@ export const getPendingExecutionRequests = () => {
     return axios.get(parseDevHostname(endpoints[EXECUTIONREQUEST]), {
         params: {
             'filter{action}': 'import',
-            'filter{source}': 'upload',
             'page': 1,
             'page_size': 99999
         }

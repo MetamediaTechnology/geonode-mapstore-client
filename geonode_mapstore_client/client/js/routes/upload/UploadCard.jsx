@@ -83,9 +83,6 @@ function UploadCard({
                     {(detailUrl || status === 'finished')
                         ? <Button
                             variant="primary"
-                            {...(!detailUrl && {onClick: () => {
-                                onRemove();
-                            }})}
                             href={detailUrl || '/catalogue/#/search/?f=dataset'}
                             target="_blank"
                             rel="noopener noreferrer"

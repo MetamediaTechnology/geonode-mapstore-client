@@ -13,13 +13,12 @@ import { determineResourceType } from '@js/utils/FileUtils';
 import Loader from '@mapstore/framework/components/misc/Loader';
 import MainEventView from '@js/components/MainEventView';
 import { getResourceTypesInfo, getResourceImageSource } from '@js/utils/ResourceUtils';
-import MetadataPreview from '@js/components/MetadataPreview';
 
 const Scene3DViewer = lazy(() => import('@js/components/MediaViewer/Scene3DViewer'));
 
-function UnsupportedViewer({url = ''}) {
+function UnsupportedViewer() {
     return (
-        <MetadataPreview url={url} />
+        <MainEventView msgId={'gnhome.noPreview'} icon="file" />
     );
 }
 
@@ -53,9 +52,9 @@ const Media = ({ resource, ...props }) => {
 
     const mediaTypes = getResourceTypesInfo();
     const {
-        hasPermission, metadataPreviewUrl = () => {}
+        canPreviewed
     } = resource && (mediaTypes[resource.subtype] || mediaTypes[resource.resource_type]) || {};
-    const viewResource = resource?.pk && hasPermission && hasPermission(resource);
+    const viewResource = resource?.pk && canPreviewed && canPreviewed(resource);
 
     if (resource && viewResource) {
         const mediaType = determineResourceType(resource.extension);
@@ -69,7 +68,6 @@ const Media = ({ resource, ...props }) => {
                 id={resource.pk}
                 thumbnail={() => getResourceImageSource(resource?.thumbnail_url)}
                 src={resource.href}
-                url={resource ? metadataPreviewUrl(resource) : ''}
             />
         </Suspense>);
     }
