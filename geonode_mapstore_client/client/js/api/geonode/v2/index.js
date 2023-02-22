@@ -40,6 +40,7 @@ let endpoints = {
     'resource_types': '/api/v2/resources/resource_types',
     'categories': '/api/v2/categories',
     'owners': '/api/v2/owners',
+    'owners_v1': '/api/owners',
     'keywords': '/api/v2/keywords',
     'regions': '/api/v2/regions',
     'groups': '/api/v2/groups',
@@ -295,8 +296,8 @@ export const getTotalCountsAll = ({}) => {
     const documents = axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}?page_size=1`)).then(({data}) => {
         return data.total || 0
     })
-    const users = axios.get(parseDevHostname(`${endpoints[OWNERS]}?page_size=1`)).then(({data}) => {
-        return data.total || 0
+    const users = axios.get(parseDevHostname(`${endpoints['owners_v1']}?page_size=1`)).then(({data}) => {
+        return data.meta.total_count || 0
     })
 
 
