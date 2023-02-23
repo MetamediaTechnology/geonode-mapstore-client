@@ -1360,7 +1360,9 @@
                     "showToggle": true,
                     "filterAllowedCRS": [
                         "EPSG:4326",
-                        "EPSG:3857"
+                        "EPSG:3857",
+                        "EPSG:32647",
+                        "EPSG:32648"
                     ],
                     "additionalCRS": {}
                 }
@@ -2137,7 +2139,9 @@
                     "showToggle": true,
                     "filterAllowedCRS": [
                         "EPSG:4326",
-                        "EPSG:3857"
+                        "EPSG:3857",
+                        "EPSG:32647",
+                        "EPSG:32648"
                     ],
                     "additionalCRS": {}
                 }
