@@ -23,6 +23,7 @@
             {% if not custom_theme.jumbotron_welcome_hide %}
                 {% with jumbotron_welcome_title=custom_theme.jumbotron_welcome_title|default:"GeoNode"|template_trans %}
                 <h1>{% trans jumbotron_welcome_title %}</h1>
+                <p>4.0.x-MM</p>
                 {% endwith %}
                 {% with jumbotron_welcome_content=custom_theme.jumbotron_welcome_content|default:"sharing geospatial data and maps."|template_trans %}
                 <p>{% trans jumbotron_welcome_content %}</p>
