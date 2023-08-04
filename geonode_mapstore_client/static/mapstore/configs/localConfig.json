@@ -1780,6 +1780,11 @@
                             "type": "plugin",
                             "name": "DatasetsCatalog",
                             "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !state('isNewResource')}"
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "MetadataExplorer",
+                            "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !state('isNewResource')}"
                         }
                     ],
                     "rightMenuItems": [
@@ -2218,6 +2223,12 @@
             },
             {
                 "name": "FitBounds"
+            },
+            {
+                "name": "MetadataExplorer",
+                "cfg": {
+                  "wrap": true
+                }
             },
             {
                 "name": "DatasetsCatalog"
